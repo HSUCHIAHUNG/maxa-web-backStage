@@ -43,7 +43,7 @@ type bookingStageType =
   | "selectStation"
   | "selectTime"
   | "selectSeats"
-  | "contract"
+  | "selectPayment"
   | "passengerData";
 
 // 付款狀態 

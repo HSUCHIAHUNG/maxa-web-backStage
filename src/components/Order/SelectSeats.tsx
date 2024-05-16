@@ -13,10 +13,25 @@ import {
   Space,
   Typography,
   Message,
+  Input,
 } from "@arco-design/web-react";
 import SetSeat from "./SetSeat";
 
 const SelectSeats: React.FC = () => {
+  // 手動劃位
+  const [isSetSeats, setIsSetSeats] = useState({
+    isOpen: false,
+    ticketState: "",
+  });
+
+  // 自動劃位
+  const [autoSeats, setAutoSeats] = useState(true);
+
+  // ui kit
+  const FormItem = Form.Item;
+  const TextArea = Input.TextArea;
+  const [form] = Form.useForm();
+
   // redux(方法調用)
   const dispatch = useAppDispatch();
 
@@ -49,46 +64,40 @@ const SelectSeats: React.FC = () => {
     (state: RootState) => state.order.bookingData?.seatsData?.roundTripTicket
   );
 
-  // 手動劃位
-  const [isSetSeats, setIsSetSeats] = useState({
-    isOpen: false,
-    ticketState: "",
-  });
-
-  // ui kit
-  const FormItem = Form.Item;
-  const [form] = Form.useForm();
-
   //  login表單提交
-  const submit = (value: object) => {
-    console.log(value);
-    console.log(tabState);
+  const submit = () => {
     // 判斷乘客是否已選票
     if (passengerTicketTotal < 1) {
       Message.error("乘客票數不可小於1");
       return;
     } else {
       // 單程票
-      if (tabState === "oneWayTicket") {
+      if (tabState === "oneWayTicket" && !autoSeats) {
         if (oneWayTicketSeats.length !== passengerTicketTotal) {
           Message.error("票數與已選座位數不符");
           return;
         }
       }
+      
       // 來回票
-      if (tabState === "roundTripTicket") {
+      if (tabState === "roundTripTicket" && !autoSeats) {
         if (
-          (oneWayTicketSeats.length + roundTripTicket.length) !==
-          passengerTicketTotal*2
+          oneWayTicketSeats.length + roundTripTicket.length !==
+          passengerTicketTotal * 2
         ) {
           Message.error("票數與已選座位數不符");
           return;
         }
       }
     }
-    Message.success("劃位成功");
+
+    // 電腦自動選票
+    // if (passengerTicketTotal > 1 && autoSeats) {
+    //   return;
+    // }
+
     // redux(切換tab全域狀態)
-    dispatch(orderActions.switchStage("contract"));
+    dispatch(orderActions.switchStage("selectPayment"));
   };
 
   // 控制訂車階段顯示
@@ -100,16 +109,22 @@ const SelectSeats: React.FC = () => {
     event: React.ChangeEvent<Element>,
     state: string
   ) => {
-    if (passengerTicketTotal < 1) {
-      Message.error("乘客票數不可小於1");
-      return;
-    }
-    if ((event.target as HTMLInputElement).defaultValue === "手動劃位")
+    if ((event.target as HTMLInputElement).defaultValue === "手動劃位") {
+      setAutoSeats(false);
+      if (passengerTicketTotal < 1) {
+        Message.error("乘客票數不可小於1");
+        return;
+      }
       setIsSetSeats((prevState) => ({
         ...prevState,
         isOpen: !prevState.isOpen,
         ticketState: state, // 这里使用参数 state 而不是 state 函数
       }));
+    }
+
+    if ((event.target as HTMLInputElement).defaultValue === "自動劃位") {
+      setAutoSeats(true);
+    }
   };
 
   // 儲存票數票種( 成人、兒童、敬老 )
@@ -125,34 +140,7 @@ const SelectSeats: React.FC = () => {
     <>
       {isOpen() === "block" && (
         <>
-          {/* 選擇去程手動劃位 */}
-          <div
-            className={`${
-              isSetSeats.isOpen && isSetSeats.ticketState === "選擇去程座位"
-                ? "block"
-                : "hidden"
-            }`}
-          >
-            <SetSeat
-              isSetSeats={isSetSeats.isOpen}
-              setIsSetSeats={setIsSetSeats}
-              ticketState={isSetSeats.ticketState}
-            ></SetSeat>
-          </div>
-          {/* 選擇回程手動劃位 */}
-          <div
-            className={`${
-              isSetSeats.isOpen && isSetSeats.ticketState === "選擇回程座位"
-                ? "block"
-                : "hidden"
-            }`}
-          >
-            <SetSeat
-              isSetSeats={isSetSeats.isOpen}
-              setIsSetSeats={setIsSetSeats}
-              ticketState={isSetSeats.ticketState}
-            ></SetSeat>
-          </div>
+          {/* 劃位階段內容 */}
           <Form
             form={form}
             autoComplete="on"
@@ -160,6 +148,7 @@ const SelectSeats: React.FC = () => {
             layout="vertical"
             onSubmit={submit}
           >
+            {/* 票數瞟種選擇( 成人、兒童、敬老票 ) */}
             <FormItem
               label="成人票數"
               field="aldult"
@@ -214,8 +203,8 @@ const SelectSeats: React.FC = () => {
                 style={{ width: 160, margin: "10px 24px 10px 0" }}
               />
             </FormItem>
-            {/* 選擇去程座位 */}
 
+            {/* 選擇去程座位 */}
             <FormItem label="選擇去程座位" required>
               <Radio.Group
                 name="card-radio-group"
@@ -278,6 +267,7 @@ const SelectSeats: React.FC = () => {
                 })}
               </Radio.Group>
             </FormItem>
+
             {/* 選擇回程座位 */}
             {tabState === "roundTripTicket" && (
               <FormItem label="選擇回程座位" required>
@@ -343,6 +333,14 @@ const SelectSeats: React.FC = () => {
                 </Radio.Group>
               </FormItem>
             )}
+
+            {/* 備註 */}
+            <div className={`flex flex-col gap-[12px]`}>
+              <p className={`text-[#4E5969]`}>備註</p>
+              <TextArea placeholder="Please enter ..." />
+            </div>
+
+            {/* 商品數量顯示 */}
             <div className={`flex justify-between w-full pt-[16px]`}>
               <div className={`text-[12px] md:text-[13px] text-[#86909C]`}>
                 <p>商品最小購買數量：1</p>
@@ -361,6 +359,7 @@ const SelectSeats: React.FC = () => {
               </div>
             </div>
 
+            {/* 階段切換按鈕 */}
             <div className={`flex flex-col gap-[8px] pt-[8px] md:flex-row`}>
               <FormItem className={`m-0 md:w-[180px]`}>
                 <Button
@@ -394,6 +393,37 @@ const SelectSeats: React.FC = () => {
               </FormItem>
             </div>
           </Form>
+
+          {/* ----------------以下為手動劃位彈窗---------------- */}
+          {/* 選擇去程手動劃位 */}
+          <div
+            className={`${
+              isSetSeats.isOpen && isSetSeats.ticketState === "選擇去程座位"
+                ? "block"
+                : "hidden"
+            }`}
+          >
+            <SetSeat
+              isSetSeats={isSetSeats.isOpen}
+              setIsSetSeats={setIsSetSeats}
+              ticketState={isSetSeats.ticketState}
+            ></SetSeat>
+          </div>
+
+          {/* 選擇回程手動劃位 */}
+          <div
+            className={`${
+              isSetSeats.isOpen && isSetSeats.ticketState === "選擇回程座位"
+                ? "block"
+                : "hidden"
+            }`}
+          >
+            <SetSeat
+              isSetSeats={isSetSeats.isOpen}
+              setIsSetSeats={setIsSetSeats}
+              ticketState={isSetSeats.ticketState}
+            ></SetSeat>
+          </div>
         </>
       )}
     </>

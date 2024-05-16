@@ -1,5 +1,5 @@
 // react原生方法
-import React from "react";
+import React, { useState } from "react";
 // redux
 import { useSelector } from "react-redux";
 import { orderActions } from "../../stores/order";
@@ -12,12 +12,20 @@ import {
   Select,
   DatePicker,
 } from "@arco-design/web-react";
+// 時間控制相關
+import dayjs from "dayjs";
 
 interface SelectStationProps {
   className?: string;
 }
 
 const SelectStation: React.FC<SelectStationProps> = ({ className }) => {
+  // 回程日期禁用狀態
+  const [endDateIsActive, setEndDateIsActive] = useState(true);
+
+  //
+  const [timeDates, setTimeDates] = useState<dayjs.Dayjs | null>(null);
+
   // redux(方法調用)
   const dispatch = useAppDispatch();
 
@@ -58,20 +66,16 @@ const SelectStation: React.FC<SelectStationProps> = ({ className }) => {
         <FormItem
           label="選擇起點"
           field="startStation"
-          disabled = {bookingStage !== "selectStation"}
+          disabled={bookingStage !== "selectStation"}
           required
           rules={[{ required: true, message: "必填" }]}
         >
-          <Select
-            placeholder="選擇起點"
-            options={options}
-            allowClear
-          />
+          <Select placeholder="選擇起點" options={options} allowClear />
         </FormItem>
         <FormItem
           label="選擇迄點"
           field="endStation"
-          disabled = {bookingStage !== "selectStation"}
+          disabled={bookingStage !== "selectStation"}
           required
           dependencies={["startStation"]}
           rules={[
@@ -97,17 +101,26 @@ const SelectStation: React.FC<SelectStationProps> = ({ className }) => {
         <FormItem
           label="去程日期"
           field="startDate"
-          disabled = {bookingStage !== "selectStation"}
+          disabled={bookingStage !== "selectStation"}
           rules={[{ required: true, message: "必填" }]}
           className={`${ticketState === "oneWayTicket" && "md:w-[200px]"} `}
         >
-          <DatePicker placeholder="選擇去程日期" className={`w-full`} />
+          <DatePicker
+            onChange={() => setEndDateIsActive(false)}
+            onSelect={(_valueString, value) => {
+              setTimeDates(value);
+            }}
+            disabledDate={(current) => current.isBefore(dayjs())}
+            placeholder="選擇去程日期"
+            className={`w-full`}
+          />
         </FormItem>
         {ticketState === "roundTripTicket" && (
           <FormItem
             label="回程日期"
             field="endDate"
-            disabled = {bookingStage !== "selectStation"}
+            disabled={endDateIsActive}
+            // disabled={bookingStage !== "selectStation"}
             rules={[
               {
                 message: "必填",
@@ -115,7 +128,19 @@ const SelectStation: React.FC<SelectStationProps> = ({ className }) => {
               },
             ]}
           >
-            <DatePicker placeholder="選擇回程日期" className={`w-full`} />
+            <DatePicker
+              disabledDate={(current) => {
+                if (timeDates) {
+                  const beforeDtae = current.isBefore(dayjs());
+                  const selected = current.isBefore(timeDates);
+                  return beforeDtae || selected;
+                }
+                return false;
+              }}
+              placeholder="選擇回程日期"
+              className={`w-full`}
+              
+            />
           </FormItem>
         )}
       </div>

@@ -5,6 +5,7 @@ const DefaultLayoutPage = lazy(() => import("../layout/DefaultLayout"));
 const ErrorPage = lazy(() => import("../pages/Error"));
 const OrderPage = lazy(() => import("../pages/Order/Order"));
 const ProductDetailPage = lazy(() => import("../pages/Order/ProductDetail"));
+const OrderContentPage = lazy(() => import("../pages/OrderContent"));
 
 const routes = [
   {
@@ -27,6 +28,15 @@ const routes = [
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <ProductDetailPage />
+          </Suspense>
+        ),
+      },
+      // 票券詳細頁
+      {
+        path: "orderContent/:id",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <OrderContentPage />
           </Suspense>
         ),
       },
