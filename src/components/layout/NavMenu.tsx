@@ -1,7 +1,7 @@
 // 原生方法
 import { useState } from "react";
 // router
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 // ui kit
 import { Menu, Button } from "@arco-design/web-react";
 
@@ -20,45 +20,62 @@ function NavMenu() {
   const currentPathName = location.pathname;
   console.log(currentPathName);
 
+  // 動態路由
+  const navigate = useNavigate()
+
   // nav選單資料
   const navMenuTree = [
     {
       mainItem: "預約/查詢班次座位",
       icon: "icon-[solar--widget-bold-duotone]",
-      router: '/',
+      path: "/",
       subMenu: [],
     },
     {
       mainItem: "訂單記錄",
       icon: "icon-[solar--clipboard-text-bold-duotone]",
+      path: "/orderHistory",
       subMenu: [],
     },
     {
       mainItem: "會員列表",
       icon: "icon-[solar--smile-circle-bold-duotone]",
+      path: "/a",
       subMenu: [],
     },
     {
       mainItem: "統計圖表",
       icon: "icon-[solar--chart-2-bold-duotone]",
+      path: "/b",
       subMenu: [
-        { subItem: "每日班次預約數量統計" },
-        { subItem: "每月班次預約數量統計" },
+        { subItem: "每日班次預約數量統計", path: "/f" },
+        { subItem: "每月班次預約數量統計", path: "/g" },
       ],
     },
     {
       mainItem: "營運報表",
       icon: "icon-[solar--hamburger-menu-bold-duotone]",
-      subMenu: [{ subItem: "每日結帳明細查詢" }, { subItem: "每日結帳報表" }],
+      path: "/c",
+      subMenu: [
+        { subItem: "每日結帳明細查詢", path: "/d" },
+        { subItem: "每日結帳報表", path: "/e" },
+      ],
     },
   ];
 
+  // 路由導航
+  const navigation = (key: string) => {
+    console.log(key);
+    navigate(key)
+  };
+
   return (
-    <div className="flex flex-col w-fit border-r border-solid border-[#E4E6EF] justify-between items-center  ">
+    <div className="w-fit flex flex-col max-w[220px] border-r border-solid border-[#E4E6EF] justify-between items-center  ">
       <Menu
         style={{ width: 200, borderRadius: 4 }}
         theme="light"
         collapse={collapse}
+        onClickMenuItem={navigation}
         // defaultOpenKeys={["0"]}
         // defaultSelectedKeys={["0_2"]}
       >
@@ -66,7 +83,7 @@ function NavMenu() {
           <div key={item.mainItem}>
             {/* 無子選單nav */}
             {item.subMenu.length === 0 && (
-              <MenuItem key={item.mainItem}>
+              <MenuItem key={item.path}>
                 <div className={`flex items-center gap-[16px] group `}>
                   <div className={` flex items-center w-[20px] h-[20px]  `}>
                     <span
@@ -84,7 +101,7 @@ function NavMenu() {
             {/* 有子選單nav */}
             {item.subMenu.length !== 0 && (
               <SubMenu
-                key={item.mainItem}
+                key={item.path}
                 title={
                   <div className={`flex items-center gap-[16px] group`}>
                     <div>
@@ -99,7 +116,7 @@ function NavMenu() {
                 }
               >
                 {item.subMenu.map((subMenu) => (
-                  <MenuItem key={subMenu.subItem} className={`group`}>
+                  <MenuItem key={subMenu.path} className={`group`}>
                     <p className={`group-hover:!text-[#3A57E8]`}>
                       {subMenu.subItem}
                     </p>

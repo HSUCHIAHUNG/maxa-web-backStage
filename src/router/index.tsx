@@ -6,6 +6,7 @@ const ErrorPage = lazy(() => import("../pages/Error"));
 const OrderPage = lazy(() => import("../pages/Order/Order"));
 const ProductDetailPage = lazy(() => import("../pages/Order/ProductDetail"));
 const OrderContentPage = lazy(() => import("../pages/OrderContent"));
+const OrderHistoryPage = lazy(() => import('../pages/OrderHistory/OrderHistory'))
 
 const routes = [
   {
@@ -37,6 +38,15 @@ const routes = [
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <OrderContentPage />
+          </Suspense>
+        ),
+      },
+      // 訂單紀錄
+      {
+        path: "orderHistory",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <OrderHistoryPage />
           </Suspense>
         ),
       },
