@@ -10,7 +10,7 @@ import { Carousel, Steps, Tabs, Typography } from "@arco-design/web-react";
 import "../../assets/ProductDetail.css";
 // 匯入組件
 import Banner from "../../components/Carousel";
-import SelectStation from "../../components/Order/SelectStation";
+import SelectStation from "../../components/Order/selectStation";
 import SelectTime from "../../components/Order/SelectTime";
 import SelectSeats from "../../components/Order/SelectSeats";
 import SelectPayment from "../../components/Order/SelectPayment";
@@ -43,6 +43,11 @@ const ProductDetail: React.FC = () => {
   // ticket( 單程票、來回票 )狀態
   const ticketState = useSelector((state: RootState) => state.order.ticket);
 
+  // 產品名稱&路線資訊
+  const selectedProduct = useSelector(
+    (state: RootState) => state.order.selectedProduct
+  );
+
   // 訂車階段(起訖站、日期、時間狀態))
   const bookingStage = useSelector(
     (state: RootState) => state.order.bookingStage
@@ -67,7 +72,7 @@ const ProductDetail: React.FC = () => {
       <div className={` px-[20px] pb-[16px] max-w-[1240px] m-[0_auto]`}>
         {/* 路線標題 */}
         <div className={` py-[16px] text-[20px] text-center `}>
-          502 小烏來線(假日行駛)
+          {selectedProduct.route}
         </div>
 
         {/* banner */}

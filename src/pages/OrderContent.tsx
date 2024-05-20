@@ -14,6 +14,38 @@ import selectSeats from "../assets/images/memberCenter/selectSeats.png";
 // data
 import moment from "moment";
 
+// 乘客資料
+const passenger = [
+  {
+    title: "訂購人資料",
+    name: "李曉明",
+    id: "H124803061",
+    phone: "+886 912312312",
+    email: "h0989541161@example.com",
+  },
+  {
+    title: "取票人資料",
+    name: "李小花",
+    id: "H124805066",
+    phone: "+886 912315312",
+    email: "-----",
+  },
+  {
+    title: "搭乘人資料_1",
+    name: "李偉銘",
+    id: "H124803066",
+    phone: "+886 912312316",
+    email: "-----",
+  },
+  {
+    title: "搭乘人資料_2",
+    name: "陳曉明",
+    id: "-----",
+    phone: "+886 912312313",
+    email: "-----",
+  },
+];
+
 const OrderContent: React.FC = () => {
   // redux方法呼叫
   // const dispatch = useAppDispatch();
@@ -25,65 +57,42 @@ const OrderContent: React.FC = () => {
   const orderContent = useSelector(
     (state: RootState) => state.order.orderContent
   );
-  const { paymentState, remarks, paymentMethod, title } = orderContent;
+  const { paymentState, remarks, paymentMethod } = orderContent;
   console.log(orderContent);
 
-  // 乘客資料
-  const passenger = [
-    {
-      title: "訂購人資料",
-      name: "李曉明",
-      id: "H124803061",
-      phone: "+886 912312312",
-      email: "h0989541161@example.com",
-    },
-    {
-      title: "取票人資料",
-      name: "李小花",
-      id: "-----",
-      phone: "+886 912315312",
-      email: "-----",
-    },
-    {
-      title: "搭乘人資料_1",
-      name: "李偉銘",
-      id: "H124803066",
-      phone: "+886 912312316",
-      email: "-----",
-    },
-    {
-      title: "搭乘人資料_2",
-      name: "陳曉明",
-      id: "-----",
-      phone: "+886 912312313",
-      email: "-----",
-    },
-  ];
+  // 付款狀態樣式動態設定
+  const paymentStateFilter = () => {
+    switch (orderContent.paymentState) {
+      case "alreadyPaid":
+        return <Alert type="info" content="已付款，等待使用" />;
+      case "refund":
+        return <Alert type="warning" content="申請退款中" />;
+      case "activeComplate":
+        return <Alert type="success" content="已完成活動" />;
+      case "pendingPayment":
+        return <Alert type="success" content="待付款" />;
+      default:
+        break;
+    }
+  };
 
   return (
     <div className={`flex flex-col w-full`}>
-      {/* 待付款 */}
-      {/* {type === "pendingPayment" && (
-        <Alert
-          type="error"
-          content={`付款剩餘時間：${formatTime(remainingTime)}`}
-        />
-      )} */}
+      {/* 預約 */}
+      {orderContent.title === "reserve" && (
+        <>
+          {/* 已付款等待使用 */}
+          <Alert type="info" content={`已付款等待使用`} />
+        </>
+      )}
 
-      {/* 已付款 */}
-      {/* {type === "alreadyPaid" && paymentStateFilter()} */}
-
-      {/* 已失效 */}
-      {/* {type === "expired" && (
-        <div
-          className={`h-[40px] bg-[#E5E6EB] text-[#86909C] py[8px] px-[15px]`}
-        >
-          <p className={`text-[14px] leading-[40px]`}>付款期限已截止</p>
-        </div>
-      )} */}
-
-      {/* 已付款等待使用 */}
-      <Alert type="info" content={`已付款等待使用`} />
+      {/* 訂單紀錄 */}
+      {orderContent.title === "orderHistory" && (
+        <>
+          {/* 已付款 */}
+          {paymentStateFilter()}
+        </>
+      )}
 
       {/* 主內容 */}
       <div className={` max-w-[1200px] m-[0_auto] md:px-[24px] px-[20px] `}>
@@ -301,7 +310,7 @@ const OrderContent: React.FC = () => {
                 className={`border border-solid border-[#E5E6EB] rounded-[4px] md:rounded-[8px] overflow-hidden`}
               >
                 {/* 購買方式 */}
-                {title === "orderHistory" && (
+                {orderContent.title === "orderHistory" && (
                   <div
                     className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
                   >
@@ -335,7 +344,7 @@ const OrderContent: React.FC = () => {
                 </div>
 
                 {/* 繳款人統編或ID */}
-                {title === "orderHistory" && (
+                {orderContent.title === "orderHistory" && (
                   <div
                     className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
                   >
@@ -353,7 +362,7 @@ const OrderContent: React.FC = () => {
                 )}
 
                 {/* 備註 */}
-                {title === "orderHistory" && (
+                {orderContent.title === "orderHistory" && (
                   <div
                     className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
                   >
@@ -373,7 +382,7 @@ const OrderContent: React.FC = () => {
             </ul>
 
             {/* 乘客資料 */}
-            {title === "orderHistory" && (
+            {orderContent.title === "orderHistory" && (
               <>
                 {passenger.map((item) => (
                   <PassengerInfo key={item.id} passenger={item} />

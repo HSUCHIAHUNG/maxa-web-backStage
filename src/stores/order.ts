@@ -141,7 +141,6 @@ const orderSlice = createSlice({
     // 儲存選擇產品
     selectProduct: (state, action: PayloadAction<SelectedProductType>) => {
       state.selectedProduct.route = action.payload.route;
-      console.log(state.selectedProduct);
     },
   },
 });
