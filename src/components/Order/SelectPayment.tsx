@@ -27,9 +27,9 @@ const SelectPayment: React.FC = () => {
 
   // 選項內容
   const options = [
-    { label: "cash", value: "cash" },
-    { label: "creditCard", value: "creditCard" },
-    { label: "payment", value: "payment" },
+    { label: "cash", value: "現金" },
+    { label: "creditCard", value: "信用卡" },
+    { label: "payment", value: "電子支付" },
   ];
 
   // 篩選返回對應項目圖片
@@ -55,38 +55,43 @@ const SelectPayment: React.FC = () => {
   // 確認付款方式前往下一階段
   function submit() {
     dispatch(orderActions.switchStage("selectSeats"));
-    navigate('/orderContent/AC021352864')
+    dispatch(
+      orderActions.orderContentStateChenge({
+        title: "reserve",
+        paymentState: "alreadyPaid",
+        paymentMethod: selectedOption,
+      })
+    );
+    navigate("/orderContent/AC021352864");
     setVisible(false);
   }
 
   return (
-    <>
-      <Modal
-        title="選擇付款方式"
-        visible={visible}
-        onOk={() => submit()}
-        onCancel={() => closeDialog()}
-        focusLock={true}
-        className={`w-fit`}
-      >
-        <div className={`flex gap-[10px]`}>
-          {options.map((option, index) => (
-            <div
-              key={option.value}
-              className={` border border-solid border-[#3A57E8] rounded-[16px] p-[20px] `}
+    <Modal
+      title="選擇付款方式"
+      visible={visible}
+      onOk={() => submit()}
+      onCancel={() => closeDialog()}
+      focusLock={true}
+      className={`w-fit`}
+    >
+      <div className={`flex gap-[10px]`}>
+        {options.map((option) => (
+          <div
+            key={option.value}
+            className={` border border-solid border-[#3A57E8] rounded-[16px] p-[20px] `}
+          >
+            <Radio
+              key={option.label}
+              checked={selectedOption === option.value} // Check if this option is selected
+              onChange={() => setSelectedOption(option.value)} // Set selected option when changed
             >
-              <Radio
-                key={index}
-                checked={selectedOption === option.value} // Check if this option is selected
-                onChange={() => setSelectedOption(option.value)} // Set selected option when changed
-              >
-                {filterImg(option.value)}
-              </Radio>
-            </div>
-          ))}
-        </div>
-      </Modal>
-    </>
+              {filterImg(option.label)}
+            </Radio>
+          </div>
+        ))}
+      </div>
+    </Modal>
   );
 };
 

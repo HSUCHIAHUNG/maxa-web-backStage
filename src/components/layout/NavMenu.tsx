@@ -23,12 +23,16 @@ function NavMenu() {
   // 動態路由
   const navigate = useNavigate()
 
+  function isActive (path: string) {
+    if(currentPathName === path) return 'text-[#3A57E8]';
+  }
+
   // nav選單資料
   const navMenuTree = [
     {
       mainItem: "預約/查詢班次座位",
       icon: "icon-[solar--widget-bold-duotone]",
-      path: "/",
+      path: "/order",
       subMenu: [],
     },
     {
@@ -88,10 +92,10 @@ function NavMenu() {
                   <div className={` flex items-center w-[20px] h-[20px]  `}>
                     <span
                       className={` w-[20px] h-[20px] group-hover:text-[#3A57E8] ${item.icon}
-                        `}
+                      ${isActive(item.path)} `}
                     ></span>
                   </div>
-                  <p className={`group-hover:text-[#3A57E8]`}>
+                  <p className={`group-hover:text-[#3A57E8]  ${isActive(item.path)}`}>
                     {item.mainItem}
                   </p>
                 </div>

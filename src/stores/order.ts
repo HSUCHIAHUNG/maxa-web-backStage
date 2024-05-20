@@ -36,32 +36,55 @@ interface BookingData {
 }
 
 // 訂單票種(單程票、來回票)
-type ticketType = "oneWayTicket" | "roundTripTicket";
+type TicketType = "oneWayTicket" | "roundTripTicket";
 
 // 訂購階段( 選擇站點、時間、座位 )
-type bookingStageType =
+type BookingStageType =
   | "selectStation"
   | "selectTime"
   | "selectSeats"
   | "selectPayment"
   | "passengerData";
 
-// 付款狀態 
-type orderContentType ={type: "pendingPayment" | "alreadyPaid" | "expired" , title: string | number};
+// 付款狀態
+type OrderContentType = {
+  paymentState: "pendingPayment" | "alreadyPaid" | "expired" | 'refund' | 'activeComplate' | '' ;
+  title: "reserve" | "orderHistory" | "";
+  remarks?: string;
+  totalAmount?: number | string;
+  paymentMethod?: string;
+};
+
+// 選擇產品
+interface SelectedProductType {
+  route: string;
+}
 
 const initialOrderState: {
-  ticket: ticketType;
-  bookingStage: bookingStageType;
-  orderContent: orderContentType;
+  ticket: TicketType;
+  bookingStage: BookingStageType;
+  orderContent: OrderContentType;
   bookingData: BookingData;
+  selectedProduct: SelectedProductType;
 } = {
   ticket: "oneWayTicket",
   bookingStage: "selectStation",
-  orderContent: {type: 'pendingPayment', title: ''},
+  orderContent: {
+    paymentState: "pendingPayment",
+    title: "",
+    remarks: "",
+    totalAmount: 0,
+    paymentMethod:''
+  },
+  selectedProduct: { route: "" },
   bookingData: {
     stationData: {},
     timeData: {},
-    passengerTicket: {},
+    passengerTicket: {
+      adult: { total: 0, type: "adult" },
+      child: { total: 0, type: "child" },
+      old: { total: 0, type: "old" },
+    },
     seatsData: { oneWayTicket: [], roundTripTicket: [] },
   },
 };
@@ -80,8 +103,20 @@ const orderSlice = createSlice({
       };
     },
     // 切換訂購階段
-    switchStage(state, action: PayloadAction<bookingStageType>) {
+    switchStage(state, action: PayloadAction<BookingStageType>) {
       state.bookingStage = action.payload;
+    },
+    // 重設bookingData
+    reseBbookingData(state) {
+      state.bookingData = initialOrderState.bookingData;
+      state.bookingStage = "selectStation";
+    },
+    // 訂單狀態頁面狀態切換
+    orderContentStateChenge(state, action: PayloadAction<OrderContentType>) {
+      state.orderContent = {
+        ...state.orderContent,
+        ...action.payload,
+      };
     },
     // 儲存搭車車站、日期
     setStationData(state, action: PayloadAction<[string, object]>) {
@@ -103,16 +138,10 @@ const orderSlice = createSlice({
       const [newData, ticketType] = action.payload;
       state.bookingData.seatsData[ticketType] = newData;
     },
-    // 重設bookingData
-    reseBbookingData(state) {
-      state.bookingData = initialOrderState.bookingData;
-      state.bookingStage = "selectStation";
-    },
-    // 訂單狀態頁面狀態切換
-    orderContentStateChenge(state, action: PayloadAction<orderContentType>) {
-      const { type, title } = action.payload;
-      state.orderContent.type = type;
-      state.orderContent.title = title;
+    // 儲存選擇產品
+    selectProduct: (state, action: PayloadAction<SelectedProductType>) => {
+      state.selectedProduct.route = action.payload.route;
+      console.log(state.selectedProduct);
     },
   },
 });

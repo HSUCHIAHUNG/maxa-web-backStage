@@ -18,6 +18,14 @@ import {
 import SetSeat from "./SetSeat";
 
 const SelectSeats: React.FC = () => {
+  // ui kit
+  const FormItem = Form.Item;
+  const TextArea = Input.TextArea;
+  const [form] = Form.useForm();
+
+  // redux(方法調用)
+  const dispatch = useAppDispatch();
+
   // 手動劃位
   const [isSetSeats, setIsSetSeats] = useState({
     isOpen: false,
@@ -26,14 +34,6 @@ const SelectSeats: React.FC = () => {
 
   // 自動劃位
   const [autoSeats, setAutoSeats] = useState(true);
-
-  // ui kit
-  const FormItem = Form.Item;
-  const TextArea = Input.TextArea;
-  const [form] = Form.useForm();
-
-  // redux(方法調用)
-  const dispatch = useAppDispatch();
 
   // ticket( 單程票、來回票 )狀態
   const tabState = useSelector((state: RootState) => state.order.ticket);
@@ -64,8 +64,24 @@ const SelectSeats: React.FC = () => {
     (state: RootState) => state.order.bookingData?.seatsData?.roundTripTicket
   );
 
+  // 計算總金額
+  const totalAmount = () => {
+    if (Object.keys(passengerTicket).length > 0) {
+      console.log(passengerTicket);
+      return (
+        passengerTicket.adult.total * 100 +
+        passengerTicket.child.total * 80 +
+        passengerTicket.old.total * 80
+      );
+    }
+    return 100;
+  };
+
   //  login表單提交
   const submit = () => {
+    // 獲取 TextArea 的值
+    const remarks = form.getFieldValue("remarks") || '';
+
     // 判斷乘客是否已選票
     if (passengerTicketTotal < 1) {
       Message.error("乘客票數不可小於1");
@@ -78,7 +94,7 @@ const SelectSeats: React.FC = () => {
           return;
         }
       }
-      
+
       // 來回票
       if (tabState === "roundTripTicket" && !autoSeats) {
         if (
@@ -91,10 +107,15 @@ const SelectSeats: React.FC = () => {
       }
     }
 
-    // 電腦自動選票
-    // if (passengerTicketTotal > 1 && autoSeats) {
-    //   return;
-    // }
+    // 將票價跟備註存進redux
+    dispatch(
+      orderActions.orderContentStateChenge({
+        title: "reserve",
+        paymentState: "alreadyPaid",
+        remarks: remarks,
+        totalAmount: totalAmount(),
+      })
+    );
 
     // redux(切換tab全域狀態)
     dispatch(orderActions.switchStage("selectPayment"));
@@ -146,6 +167,11 @@ const SelectSeats: React.FC = () => {
             autoComplete="on"
             requiredSymbol={{ position: "start" }}
             layout="vertical"
+            initialValues={{
+              aldult: 0,
+              child: 0,
+              old: 0,
+            }}
             onSubmit={submit}
           >
             {/* 票數瞟種選擇( 成人、兒童、敬老票 ) */}
@@ -337,13 +363,15 @@ const SelectSeats: React.FC = () => {
             {/* 備註 */}
             <div className={`flex flex-col gap-[12px]`}>
               <p className={`text-[#4E5969]`}>備註</p>
-              <TextArea placeholder="Please enter ..." />
+              <FormItem field="remarks">
+                <TextArea placeholder="Please enter ..." />
+              </FormItem>
             </div>
 
             {/* 商品數量顯示 */}
             <div className={`flex justify-between w-full pt-[16px]`}>
               <div className={`text-[12px] md:text-[13px] text-[#86909C]`}>
-                <p>商品最小購買數量：1</p>
+                <p>商品最小購買數量：{passengerTicketTotal}</p>
                 <p>商品最大購買數量：10</p>
               </div>
               <div>
@@ -355,7 +383,9 @@ const SelectSeats: React.FC = () => {
                     NT$ 140
                   </p>
                 </div>
-                <p className={`text-[16px] md:text-[20px]`}>NT$ 100</p>
+                <p className={`text-[16px] md:text-[20px]`}>
+                  NT$ {totalAmount()}
+                </p>
               </div>
             </div>
 

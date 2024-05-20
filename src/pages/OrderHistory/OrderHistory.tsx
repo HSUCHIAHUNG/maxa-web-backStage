@@ -1,4 +1,9 @@
 import React, { useState } from "react";
+// router
+import { useNavigate } from "react-router-dom";
+// redux
+import { orderActions } from "../../stores/order";
+import { useAppDispatch } from "../../stores/index";
 // ui kit
 import {
   Button,
@@ -11,6 +16,7 @@ import {
 } from "@arco-design/web-react";
 // 時間控制相關
 import dayjs from "dayjs";
+
 
 // ui kit
 const InputSearch = Input.Search;
@@ -28,6 +34,12 @@ type OrderRecord = {
 };
 
 const OrderHistory: React.FC = () => {
+  // redux(方法調用)
+  const dispatch = useAppDispatch();
+
+  // 動態路由
+  const navigate = useNavigate();
+
   // 篩選Modal開關狀態
   const [visible, setVisible] = useState(false);
 
@@ -89,7 +101,9 @@ const OrderHistory: React.FC = () => {
     {
       title: "操作",
       dataIndex: "操作",
-      render: () => <Button>訂單詳情</Button>,
+      render: (_col: unknown, record: OrderRecord) => (
+        <Button onClick={() => orderDetail(record)}>訂單詳情</Button>
+      ),
       fixed: "right" as const,
     },
   ];
@@ -199,6 +213,22 @@ const OrderHistory: React.FC = () => {
     }
   };
 
+  // 訂單狀態(欄位樣式)
+  const paymentState = (itemName: string) => {
+    switch (itemName) {
+      case "待付款":
+        return "pendingPayment";
+      case "已付款，等待使用":
+        return "alreadyPaid";
+      case "申請退款中":
+        return "refund";
+      case "已完成活動":
+        return "activeComplate";
+      default:
+        return "";
+    }
+  };
+
   // 篩選訂單狀態(動態顯示tag樣式)
   function tagRender(props: {
     label: React.ReactNode;
@@ -250,6 +280,21 @@ const OrderHistory: React.FC = () => {
           dayjs(item.date).isBefore(endDate)))
     );
   });
+
+  // 訂單詳情
+  const orderDetail = (record: OrderRecord) => {
+    console.log(record);
+    // 將票價跟備註存進redux
+    dispatch(
+      orderActions.orderContentStateChenge({
+        title: "orderHistory",
+        paymentState: paymentState(record.orderState),
+        remarks: '',
+        totalAmount: record.amount,
+      })
+    );
+    navigate("/orderContent/ABC1293822839");
+  };
 
   return (
     <>
