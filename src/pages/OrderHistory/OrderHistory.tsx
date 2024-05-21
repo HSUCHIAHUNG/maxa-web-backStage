@@ -298,7 +298,7 @@ const OrderHistory: React.FC = () => {
 
   return (
     <>
-      <div className={`w-[80%] px-[20px] py-[16px] m-[0_auto] `}>
+      <div className={`w-[80%] py-[16px] m-[0_auto] `}>
         {/* 標題、篩選 */}
         <div className={`flex justify-between items-center w-full pb-[16px]`}>
           <p className={`text-[20px] text-[#1D2129]`}>訂單記錄</p>

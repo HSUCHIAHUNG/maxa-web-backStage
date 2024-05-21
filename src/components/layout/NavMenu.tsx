@@ -44,7 +44,7 @@ function NavMenu() {
     {
       mainItem: "會員列表",
       icon: "icon-[solar--smile-circle-bold-duotone]",
-      path: "/a",
+      path: "/memberList",
       subMenu: [],
     },
     {

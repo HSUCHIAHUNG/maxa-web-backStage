@@ -8,6 +8,7 @@ const ProductDetailPage = lazy(() => import("../pages/Order/ProductDetail"));
 const OrderContentPage = lazy(() => import("../pages/OrderContent"));
 const OrderHistoryPage = lazy(() => import("../pages/OrderHistory/OrderHistory"));
 const LoginPage = lazy(() => import("../pages/Login"));
+const MemberListPage = lazy(() => import('../pages/MemberList'))
 
 const routes = [
   // 登入頁
@@ -70,6 +71,15 @@ const routes = [
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <OrderHistoryPage />
+          </Suspense>
+        ),
+      },
+      // 會員列表
+      {
+        path: "memberList",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <MemberListPage />
           </Suspense>
         ),
       },

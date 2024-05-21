@@ -10,7 +10,7 @@ import { Carousel, Steps, Tabs, Typography } from "@arco-design/web-react";
 import "../../assets/ProductDetail.css";
 // 匯入組件
 import Banner from "../../components/Carousel";
-import SelectStation from "../../components/Order/selectStation";
+import SelectStation from "../../components/Order/SelectStation";
 import SelectTime from "../../components/Order/SelectTime";
 import SelectSeats from "../../components/Order/SelectSeats";
 import SelectPayment from "../../components/Order/SelectPayment";
