@@ -32,7 +32,7 @@ function NavMenu() {
     {
       mainItem: "預約/查詢班次座位",
       icon: "icon-[solar--widget-bold-duotone]",
-      path: "/order",
+      path: "/",
       subMenu: [],
     },
     {
@@ -50,10 +50,10 @@ function NavMenu() {
     {
       mainItem: "統計圖表",
       icon: "icon-[solar--chart-2-bold-duotone]",
-      path: "/b",
+      path: "",
       subMenu: [
-        { subItem: "每日班次預約數量統計", path: "/f" },
-        { subItem: "每月班次預約數量統計", path: "/g" },
+        { subItem: "路線班次預約數量統計", path: "/routesCharts" },
+        { subItem: "業者路線預約數量統計", path: "/industryCharts" },
       ],
     },
     {

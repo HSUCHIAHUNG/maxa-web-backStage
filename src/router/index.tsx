@@ -6,9 +6,13 @@ const ErrorPage = lazy(() => import("../pages/Error"));
 const OrderPage = lazy(() => import("../pages/Order/Order"));
 const ProductDetailPage = lazy(() => import("../pages/Order/ProductDetail"));
 const OrderContentPage = lazy(() => import("../pages/OrderContent"));
-const OrderHistoryPage = lazy(() => import("../pages/OrderHistory/OrderHistory"));
+const OrderHistoryPage = lazy(
+  () => import("../pages/OrderHistory/OrderHistory")
+);
 const LoginPage = lazy(() => import("../pages/Login"));
-const MemberListPage = lazy(() => import('../pages/MemberList'))
+const MemberListPage = lazy(() => import("../pages/MemberList"));
+const RoutesChartssPage = lazy(() => import("../pages/Chart/RoutesCharts"));
+const IndustryChartsPage = lazy(() => import("../pages/Chart/IndustryCharts"));
 
 const routes = [
   // 登入頁
@@ -38,15 +42,6 @@ const routes = [
       </Suspense>
     ),
     children: [
-      // 櫃台訂票
-      {
-        path: "/order",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <OrderPage />
-          </Suspense>
-        ),
-      },
       // 櫃台訂票產品細節
       {
         path: "order/:productDetail",
@@ -80,6 +75,32 @@ const routes = [
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <MemberListPage />
+          </Suspense>
+        ),
+      },
+      // 櫃台訂票
+      {
+        path: "/",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <OrderPage />
+          </Suspense>
+        ),
+      },
+      // 圖表
+      {
+        path: "/routesCharts",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <RoutesChartssPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/industryCharts",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <IndustryChartsPage />
           </Suspense>
         ),
       },

@@ -25,7 +25,7 @@ const Header: React.FC = () => {
         {/* 左邊maxa logo */}
         <div className={`flex gap-[4px] items-center`}>
           {/* logo回首頁 */}
-          <NavLink to={"/order"} className={`flex items-center`}>
+          <NavLink to={"/"} className={`flex items-center`}>
             <span className="icon-[solar--box-minimalistic-bold-duotone] w-[24px] h-[24px] text-[#4E5969]"></span>
             <img src={headerText} alt="MAXA" className="w-[66px] h-[14px]" />
           </NavLink>

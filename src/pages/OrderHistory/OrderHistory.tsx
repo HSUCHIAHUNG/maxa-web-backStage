@@ -36,13 +36,10 @@ type OrderRecord = {
 const OrderHistory: React.FC = () => {
   // redux(方法調用)
   const dispatch = useAppDispatch();
-
   // 動態路由
   const navigate = useNavigate();
-
   // 篩選Modal開關狀態
   const [visible, setVisible] = useState(false);
-
   // 篩選條件狀態
   const [filters, setFilters] = useState<{
     number: string;
@@ -57,7 +54,6 @@ const OrderHistory: React.FC = () => {
     route: "",
     dateRange: [null, null],
   });
-
   // 暫存篩選條件
   const [tempFilters, setTempFilters] = useState({
     state: [] as string[],
