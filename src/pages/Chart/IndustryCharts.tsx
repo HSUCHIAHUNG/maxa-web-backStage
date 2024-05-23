@@ -322,10 +322,10 @@ const IndustryCharts: React.FC = () => {
           {/* 日期篩選-季 */}
           {reportType === "季報表" && (
             <RangePicker
-              value={
-                [dayjs().subtract(6, "months"), dayjs().subtract(3, "months")] ??
-                undefined
-              }
+              value={[
+                dayjs().subtract(6, "months"),
+                dayjs().subtract(3, "months"),
+              ]}
               onChange={(_dateString, dates) =>
                 handleDateChange(_dateString, dates as Dayjs[])
               }

@@ -15,7 +15,7 @@ import ContentList from "../components/common/ContentList";
 const InputSearch = Input.Search;
 
 // 會員列表型別
-interface memberListType {
+interface MemberListType {
   id: number;
   name: string;
   mail: string;
@@ -156,7 +156,7 @@ const MemberList: React.FC = () => {
   };
 
   // 會員詳細資料
-  const memberProfile = (item: memberListType) => {
+  const memberProfile = (item: MemberListType) => {
     console.log(item);
     memberProfileRef.current = { ...memberProfileRef.current, ...item };
     setVisibleMemberProfile(true);

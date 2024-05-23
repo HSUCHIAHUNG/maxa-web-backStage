@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 // ui kit
 import { Menu, Button } from "@arco-design/web-react";
+import path from "path";
 
 // ui kit
 const MenuItem = Menu.Item;
@@ -23,7 +24,7 @@ function NavMenu() {
   // 動態路由
   const navigate = useNavigate()
 
-  function isActive (path: string) {
+  function isActive (path: string | undefined) {
     if(currentPathName === path) return 'text-[#3A57E8]';
   }
 
@@ -50,7 +51,7 @@ function NavMenu() {
     {
       mainItem: "統計圖表",
       icon: "icon-[solar--chart-2-bold-duotone]",
-      path: "",
+      path: '1',
       subMenu: [
         { subItem: "路線班次預約數量統計", path: "/routesCharts" },
         { subItem: "業者路線預約數量統計", path: "/industryCharts" },
@@ -59,10 +60,10 @@ function NavMenu() {
     {
       mainItem: "營運報表",
       icon: "icon-[solar--hamburger-menu-bold-duotone]",
-      path: "/c",
+      path: '2',
       subMenu: [
-        { subItem: "每日結帳明細查詢", path: "/d" },
-        { subItem: "每日結帳報表", path: "/e" },
+        { subItem: "每日結帳明細查詢", path: "/checkoutDetails" },
+        { subItem: "每日結帳報表", path: "/checkoutReport" },
       ],
     },
   ];
@@ -84,7 +85,7 @@ function NavMenu() {
         // defaultSelectedKeys={["0_2"]}
       >
         {navMenuTree.map((item) => (
-          <div key={item.mainItem}>
+          <div key={item.path}>
             {/* 無子選單nav */}
             {item.subMenu.length === 0 && (
               <MenuItem key={item.path}>
@@ -95,7 +96,7 @@ function NavMenu() {
                       ${isActive(item.path)} `}
                     ></span>
                   </div>
-                  <p className={`group-hover:text-[#3A57E8]  ${isActive(item.path)}`}>
+                  <p className={`group-hover:text-[#3A57E8] ${isActive(item.path)}`}>
                     {item.mainItem}
                   </p>
                 </div>
@@ -105,7 +106,7 @@ function NavMenu() {
             {/* 有子選單nav */}
             {item.subMenu.length !== 0 && (
               <SubMenu
-                key={item.path}
+                key={item.mainItem}
                 title={
                   <div className={`flex items-center gap-[16px] group`}>
                     <div>

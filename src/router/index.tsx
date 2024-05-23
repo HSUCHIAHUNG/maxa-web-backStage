@@ -13,6 +13,10 @@ const LoginPage = lazy(() => import("../pages/Login"));
 const MemberListPage = lazy(() => import("../pages/MemberList"));
 const RoutesChartssPage = lazy(() => import("../pages/Chart/RoutesCharts"));
 const IndustryChartsPage = lazy(() => import("../pages/Chart/IndustryCharts"));
+const CheckoutDetailsPage = lazy(
+  () => import("../pages/Report/CheckoutDetails")
+);
+const CheckoutReportPage = lazy(() => import("../pages/Report/CheckoutReport"));
 
 const routes = [
   // 登入頁
@@ -87,7 +91,7 @@ const routes = [
           </Suspense>
         ),
       },
-      // 圖表
+      // 圖表-路線班次
       {
         path: "/routesCharts",
         element: (
@@ -96,11 +100,30 @@ const routes = [
           </Suspense>
         ),
       },
+      // 圖表-業者路線
       {
         path: "/industryCharts",
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <IndustryChartsPage />
+          </Suspense>
+        ),
+      },
+      // 營運報表-結帳明細
+      {
+        path: "/checkoutDetails",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <CheckoutDetailsPage />
+          </Suspense>
+        ),
+      },
+      // 營運報表-結帳報表
+      {
+        path: "/checkoutReport",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <CheckoutReportPage />
           </Suspense>
         ),
       },
