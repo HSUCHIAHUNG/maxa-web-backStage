@@ -17,11 +17,19 @@ import {
 } from "@arco-design/web-react";
 import SetSeat from "./SetSeat";
 
+// 支付方式選項內容
+const options = [
+  { value: "現金付款", label: "現金付款" },
+  { value: "信用卡付款", label: "信用卡付款" },
+  { value: "電子支付", label: "電子支付" },
+];
+
 const SelectSeats: React.FC = () => {
   // ui kit
   const FormItem = Form.Item;
   const TextArea = Input.TextArea;
   const [form] = Form.useForm();
+  const RadioGroup = Radio.Group;
 
   // redux(方法調用)
   const dispatch = useAppDispatch();
@@ -48,12 +56,6 @@ const SelectSeats: React.FC = () => {
     (state: RootState) => state.order.bookingData.passengerTicket
   );
 
-  // 已選乘客總數
-  const passengerTicketTotal = Object.values(passengerTicket).reduce(
-    (acc, obj) => acc + obj.total,
-    0
-  );
-
   // 去程已選座位數
   const oneWayTicketSeats = useSelector(
     (state: RootState) => state.order.bookingData?.seatsData?.oneWayTicket
@@ -62,6 +64,12 @@ const SelectSeats: React.FC = () => {
   // 回程已選座位數
   const roundTripTicket = useSelector(
     (state: RootState) => state.order.bookingData?.seatsData?.roundTripTicket
+  );
+
+  // 已選乘客總數
+  const passengerTicketTotal = Object.values(passengerTicket).reduce(
+    (acc, obj) => acc + obj.total,
+    0
   );
 
   // 計算總金額
@@ -78,9 +86,11 @@ const SelectSeats: React.FC = () => {
   };
 
   //  login表單提交
-  const submit = () => {
+  const submit = (value) => {
+    console.log(value);
+
     // 獲取 TextArea 的值
-    const remarks = form.getFieldValue("remarks") || '';
+    const remarks = form.getFieldValue("remarks") || "";
 
     // 判斷乘客是否已選票
     if (passengerTicketTotal < 1) {
@@ -232,66 +242,19 @@ const SelectSeats: React.FC = () => {
 
             {/* 選擇去程座位 */}
             <FormItem label="選擇去程座位" required>
-              <Radio.Group
-                name="card-radio-group"
-                defaultValue="系統自動劃位"
-                className={`flex flex-col gap-[8px] md:flex-row`}
-              >
-                {["系統自動劃位", "手動劃位"].map((item) => {
-                  return (
-                    <Radio
-                      onChange={(_checked, event) =>
-                        seatHandler(_checked, event, "選擇去程座位")
-                      }
-                      key={item}
-                      value={item}
-                      className={`w-full !m-0 p-0`}
-                    >
-                      {({ checked }) => {
-                        return (
-                          <Space
-                            align="start"
-                            className={` flex items-center justify-between custom-radio-card ${
-                              checked ? "custom-radio-card-checked" : ""
-                            }`}
-                          >
-                            <div className={`flex items-center gap-[8px]`}>
-                              <div className="custom-radio-card-mask">
-                                <div className="custom-radio-card-mask-dot"></div>
-                              </div>
-                              {item === "系統自動劃位" && (
-                                <div className="custom-radio-card-title h-[44px] leading-[48px] ">
-                                  系統自動劃位
-                                </div>
-                              )}
-                              {item === "手動劃位" && (
-                                <div
-                                  className={`flex items-center justify-between`}
-                                >
-                                  <div>
-                                    <div className="custom-radio-card-title">
-                                      手動劃位
-                                    </div>
-                                    <Typography.Text
-                                      type="secondary"
-                                      className={`flex items-center  `}
-                                    >
-                                      <p>點選以選取座位</p>
-                                    </Typography.Text>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                            {item === "手動劃位" && (
-                              <span className="icon-[solar--arrow-right-line-duotone] w-[32px] h-[32px] text-[#4E5969] "></span>
-                            )}
-                          </Space>
-                        );
-                      }}
-                    </Radio>
-                  );
-                })}
-              </Radio.Group>
+              <div className={`flex justify-between`}>
+                {/* 系統自動劃位 */}
+                <div className="w-[48%] h-[60px] rounded-[8px] px-[16px] border border-solid border-[#E5E6EB]">
+                  123
+                </div>
+
+                {/* 手動劃位 */}
+                <div
+                  className={`w-[48%] h-[60px] rounded-[8px] px-[16px] border border-solid border-[#E5E6EB]`}
+                >
+                  123
+                </div>
+              </div>
             </FormItem>
 
             {/* 選擇回程座位 */}
@@ -360,6 +323,14 @@ const SelectSeats: React.FC = () => {
               </FormItem>
             )}
 
+            {/* 乘客付款方式備註 */}
+            <FormItem label="乘客付款方式備註" field="payment" required>
+              <RadioGroup
+                options={options}
+                className={`flex gap-[10px]`}
+              ></RadioGroup>
+            </FormItem>
+
             {/* 備註 */}
             <div className={`flex flex-col gap-[12px]`}>
               <p className={`text-[#4E5969]`}>備註</p>
@@ -401,15 +372,6 @@ const SelectSeats: React.FC = () => {
                   htmlType="button"
                 >
                   上一步，重新選擇班次
-                </Button>
-              </FormItem>
-              <FormItem className={`m-0 md:w-[110px]`}>
-                <Button
-                  className={`w-[100%] !text-[#4E5969] !bg-[#F2F3F5] !m-0`}
-                  type="primary"
-                  htmlType="button"
-                >
-                  加入購物車
                 </Button>
               </FormItem>
               <FormItem className={`m-0`}>

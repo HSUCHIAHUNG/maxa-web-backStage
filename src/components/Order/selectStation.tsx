@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { orderActions } from "../../stores/order";
 import { RootState, useAppDispatch } from "../../stores/index";
+// 匯入型別
+import { ProductDetailType } from "../../pages/Reserve/type";
 // ui kit
 import {
   Form,
@@ -16,18 +18,23 @@ import {
 import dayjs from "dayjs";
 
 interface SelectStationProps {
+  productDetail: ProductDetailType;
   className?: string;
 }
 
-const SelectStation: React.FC<SelectStationProps> = ({ className }) => {
-  // 回程日期禁用狀態
-  const [endDateIsActive, setEndDateIsActive] = useState(true);
-
-  //
-  const [timeDates, setTimeDates] = useState<dayjs.Dayjs | null>(null);
-
+const SelectStation: React.FC<SelectStationProps> = ({
+  className,
+  productDetail,
+}) => {
   // redux(方法調用)
   const dispatch = useAppDispatch();
+
+  // ui kit
+  const FormItem = Form.Item;
+  const [form] = Form.useForm();
+
+  // 依據去程日期動態調整回程日期禁用狀態
+  const [timeDates, setTimeDates] = useState<dayjs.Dayjs | null>(null);
 
   // 訂車階段(起訖站、日期、時間狀態)
   const bookingStage = useSelector(
@@ -37,13 +44,9 @@ const SelectStation: React.FC<SelectStationProps> = ({ className }) => {
   // ticket( 單程票、來回票 )狀態
   const ticketState = useSelector((state: RootState) => state.order.ticket);
 
-  // ui kit
-  const FormItem = Form.Item;
-  const [form] = Form.useForm();
-  const options = ["南港高工", "南港", "南港軟體園區南站"];
-
-  /** @func login表單提交 */
+  // login表單提交
   const submit = (value: object) => {
+    console.log(value);
     // redux(切換tab全域狀態)
     dispatch(orderActions.switchStage("selectTime"));
     // redux儲存起訖點與日期資料
@@ -62,6 +65,7 @@ const SelectStation: React.FC<SelectStationProps> = ({ className }) => {
       onSubmit={submit}
       className={` ${className}`}
     >
+      {/* 選擇站點 */}
       <div className={`md:flex md:gap-[20px] md:w-[420px] `}>
         <FormItem
           label="選擇起點"
@@ -70,7 +74,11 @@ const SelectStation: React.FC<SelectStationProps> = ({ className }) => {
           required
           rules={[{ required: true, message: "必填" }]}
         >
-          <Select placeholder="選擇起點" options={options} allowClear />
+          <Select
+            placeholder="選擇起點"
+            options={productDetail.stations}
+            allowClear
+          />
         </FormItem>
         <FormItem
           label="選擇迄點"
@@ -94,9 +102,14 @@ const SelectStation: React.FC<SelectStationProps> = ({ className }) => {
             },
           ]}
         >
-          <Select placeholder="選擇迄點" options={options} allowClear />
+          <Select
+            placeholder="選擇迄點"
+            options={productDetail.stations}
+            allowClear
+          />
         </FormItem>
       </div>
+      {/* 選擇日期 */}
       <div className={`md:flex md:gap-[20px] md:w-[420px] `}>
         <FormItem
           label="去程日期"
@@ -106,7 +119,6 @@ const SelectStation: React.FC<SelectStationProps> = ({ className }) => {
           className={`${ticketState === "oneWayTicket" && "md:w-[200px]"} `}
         >
           <DatePicker
-            onChange={() => setEndDateIsActive(false)}
             onSelect={(_valueString, value) => {
               setTimeDates(value);
             }}
@@ -119,7 +131,7 @@ const SelectStation: React.FC<SelectStationProps> = ({ className }) => {
           <FormItem
             label="回程日期"
             field="endDate"
-            disabled={endDateIsActive}
+            disabled={bookingStage !== "selectStation"}
             // disabled={bookingStage !== "selectStation"}
             rules={[
               {
@@ -139,7 +151,6 @@ const SelectStation: React.FC<SelectStationProps> = ({ className }) => {
               }}
               placeholder="選擇回程日期"
               className={`w-full`}
-              
             />
           </FormItem>
         )}

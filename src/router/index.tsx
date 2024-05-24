@@ -3,8 +3,8 @@ import { lazy, Suspense } from "react";
 
 const DefaultLayoutPage = lazy(() => import("../layout/DefaultLayout"));
 const ErrorPage = lazy(() => import("../pages/Error"));
-const OrderPage = lazy(() => import("../pages/Order/Order"));
-const ProductDetailPage = lazy(() => import("../pages/Order/ProductDetail"));
+const OrderPage = lazy(() => import("../pages/Reserve/Reserve"));
+const ProductDetailPage = lazy(() => import("../pages/Reserve/ProductDetail"));
 const OrderContentPage = lazy(() => import("../pages/OrderContent"));
 const OrderHistoryPage = lazy(
   () => import("../pages/OrderHistory/OrderHistory")
@@ -48,7 +48,7 @@ const routes = [
     children: [
       // 櫃台訂票產品細節
       {
-        path: "order/:productDetail",
+        path: "order/:id",
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <ProductDetailPage />
