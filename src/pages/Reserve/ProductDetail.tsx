@@ -14,12 +14,11 @@ import { Carousel, Steps, Tabs, Typography } from "@arco-design/web-react";
 import "../../assets/ProductDetail.css";
 // 匯入組件
 import Banner from "../../components/Carousel";
-import SelectStation from "../../components/Order/SelectStation";
+import SelectStation from "../../components/Order/selectStation";
 import SelectTime from "../../components/Order/SelectTime";
 import SelectSeats from "../../components/Order/SelectSeats";
-import SelectPayment from "../../components/Order/SelectPayment";
 // json
-import ProductDetailData from "../../API/ProductDetail.json";
+import ProductDetailData from "../../assets/API/ProductDetail.json";
 
 // ui kit
 const TabPane = Tabs.TabPane;
@@ -47,9 +46,9 @@ const ProductDetail: React.FC = () => {
   const ticketState = useSelector((state: RootState) => state.order.ticket);
 
   // 訂車階段(起訖站、日期、時間狀態))
-  const bookingStage = useSelector(
-    (state: RootState) => state.order.bookingStage
-  );
+  // const bookingStage = useSelector(
+  //   (state: RootState) => state.order.bookingStage
+  // );
 
   // 目前路由(動態參數)
   const { id } = useParams<{ id: string }>();
@@ -65,6 +64,14 @@ const ProductDetail: React.FC = () => {
   } else {
     // 產品資料
     const product = productDetailData[id];
+
+    dispatch(
+      orderActions.orderContentStateChenge({
+        title: "reserve",
+        paymentState: "alreadyPaid",
+        industryName: productDetailData[id].industry
+      })
+    );
 
     //  動態參數-未找到對應產品
     if (!product) {
@@ -188,9 +195,6 @@ const ProductDetail: React.FC = () => {
             </div>
           </div>
         </div>
-
-        {/* 付款方式選擇 */}
-        {bookingStage === "selectPayment" && <SelectPayment></SelectPayment>}
       </>
     );
   }

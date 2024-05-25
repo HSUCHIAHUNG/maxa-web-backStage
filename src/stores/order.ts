@@ -30,7 +30,7 @@ interface SeatsData {
 // 儲存定單資料型別
 interface BookingData {
   stationData: { [key: string]: object };
-  timeData: { [key: string]: TimeDataType }; // 將 timeData 介面應用於 timeData 物件
+  timeData: { [key: string]: TimeDataType }; 
   seatsData: SeatsData;
   passengerTicket: { [key: string]: PassengerTicketType };
 }
@@ -50,6 +50,7 @@ type BookingStageType =
 type OrderContentType = {
   paymentState: "pendingPayment" | "alreadyPaid" | "expired" | 'refund' | 'activeComplate' | '' ;
   title: "reserve" | "orderHistory" | "";
+  industryName?:string
   remarks?: string;
   totalAmount?: number | string;
   paymentMethod?: string;
@@ -73,6 +74,7 @@ const initialOrderState: {
     paymentState: "pendingPayment",
     title: "",
     remarks: "",
+    industryName:'',
     totalAmount: 0,
     paymentMethod:''
   },

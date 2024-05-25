@@ -1,5 +1,7 @@
 // react原生方法
 import React from "react";
+// router
+import { useParams } from "react-router-dom";
 // redux
 import { useSelector } from "react-redux";
 import { RootState } from "../stores/index.ts";
@@ -46,9 +48,43 @@ const passenger = [
   },
 ];
 
+interface StationData {
+  startStation: string;
+  endStation: string;
+  startDate: string;
+}
+
+interface TimeData {
+  startTime?: SelectTimeData;
+  endTime?: SelectTimeData;
+}
+
+interface SelectTimeData {
+  id: string;
+  startStation: string;
+  endStation: string;
+  seats: string;
+  Vehicles: string;
+}
+
+interface BookingData {
+  stationData?: {
+    stationData?: StationData;
+  };
+  timeData: TimeData;
+}
+
 const OrderContent: React.FC = () => {
   // redux方法呼叫
   // const dispatch = useAppDispatch();
+
+  // 目前路由(動態參數)
+  const { id } = useParams<{ id: string }>();
+
+  // 訂單資料
+  const bookingData: BookingData = useSelector(
+    (state: RootState) => state.order.bookingData
+  );
 
   // 單程票or來回票
   const tabState = useSelector((state: RootState) => state.order.ticket);
@@ -128,7 +164,7 @@ const OrderContent: React.FC = () => {
                   <div
                     className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
                   >
-                    <p className={``}>ABC1293822839</p>
+                    <p className={``}>{id}</p>
                   </div>
                 </div>
 
@@ -144,7 +180,7 @@ const OrderContent: React.FC = () => {
                   <div
                     className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
                   >
-                    <p className={``}>屏東客運</p>
+                    <p className={``}>{orderContent.industryName}</p>
                   </div>
                 </div>
 
@@ -234,8 +270,18 @@ const OrderContent: React.FC = () => {
                       current={2}
                       style={{ maxWidth: 780 }}
                     >
-                      <Step title="大溪總站" description="2024-05-13 10:05" />
-                      <Step title="慈湖" description="2024-05-13 11:00" />
+                      <Step
+                        title={
+                          bookingData?.stationData?.stationData?.startStation
+                        }
+                        description={`${bookingData?.stationData?.stationData?.startDate} ${bookingData?.timeData?.startTime?.startStation}`}
+                      />
+                      <Step
+                        title={
+                          bookingData?.stationData?.stationData?.endStation
+                        }
+                        description={`${bookingData?.stationData?.stationData?.startDate} ${bookingData?.timeData?.startTime?.endStation}`}
+                      />
                     </Steps>
                   </div>
                 </div>
@@ -259,8 +305,18 @@ const OrderContent: React.FC = () => {
                         current={2}
                         style={{ maxWidth: 780 }}
                       >
-                        <Step title="慈湖" description="2024-05-20 10:05" />
-                        <Step title="大溪總站" description="2024-05-20 11:00" />
+                        <Step
+                          title={
+                            bookingData?.stationData?.stationData?.endStation
+                          }
+                          description={`${bookingData?.stationData?.stationData?.startDate} ${bookingData.timeData.startTime}`}
+                        />
+                        <Step
+                          title={
+                            bookingData?.stationData?.stationData?.startStation
+                          }
+                          description="2024-05-20 11:00"
+                        />
                       </Steps>
                     </div>
                   </div>

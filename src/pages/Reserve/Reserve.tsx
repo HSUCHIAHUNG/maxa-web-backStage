@@ -6,7 +6,7 @@ import { orderActions } from "../../stores/order";
 // router
 import { useNavigate } from "react-router-dom";
 // json
-import ProductList from '../../API/AllProduct.json';
+import ProductList from '../../assets/API/AllProduct.json';
 
 
 const Reserve: React.FC = () => {
