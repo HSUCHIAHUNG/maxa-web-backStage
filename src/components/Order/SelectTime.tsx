@@ -10,24 +10,6 @@ import {
   Table,
   TableColumnProps,
 } from "@arco-design/web-react";
-
-interface StationData {
-  startStation: string;
-  endStation: string;
-}
-
-interface TimeData {
-  startTime?: SelectTimeData;
-  endTime?: SelectTimeData;
-}
-
-interface BookingData {
-  stationData?: {
-    stationData?: StationData;
-  };
-  timeData: TimeData;
-}
-
 interface SelectTimeData {
   id: string;
   startStation: string;
@@ -36,7 +18,7 @@ interface SelectTimeData {
   Vehicles: string;
 }
 
-const SelectTime: React.FC<TimeData> = () => {
+const SelectTime: React.FC = () => {
   const ticketState = useSelector((state: RootState) => state.order.ticket);
 
   const dispatch = useAppDispatch();
@@ -45,7 +27,7 @@ const SelectTime: React.FC<TimeData> = () => {
     (state: RootState) => state.order.bookingStage
   );
 
-  const bookingData: BookingData = useSelector(
+  const bookingData = useSelector(
     (state: RootState) => state.order.bookingData
   );
 
@@ -59,11 +41,11 @@ const SelectTime: React.FC<TimeData> = () => {
       fixed: "left",
     },
     {
-      title: bookingData?.stationData?.stationData?.startStation,
+      title: bookingData?.stationData?.startStation,
       dataIndex: "endStation",
     },
     {
-      title: bookingData?.stationData?.stationData?.endStation,
+      title: bookingData?.stationData?.endStation,
       dataIndex: "startStation",
     },
     {
@@ -83,11 +65,11 @@ const SelectTime: React.FC<TimeData> = () => {
       fixed: "left",
     },
     {
-      title: bookingData?.stationData?.stationData?.endStation,
+      title: bookingData.stationData.endStation,
       dataIndex: "startStation",
     },
     {
-      title: bookingData?.stationData?.stationData?.startStation,
+      title: bookingData.stationData.startStation,
       dataIndex: "endStation",
     },
     {
@@ -160,7 +142,7 @@ const SelectTime: React.FC<TimeData> = () => {
   const setSelectData = (
     _selectedRowKeys: (string | number)[],
     selectedRows: SelectTimeData[],
-    selectItem: string
+    selectItem: "startTime" | "endTime"
   ) => {
     selectedRows.forEach((row) => {
       dispatch(orderActions.setTimeData([selectItem, row]));

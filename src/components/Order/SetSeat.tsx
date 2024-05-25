@@ -123,10 +123,10 @@ const SetSeat: React.FC<SetSeatProps> = ({
     0
   );
 
-  // const seatsData = useSelector(
-  //   (state: RootState) => state.order.bookingData.seatsData
-  // );
-
+  const bookingData = useSelector(
+    (state: RootState) => state.order.bookingData
+  );
+  console.log(bookingData);
   // 設定座位icon
   const setSeatImg = (type: string | null) => {
     if (type === "driver") return driver;

@@ -16,6 +16,8 @@ import {
 } from "@arco-design/web-react";
 // 時間控制相關
 import dayjs from "dayjs";
+// 匯入型別
+import { paymentStateType } from '../../stores/type/OrderType'
 
 
 // ui kit
@@ -26,7 +28,7 @@ const Option = Select.Option;
 type OrderRecord = {
   key: string;
   number: string;
-  orderState: string;
+  orderState: paymentStateType;
   route: string;
   industry: string;
   amount: string;

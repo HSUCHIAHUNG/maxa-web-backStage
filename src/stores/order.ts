@@ -1,60 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-// selectTime階段
-interface TimeDataType {
-  id: string;
-  startStation: string;
-  endStation: string;
-  seats: string;
-  Vehicles: string;
-}
-
-// 票數、座位
-interface PassengerTicketType {
-  type: string;
-  total: number;
-}
-
-// 儲存劃位資料
-interface SeatDataType {
-  id: number;
-  type: string;
-  name: string | null;
-}
-
-// 儲存劃位資料
-interface SeatsData {
-  [key: string]: SeatDataType[];
-}
-
-// 儲存定單資料型別
-interface BookingData {
-  stationData: { [key: string]: object };
-  timeData: { [key: string]: TimeDataType }; 
-  seatsData: SeatsData;
-  passengerTicket: { [key: string]: PassengerTicketType };
-}
-
-// 訂單票種(單程票、來回票)
-type TicketType = "oneWayTicket" | "roundTripTicket";
-
-// 訂購階段( 選擇站點、時間、座位 )
-type BookingStageType =
-  | "selectStation"
-  | "selectTime"
-  | "selectSeats"
-  | "selectPayment"
-  | "passengerData";
-
-// 付款狀態
-type OrderContentType = {
-  paymentState: "pendingPayment" | "alreadyPaid" | "expired" | 'refund' | 'activeComplate' | '' ;
-  title: "reserve" | "orderHistory" | "";
-  industryName?:string
-  remarks?: string;
-  totalAmount?: number | string;
-  paymentMethod?: string;
-};
+import {
+  TicketType,
+  BookingStageType,
+  OrderContentType,
+  BookingData,
+  TimeDataType,
+  PassengerTicketType,
+  SeatDataType,
+  stationDataType,
+  SeatsData
+} from "./type/OrderType";
 
 // 選擇產品
 interface SelectedProductType {
@@ -64,24 +19,30 @@ interface SelectedProductType {
 const initialOrderState: {
   ticket: TicketType;
   bookingStage: BookingStageType;
-  orderContent: OrderContentType;
   bookingData: BookingData;
+  orderContent: OrderContentType;
   selectedProduct: SelectedProductType;
 } = {
   ticket: "oneWayTicket",
   bookingStage: "selectStation",
-  orderContent: {
-    paymentState: "pendingPayment",
-    title: "",
-    remarks: "",
-    industryName:'',
-    totalAmount: 0,
-    paymentMethod:''
-  },
-  selectedProduct: { route: "" },
   bookingData: {
-    stationData: {},
-    timeData: {},
+    stationData: { endStation: "", startDate: "", startStation: "" },
+    timeData: {
+      startTime: {
+        id: "",
+        startStation: "",
+        endStation: "",
+        seats: "",
+        Vehicles: "",
+      },
+      endTime: {
+        id: "",
+        startStation: "",
+        endStation: "",
+        seats: "",
+        Vehicles: "",
+      },
+    },
     passengerTicket: {
       adult: { total: 0, type: "adult" },
       child: { total: 0, type: "child" },
@@ -89,7 +50,18 @@ const initialOrderState: {
     },
     seatsData: { oneWayTicket: [], roundTripTicket: [] },
   },
+  orderContent: {
+    paymentState: "pendingPayment",
+    title: "",
+    remarks: "",
+    industryName: "",
+    routeName:'',
+    totalAmount: 0,
+    paymentMethod: "",
+  },
+  selectedProduct: { route: "" },
 };
+
 
 const orderSlice = createSlice({
   name: "order",
@@ -121,12 +93,11 @@ const orderSlice = createSlice({
       };
     },
     // 儲存搭車車站、日期
-    setStationData(state, action: PayloadAction<[string, object]>) {
-      const [keyToUpdate, newData] = action.payload;
-      state.bookingData.stationData[keyToUpdate] = newData;
+    setStationData(state, action: PayloadAction<stationDataType>) {
+      state.bookingData.stationData = action.payload;
     },
     // 儲存搭車時間
-    setTimeData(state, action: PayloadAction<[string, TimeDataType]>) {
+    setTimeData(state, action: PayloadAction<[keyof BookingData['timeData'], TimeDataType]>) {
       const [keyToUpdate, newData] = action.payload;
       state.bookingData.timeData[keyToUpdate] = newData;
     },
@@ -136,13 +107,9 @@ const orderSlice = createSlice({
       state.bookingData.passengerTicket[type] = { type, total };
     },
     // 儲存劃位資料
-    setSeatsData(state, action: PayloadAction<[SeatDataType[], string]>) {
+    setSeatsData(state, action: PayloadAction<[SeatDataType[], keyof SeatsData]>) {
       const [newData, ticketType] = action.payload;
       state.bookingData.seatsData[ticketType] = newData;
-    },
-    // 儲存選擇產品
-    selectProduct: (state, action: PayloadAction<SelectedProductType>) => {
-      state.selectedProduct.route = action.payload.route;
     },
   },
 });

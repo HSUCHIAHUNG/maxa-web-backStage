@@ -17,6 +17,8 @@ import {
 // 時間控制相關
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
+// 匯入型別
+import { paymentStateType } from '../../stores/type/OrderType'
 
 // 時間控制相關
 dayjs.extend(isBetween);
@@ -32,7 +34,7 @@ type OrderRecord = {
   paymentNumber: string;
   transactionDate: string;
   transactionAmount: string;
-  orderState: string;
+  orderState: paymentStateType;
   transactionName: string;
   clearanceDate?: string;
   liquidationDate?: string;

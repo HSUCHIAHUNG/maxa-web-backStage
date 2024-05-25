@@ -90,7 +90,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
         {orderContent.title === "reserve" && (
           <>
             <div className={`pb-[20px] text-[20px]`}>
-              {selectedProduct.route}
+              {orderContent.routeName}
             </div>
             {totalTicketType.map((item, index) => (
               <div key={index}>

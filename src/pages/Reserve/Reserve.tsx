@@ -1,8 +1,8 @@
 // 原生方法
 import React from "react";
 // redux
-import { useDispatch } from "react-redux";
-import { orderActions } from "../../stores/order";
+// import { useDispatch } from "react-redux";
+// import { orderActions } from "../../stores/order";
 // router
 import { useNavigate } from "react-router-dom";
 // json
@@ -10,11 +10,11 @@ import ProductList from '../../assets/API/AllProduct.json';
 
 
 const Reserve: React.FC = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLinkClick = (productName: string, id: string) => {
-    dispatch(orderActions.selectProduct({ route: productName }));
+    // dispatch(orderActions.selectProduct({ route: productName }));
     navigate(`/order/${id}`);
   };
 

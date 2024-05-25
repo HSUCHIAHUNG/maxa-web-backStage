@@ -69,7 +69,8 @@ const ProductDetail: React.FC = () => {
       orderActions.orderContentStateChenge({
         title: "reserve",
         paymentState: "alreadyPaid",
-        industryName: productDetailData[id].industry
+        industryName: productDetailData[id].industry,
+        routeName: product.name
       })
     );
 

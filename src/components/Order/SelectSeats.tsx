@@ -12,6 +12,8 @@ import {
   Input,
 } from "@arco-design/web-react";
 import SetSeat from "./SetSeat";
+// 匯入型別
+import { PassengerTicketKey } from '../../stores/type/OrderType'
 
 // 付款方式選項
 const paymentOptions = [
@@ -143,7 +145,7 @@ const SelectSeats: React.FC = () => {
     }
   };
 
-  const storePassengerTicket = (total: number, type: string) => {
+  const storePassengerTicket = (total: number, type: PassengerTicketKey) => {
     const ticket = {
       type: type,
       total: total,

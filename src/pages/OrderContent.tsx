@@ -48,32 +48,6 @@ const passenger = [
   },
 ];
 
-interface StationData {
-  startStation: string;
-  endStation: string;
-  startDate: string;
-}
-
-interface TimeData {
-  startTime?: SelectTimeData;
-  endTime?: SelectTimeData;
-}
-
-interface SelectTimeData {
-  id: string;
-  startStation: string;
-  endStation: string;
-  seats: string;
-  Vehicles: string;
-}
-
-interface BookingData {
-  stationData?: {
-    stationData?: StationData;
-  };
-  timeData: TimeData;
-}
-
 const OrderContent: React.FC = () => {
   // redux方法呼叫
   // const dispatch = useAppDispatch();
@@ -82,7 +56,7 @@ const OrderContent: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
   // 訂單資料
-  const bookingData: BookingData = useSelector(
+  const bookingData = useSelector(
     (state: RootState) => state.order.bookingData
   );
 
@@ -229,134 +203,6 @@ const OrderContent: React.FC = () => {
               </li>
             </ul>
 
-            {/* 車票相關 */}
-            <ul
-              className={`bg-[#fff] w-full border-y border-solid border-[#E5E6EB] py-[20px] px-[16px] flex flex-col gap-[12px] md:gap-[20px] md:border md:rounded-[16px] md:p-[40px] `}
-            >
-              <li className={` text-[20px] `}>車票相關</li>
-              <li
-                className={`border border-solid border-[#E5E6EB] rounded-[4px] md:rounded-[8px] overflow-hidden`}
-              >
-                {/* 預定班次 */}
-                <div
-                  className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
-                >
-                  <div
-                    className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
-                  >
-                    <p className={`w-[112px]`}>預定班次</p>
-                  </div>
-                  <div
-                    className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
-                  >
-                    <p className={``}>0001</p>
-                  </div>
-                </div>
-                {/* 去程 */}
-                <div
-                  className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
-                >
-                  <div
-                    className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
-                  >
-                    <p className={`w-[112px]`}>去程</p>
-                  </div>
-                  <div
-                    className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
-                  >
-                    <Steps
-                      type="dot"
-                      direction="vertical"
-                      current={2}
-                      style={{ maxWidth: 780 }}
-                    >
-                      <Step
-                        title={
-                          bookingData?.stationData?.stationData?.startStation
-                        }
-                        description={`${bookingData?.stationData?.stationData?.startDate} ${bookingData?.timeData?.startTime?.startStation}`}
-                      />
-                      <Step
-                        title={
-                          bookingData?.stationData?.stationData?.endStation
-                        }
-                        description={`${bookingData?.stationData?.stationData?.startDate} ${bookingData?.timeData?.startTime?.endStation}`}
-                      />
-                    </Steps>
-                  </div>
-                </div>
-
-                {/* 回程 */}
-                {tabState === "roundTripTicket" && (
-                  <div
-                    className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
-                  >
-                    <div
-                      className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
-                    >
-                      <p className={`w-[112px]`}>回程</p>
-                    </div>
-                    <div
-                      className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
-                    >
-                      <Steps
-                        type="dot"
-                        direction="vertical"
-                        current={2}
-                        style={{ maxWidth: 780 }}
-                      >
-                        <Step
-                          title={
-                            bookingData?.stationData?.stationData?.endStation
-                          }
-                          description={`${bookingData?.stationData?.stationData?.startDate} ${bookingData.timeData.startTime}`}
-                        />
-                        <Step
-                          title={
-                            bookingData?.stationData?.stationData?.startStation
-                          }
-                          description="2024-05-20 11:00"
-                        />
-                      </Steps>
-                    </div>
-                  </div>
-                )}
-
-                {/* 去程座位 */}
-                <div
-                  className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
-                >
-                  <div
-                    className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
-                  >
-                    <p className={`w-[112px] `}>去程座位</p>
-                  </div>
-                  <div
-                    className={`flex justify-center md:py-[9px] md:px-[20px] md:w-full`}
-                  >
-                    <img src={selectSeats} alt="座位" />
-                  </div>
-                </div>
-                {/* 回程座位 */}
-                {tabState === "roundTripTicket" && (
-                  <div
-                    className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
-                  >
-                    <div
-                      className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
-                    >
-                      <p className={`w-[112px] `}>回程座位</p>
-                    </div>
-                    <div
-                      className={`flex justify-center md:py-[9px] md:px-[20px] md:w-full`}
-                    >
-                      <img src={selectSeats} alt="座位" />
-                    </div>
-                  </div>
-                )}
-              </li>
-            </ul>
-
             {/* 付款資料 */}
             <ul
               className={`bg-[#fff] w-full border-y border-solid border-[#E5E6EB] py-[20px] px-[16px] flex flex-col gap-[12px] md:gap-[20px] md:border md:rounded-[16px] md:p-[40px] `}
@@ -431,6 +277,126 @@ const OrderContent: React.FC = () => {
                       className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
                     >
                       <p className={``}>------</p>
+                    </div>
+                  </div>
+                )}
+              </li>
+            </ul>
+
+            {/* 車票相關 */}
+            <ul
+              className={`bg-[#fff] w-full border-y border-solid border-[#E5E6EB] py-[20px] px-[16px] flex flex-col gap-[12px] md:gap-[20px] md:border md:rounded-[16px] md:p-[40px] `}
+            >
+              <li className={` text-[20px] `}>車票相關</li>
+              <li
+                className={`border border-solid border-[#E5E6EB] rounded-[4px] md:rounded-[8px] overflow-hidden`}
+              >
+                {/* 預定班次 */}
+                <div
+                  className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
+                >
+                  <div
+                    className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
+                  >
+                    <p className={`w-[112px]`}>預定班次</p>
+                  </div>
+                  <div
+                    className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
+                  >
+                    <p className={``}>0001</p>
+                  </div>
+                </div>
+                {/* 去程 */}
+                <div
+                  className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
+                >
+                  <div
+                    className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
+                  >
+                    <p className={`w-[112px]`}>去程</p>
+                  </div>
+                  <div
+                    className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
+                  >
+                    <Steps
+                      type="dot"
+                      direction="vertical"
+                      current={2}
+                      style={{ maxWidth: 780 }}
+                    >
+                      <Step
+                        title={bookingData?.stationData?.startStation}
+                        description={`${bookingData?.stationData?.startDate} ${bookingData?.timeData?.startTime?.startStation}`}
+                      />
+                      <Step
+                        title={bookingData?.stationData?.endStation}
+                        description={`${bookingData?.stationData?.startDate} ${bookingData?.timeData?.startTime?.endStation}`}
+                      />
+                    </Steps>
+                  </div>
+                </div>
+
+                {/* 回程 */}
+                {tabState === "roundTripTicket" && (
+                  <div
+                    className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
+                  >
+                    <div
+                      className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
+                    >
+                      <p className={`w-[112px]`}>回程</p>
+                    </div>
+                    <div
+                      className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
+                    >
+                      <Steps
+                        type="dot"
+                        direction="vertical"
+                        current={2}
+                        style={{ maxWidth: 780 }}
+                      >
+                        <Step
+                          title={bookingData?.stationData?.endStation}
+                          description={`${bookingData?.stationData?.startDate} ${bookingData.timeData.startTime}`}
+                        />
+                        <Step
+                          title={bookingData?.stationData?.startStation}
+                          description="2024-05-20 11:00"
+                        />
+                      </Steps>
+                    </div>
+                  </div>
+                )}
+
+                {/* 去程座位 */}
+                <div
+                  className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
+                >
+                  <div
+                    className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
+                  >
+                    <p className={`w-[112px] `}>去程座位</p>
+                  </div>
+                  <div
+                    className={`flex justify-center md:py-[9px] md:px-[20px] md:w-full`}
+                  >
+                    <img src={selectSeats} alt="座位" />
+                  </div>
+                </div>
+                {/* 回程座位 */}
+                {tabState === "roundTripTicket" && (
+                  <div
+                    className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
+                  >
+                    <div
+                      className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
+                    >
+                      <p className={`w-[112px] `}>回程座位</p>
+                    </div>
+                    <div
+                      className={`flex justify-center md:py-[9px] md:px-[20px] md:w-full`}
+                    >
+                      <img src={selectSeats} alt="座位" />
                     </div>
                   </div>
                 )}
