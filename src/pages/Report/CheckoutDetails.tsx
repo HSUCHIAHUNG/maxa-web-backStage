@@ -100,7 +100,7 @@ const CheckoutDetails: React.FC = () => {
       render: (_col: unknown, record: OrderRecord) => (
         <div className={`flex justify-start items-center gap-[8px]`}>
           <div
-            className={`${tableOrderStateStyle(record.orderState)} w-max`}
+            className={`${tableOrderStateStyle(record.orderState)} w-[6px]`}
           ></div>
           <p className={` `}>{record.orderState}</p>
         </div>

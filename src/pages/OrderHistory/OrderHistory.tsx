@@ -15,152 +15,105 @@ import {
   Tag,
 } from "@arco-design/web-react";
 // 時間控制相關
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 // 匯入型別
-import { paymentStateType } from '../../stores/type/OrderType'
-
+import { OrderRecord } from "./type";
+// 匯入json
+import OrderHistoryList from "../../assets/API/OrderHistory.json";
 
 // ui kit
 const InputSearch = Input.Search;
 const Option = Select.Option;
 
-// table資料內容型別
-type OrderRecord = {
-  key: string;
-  number: string;
-  orderState: paymentStateType;
-  route: string;
-  industry: string;
-  amount: string;
-  date: string;
-};
-
 const OrderHistory: React.FC = () => {
   // redux(方法調用)
   const dispatch = useAppDispatch();
+
   // 動態路由
   const navigate = useNavigate();
+
   // 篩選Modal開關狀態
   const [visible, setVisible] = useState(false);
+
   // 篩選條件狀態
-  const [filters, setFilters] = useState<{
-    number: string;
-    orderState: string[];
-    industry: string;
-    route: string;
-    dateRange: [dayjs.Dayjs | null, dayjs.Dayjs | null];
+  const [orderHistoryFilters, setOrderHistoryFilters] = useState<{
+    orderNumber: string;
+    customer: string;
+    provider: string;
+    routeProduct: string;
+    orderTime: [Dayjs | null, Dayjs | null];
+    orderStatus: string[];
   }>({
-    number: "",
-    orderState: [],
-    industry: "",
-    route: "",
-    dateRange: [null, null],
+    orderNumber: "",
+    customer: "",
+    provider: "",
+    routeProduct: "",
+    orderTime: [null, null],
+    orderStatus: [],
   });
   // 暫存篩選條件
-  const [tempFilters, setTempFilters] = useState({
-    state: [] as string[],
-    industry: "",
-    route: "",
+  const [tempOrderHistoryFilters, setTempOrderHistoryFilters] = useState({
+    orderNumber: "",
+    customer: "",
+    provider: "",
+    routeProduct: "",
+    orderTime: [null, null] as [Dayjs | null, Dayjs | null],
+    orderStatus: [] as string[],
   });
 
   // table columns
   const columns = [
     {
       title: "訂單編號",
-      dataIndex: "number",
+      dataIndex: "orderNumber",
       fixed: "left" as const,
-      width: "150px",
     },
     {
-      title: "訂單狀態",
-      dataIndex: "state",
-      render: (_col: unknown, record: OrderRecord) => (
-        <p className={`${orderStateStyle(record.orderState)} w-max `}>
-          {record.orderState}
-        </p>
-      ),
+      title: "訂購人",
+      dataIndex: "customer",
     },
     {
       title: "路線(商品)",
-      dataIndex: "route",
+      dataIndex: "routeProduct",
     },
     {
       title: "業者",
-      dataIndex: "industry",
+      dataIndex: "provider",
     },
     {
       title: "訂單金額",
-      dataIndex: "amount",
+      dataIndex: "orderAmount",
     },
     {
       title: "訂購時間",
-      dataIndex: "date",
+      dataIndex: "orderTime",
+    },
+    {
+      title: "訂單狀態",
+      dataIndex: "orderStatus",
+      render: (_col: unknown, record: OrderRecord) => (
+        <div className={`flex justify-start items-center gap-[8px]`}>
+          <div
+            className={`${tableOrderStateStyle(record.orderStatus)} w-[6px]`}
+          ></div>
+          <p className={` `}>{record.orderStatus}</p>
+        </div>
+      ),
     },
     {
       title: "操作",
       dataIndex: "操作",
       render: (_col: unknown, record: OrderRecord) => (
-        <Button onClick={() => orderDetail(record)}>訂單詳情</Button>
+        <Button
+          onClick={() => orderDetail(record)}
+          className={` flex justify-center items-center bg-[#F2F3F5] rounded-[2px] p-0 `}
+        >
+          <span
+            className={`icon-[fluent--clipboard-bullet-list-16-filled] w-[16px] h-[16px] m-[9px] text-[#4E5969] `}
+          ></span>
+        </Button>
       ),
       fixed: "right" as const,
-    },
-  ];
-
-  // table row
-  const rows = [
-    {
-      key: `1`,
-      number: `64885813121121`,
-      orderState: "待付款",
-      route: ` 503 石門水庫線(假日行駛)`,
-      industry: `屏東客運`,
-      amount: `NT$ 1,100`,
-      date: `2024-04-21 12:12:12`,
-    },
-    {
-      key: `2`,
-      number: `64885813121121`,
-      orderState: "已付款，等待使用",
-      route: ` 503 石門水庫線(假日行駛)`,
-      industry: `屏東客運`,
-      amount: `NT$ 1,100`,
-      date: `2024-04-21 12:12:12`,
-    },
-    {
-      key: `3`,
-      number: `64885813121121`,
-      orderState: "申請退款中",
-      route: ` 503 石門水庫線(假日行駛)`,
-      industry: `屏東客運`,
-      amount: `NT$ 1,100`,
-      date: `2024-04-21 12:12:12`,
-    },
-    {
-      key: `4`,
-      number: `64885813121121`,
-      orderState: "已完成活動",
-      route: ` 503 石門水庫線(假日行駛)`,
-      industry: `屏東客運`,
-      amount: `NT$ 1,100`,
-      date: `2024-04-21 12:12:12`,
-    },
-    {
-      key: `5`,
-      number: `64885813121121`,
-      orderState: "付款期限已截止",
-      route: ` 503 石門水庫線(假日行駛)`,
-      industry: `屏東客運`,
-      amount: `NT$ 1,100`,
-      date: `2024-04-21 12:12:12`,
-    },
-    {
-      key: `6`,
-      number: `64885813121121`,
-      orderState: "逾期未使用",
-      route: ` 503 石門水庫線(假日行駛)`,
-      industry: `屏東客運`,
-      amount: `NT$ 1,100`,
-      date: `2024-04-21 12:12:12`,
     },
   ];
 
@@ -188,26 +141,42 @@ const OrderHistory: React.FC = () => {
     "付款期限已截止 ",
     "逾期未使用",
     "已退款",
-    "訂單已取消(會員)",
-    "訂單已取消(系統)",
+    "訂單取消(會員)",
+    "訂單取消(系統)",
   ];
 
   // 業者篩選資料
   const industryOptions = ["桃園客運", "國光客運", "屏東客運"];
 
   // 訂單狀態(欄位樣式)
-  const orderStateStyle = (itemName: string) => {
+  const tableOrderStateStyle = (itemName: string) => {
     switch (itemName) {
       case "待付款":
-        return "text-[#EC4A58] bg-[#FFEAE8] px-[8px] py-[2px]";
+        return " bg-[#EC4A58] w-[6px] h-[6px] rounded-[100px]";
       case "已付款，等待使用":
-        return "text-[#3A57E8] bg-[#E8F0FF] px-[8px] py-[2px]";
+        return "bg-[#3A57E8] w-[6px] h-[6px] rounded-[100px]";
       case "申請退款中":
-        return "text-[#F77234] bg-[#FFF3E8] px-[8px] py-[2px]";
+        return "bg-[#FF7D00] w-[6px] h-[6px] rounded-[100px]";
       case "已完成活動":
-        return "text-[#0FC6C2] bg-[#E8FFFB] px-[8px] py-[2px]";
+        return "bg-[#0FC6C2] w-[6px] h-[6px] rounded-[100px]";
       default:
-        return "text-[#808EB0] bg-[#F2F3F5] px-[8px] py-[2px]";
+        return "bg-[#E4E6EF] w-[6px] h-[6px] rounded-[100px]";
+    }
+  };
+
+  // 訂單狀態(篩選欄位樣式)
+  const filterOrderStateStyle = (itemName: string) => {
+    switch (itemName) {
+      case "待付款":
+        return "text-[#EC4A58] bg-[#FFEAE8] px-[8px] py-[2px] text-[14px]";
+      case "已付款，等待使用":
+        return "text-[#3A57E8] bg-[#E8F0FF] px-[8px] py-[2px] text-[14px]";
+      case "申請退款中":
+        return "text-[#FF7D00] bg-[#FFF3E8] px-[8px] py-[2px] text-[14px]";
+      case "已完成活動":
+        return "text-[#0FC6C2] bg-[#E8FFFB] px-[8px] py-[2px] text-[14px]";
+      default:
+        return "text-[#808EB0] bg-[#F2F3F5] px-[8px] py-[2px] text-[14px]";
     }
   };
 
@@ -239,7 +208,7 @@ const OrderHistory: React.FC = () => {
       <Tag
         closable={closable}
         onClose={onClose}
-        className={orderStateStyle(value)}
+        className={filterOrderStateStyle(value)}
       >
         {label}
       </Tag>
@@ -248,7 +217,7 @@ const OrderHistory: React.FC = () => {
 
   // 即時篩選變更處理函數
   const handleImmediateFilterChange = (key: string, value: unknown) => {
-    setFilters((prevFilters) => ({
+    setOrderHistoryFilters((prevFilters) => ({
       ...prevFilters,
       [key]: value,
     }));
@@ -256,28 +225,39 @@ const OrderHistory: React.FC = () => {
 
   // 暫存篩選變更處理函數
   const handleTempFilterChange = (key: string, value: unknown) => {
-    setTempFilters((prevFilters) => ({
+    setTempOrderHistoryFilters((prevFilters) => ({
       ...prevFilters,
       [key]: value,
     }));
   };
 
   // 根據篩選條件篩選數據
-  const filteredData = rows.filter((item) => {
-    const { number, orderState, industry, route, dateRange } = filters;
-    const [startDate, endDate] = dateRange;
+  const filteredData = OrderHistoryList.filter((item) => {
+    const {
+      orderNumber,
+      customer,
+      provider,
+      routeProduct,
+      orderStatus,
+      orderTime,
+    } = orderHistoryFilters;
+    const [startDate, endDate] = orderTime;
 
     return (
-      (!number || item.number.includes(number)) &&
-      (!orderState.length || orderState.includes(item.orderState)) &&
-      (!industry || item.industry.includes(industry)) &&
-      (!route || item.route.includes(route)) &&
+      (!orderNumber || item.orderNumber.includes(orderNumber)) &&
+      (!customer || item.customer.includes(customer)) &&
+      (!provider || item.provider.includes(provider)) &&
+      (!routeProduct || item.routeProduct.includes(routeProduct)) &&
+      (!orderStatus.length || orderStatus.includes(item.orderStatus)) &&
       (!startDate ||
         !endDate ||
-        (dayjs(item.date).isAfter(startDate) &&
-          dayjs(item.date).isBefore(endDate)))
+        (dayjs(item.orderTime).isAfter(startDate) &&
+          dayjs(item.orderTime).isBefore(endDate)))
     );
-  });
+  }).map((item) => ({
+    ...item,
+    key: item.orderNumber, // 添加唯一的 key 屬性
+  }));
 
   // 訂單詳情
   const orderDetail = (record: OrderRecord) => {
@@ -286,9 +266,9 @@ const OrderHistory: React.FC = () => {
     dispatch(
       orderActions.orderContentStateChenge({
         title: "orderHistory",
-        paymentState: paymentState(record.orderState),
-        remarks: '',
-        totalAmount: record.amount,
+        paymentState: paymentState(record.orderStatus),
+        remarks: "",
+        totalAmount: record.orderAmount,
       })
     );
     navigate("/orderContent/ABC1293822839");
@@ -306,7 +286,9 @@ const OrderHistory: React.FC = () => {
               allowClear
               placeholder="搜尋訂單編號"
               style={{ width: 220 }}
-              onSearch={(value) => handleImmediateFilterChange("number", value)}
+              onSearch={(value) =>
+                handleImmediateFilterChange("orderNumber", value)
+              }
             />
 
             {/* 日期篩選 */}
@@ -316,7 +298,7 @@ const OrderHistory: React.FC = () => {
               disabledDate={(current) => current.isAfter(dayjs())}
               shortcutsPlacementLeft
               onChange={(dates) =>
-                handleImmediateFilterChange("dateRange", dates)
+                handleImmediateFilterChange("orderTime", dates)
               }
               shortcuts={[
                 {
@@ -371,9 +353,9 @@ const OrderHistory: React.FC = () => {
         title={<span className={`text-[16px]`}>篩選</span>}
         visible={visible}
         onOk={() => {
-          setFilters((prevFilters) => ({
+          setOrderHistoryFilters((prevFilters) => ({
             ...prevFilters,
-            ...tempFilters,
+            ...tempOrderHistoryFilters,
           })); // 當點擊確定按鈕時，將暫存的篩選條件應用到正式的篩選條件
           setVisible(false);
         }}
@@ -388,10 +370,9 @@ const OrderHistory: React.FC = () => {
           <div className={``}>
             <p className={`text-[#4E5969] pb-[9px]`}>訂單狀態</p>
             <Select
-              onChange={(value) => handleTempFilterChange("orderState", value)}
+              onChange={(value) => handleTempFilterChange("orderStatus", value)}
               mode="multiple"
               placeholder="所有狀態"
-              // defaultValue={["Beijing", "Shenzhen"]}
               allowClear
               renderTag={tagRender}
             >
@@ -407,7 +388,7 @@ const OrderHistory: React.FC = () => {
           <div className={``}>
             <p className={`text-[#4E5969] pb-[9px]`}>業者</p>
             <Select
-              onChange={(value) => handleTempFilterChange("industry", value)}
+              onChange={(value) => handleTempFilterChange("provider", value)}
               placeholder="Please select"
             >
               {industryOptions.map((option) => (
@@ -422,10 +403,12 @@ const OrderHistory: React.FC = () => {
           <div className={``}>
             <p className={`text-[#4E5969] pb-[9px]`}>商品</p>
             <Select
-              onChange={(value) => handleTempFilterChange("route", value)}
+              onChange={(value) =>
+                handleTempFilterChange("routeProduct", value)
+              }
               showSearch
               allowClear
-              placeholder="Select drink"
+              placeholder="Select route"
             >
               {productGroups.map((options) => {
                 return (
