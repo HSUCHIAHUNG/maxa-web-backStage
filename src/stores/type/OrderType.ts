@@ -17,6 +17,7 @@ export type OrderContentType = {
   remarks?: string;
   totalAmount?: number | string;
   paymentMethod?: string;
+  orderNumber?: string
 };
 
 // 訂單詳情-付款狀態(paymentState)

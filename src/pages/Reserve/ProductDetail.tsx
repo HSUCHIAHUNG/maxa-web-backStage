@@ -70,7 +70,7 @@ const ProductDetail: React.FC = () => {
         title: "reserve",
         paymentState: "alreadyPaid",
         industryName: productDetailData[id].industry,
-        routeName: product.name
+        routeName: product.name,
       })
     );
 

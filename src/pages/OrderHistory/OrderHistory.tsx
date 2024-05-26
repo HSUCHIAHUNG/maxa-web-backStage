@@ -20,6 +20,10 @@ import dayjs, { Dayjs } from "dayjs";
 import { OrderRecord } from "./type";
 // 匯入json
 import OrderHistoryList from "../../assets/API/OrderHistory.json";
+// 匯入圖片
+import defaultImg from "../../assets/images/orderHistory/defaultImg.png";
+import guestImg from "../../assets/images/orderHistory/guestImg.png";
+import serviceImg from "../../assets/images/orderHistory/serviceImg.png";
 
 // ui kit
 const InputSearch = Input.Search;
@@ -71,6 +75,12 @@ const OrderHistory: React.FC = () => {
     {
       title: "訂購人",
       dataIndex: "customer",
+      render: (_col: unknown, record: OrderRecord) => (
+        <div className={`flex justify-start items-center gap-[8px]`}>
+          {customerImg(record.customer)}
+          <p>{record.customer}</p>
+        </div>
+      ),
     },
     {
       title: "路線(商品)",
@@ -161,6 +171,19 @@ const OrderHistory: React.FC = () => {
         return "bg-[#0FC6C2] w-[6px] h-[6px] rounded-[100px]";
       default:
         return "bg-[#E4E6EF] w-[6px] h-[6px] rounded-[100px]";
+    }
+  };
+
+  // 訂購人(照片)
+  const customerImg = (customer: string) => {
+    switch (customer) {
+      case '現場購買':
+        return <img src={serviceImg} alt="現場購買" />;
+      case "無登入購買":
+        return <img src={guestImg} alt="無登入購買" />;
+
+      default:
+        return <img src={defaultImg} alt="預設圖" />;
     }
   };
 
@@ -267,11 +290,12 @@ const OrderHistory: React.FC = () => {
       orderActions.orderContentStateChenge({
         title: "orderHistory",
         paymentState: paymentState(record.orderStatus),
-        remarks: "",
         totalAmount: record.orderAmount,
+        industryName: record.provider,
+        routeName: record.routeProduct,
       })
     );
-    navigate("/orderContent/ABC1293822839");
+    navigate(`/orderContent/${record.orderNumber}`);
   };
 
   return (
