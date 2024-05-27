@@ -17,12 +17,11 @@ function DefaultLayout() {
 
   // 如果沒登入就被踢回登入頁面
   useEffect(() => {
-    if(!auth) navigate('login')
-  },[navigate, auth])
-
+    if (!auth) navigate("login");
+  }, [navigate, auth]);
 
   return (
-    <div className=" flex flex-col min-h-[100vh] m-[0_auto]">
+    <div className="flex flex-col min-h-[100vh] m-[0_auto]">
       <Header />
       <div className="flex flex-1">
         <NavMenu />

@@ -1,7 +1,11 @@
 // 原生方法
 import React, { useState } from "react";
 // router
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+// redux
+import { authActions } from "../../stores/auth.ts";
+import { orderActions } from "../../stores/order.ts";
+import { useAppDispatch } from "../../stores/index.ts";
 // ui kit
 import { Input } from "@arco-design/web-react";
 // Icon
@@ -11,12 +15,18 @@ import memberIcon from "@/assets/images/header/memberAvatar.svg";
 const InputSearch = Input.Search;
 
 const Header: React.FC = () => {
+  // redux
+  const dispatch = useAppDispatch();
+
+  // 動態路由
+  const navigate = useNavigate();
+
   const [memberList, setMemberList] = useState(false);
 
   /** @func 搜尋商品 */
   const searchProduct = (value: string) => {
-    console.log(value);
-    // navigate("order");
+    dispatch(orderActions.setSearchProduct(value));
+    navigate("/");
   };
 
   return (
@@ -38,22 +48,34 @@ const Header: React.FC = () => {
           />
         </div>
         {/* 會員icon */}
-        <button onClick={() => setMemberList((state) => !state)}>
+        <button
+          onClick={() => setMemberList((state) => !state)}
+          className={` relative flex gap-[8px] justify-center items-center`}
+        >
           <img src={memberIcon} alt="會員" />
+          <p>屏東客運_Mia Hsu</p>
+          <div
+            className={`absolute bottom-[-10px] border-b-[2px] border-solid border-[#3A57E8] w-full ${
+              memberList ? "block" : "hidden"
+            }`}
+          ></div>
         </button>
       </section>
 
       {/* 手機版會員選單 */}
       <div
-        className={`absolute w-[124px] rounded-[8px] gap-[7px] z-[999] bg-[#fff] px-[12px] md:top-[60px] md:right-[20px] ${memberList ? 'block' : 'hidden'} `}
+        className={`absolute w-[124px] rounded-[8px] gap-[7px] z-[999] bg-[#fff] px-[12px] shadow-md md:top-[60px] md:right-[65px] border border-solid border-[#E4E6EF] ${
+          memberList ? "block" : "hidden"
+        } `}
       >
-        <button
+        {/* <button
           className={`flex py-[7px] gap-[8px] group hover:text-[#3A57E8] `}
         >
           <span className="icon-[solar--lock-password-bold-duotone] w-[16px] h-[16px] text-[#485781] group-hover:text-[#3A57E8] "></span>
           <p>更改密碼</p>
-        </button>
+        </button> */}
         <button
+          onClick={() => dispatch(authActions.isLogin())}
           className={`flex py-[7px] gap-[8px] group hover:text-[#3A57E8] `}
         >
           <span className="icon-[solar--logout-3-bold-duotone] w-[16px] h-[16px] text-[#485781] group-hover:text-[#3A57E8] "></span>

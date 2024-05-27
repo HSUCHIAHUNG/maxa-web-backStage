@@ -41,7 +41,7 @@ const SelectSeats: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(orderActions.reseBbookingData());
+    dispatch(orderActions.resetBookingData());
   }, [dispatch]);
 
   const [isSetSeats, setIsSetSeats] = useState({
@@ -83,13 +83,17 @@ const SelectSeats: React.FC = () => {
 
   const submit = (value: FormValues) => {
     const remarks = value.remarks ? String(value.remarks) : "";
-    console.log(passengerTicketTotal);
-    console.log(seatsData.oneWayTicket.length);
-    console.log(seatsData.oneWayTicket.length !== passengerTicketTotal);
+    // console.log(passengerTicketTotal);
+    // console.log(tabState);
+    // console.log(seatsData.oneWayTicket.length + seatsData.roundTripTicket.length !==
+    //   passengerTicketTotal * 2);
+    // console.log(seatsData.oneWayTicket.length);
+    // console.log(seatsData.roundTripTicket.length)
     if (passengerTicketTotal < 1) {
       Message.error("乘客票數不可小於1");
       return;
     }
+
     if (tabState === "oneWayTicket" && selectedOneWayMethod === "手動劃位") {
       if (seatsData.oneWayTicket.length !== passengerTicketTotal) {
         Message.error("票數與已選座位數不符");

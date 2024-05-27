@@ -1,20 +1,42 @@
 // 原生方法
-import React from "react";
+import React, { useEffect, useState } from "react";
 // redux
-// import { useDispatch } from "react-redux";
-// import { orderActions } from "../../stores/order";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../stores/index";
+
+import { orderActions } from "../../stores/order";
 // router
 import { useNavigate } from "react-router-dom";
 // json
-import ProductList from '../../assets/API/AllProduct.json';
-
+import ProductList from "../../assets/API/AllProduct.json";
 
 const Reserve: React.FC = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+
+  // 動態路由
   const navigate = useNavigate();
 
-  const handleLinkClick = (productName: string, id: string) => {
-    // dispatch(orderActions.selectProduct({ route: productName }));
+  // header搜尋產品條件
+  const searchProduct = useSelector((state: RootState) => state.order.searchProduct);
+
+  // 產品列表狀態
+  const [filterProductList, setFilterProductList] = useState(ProductList);
+
+  // 產品列表篩選
+  useEffect(() => {
+    const filtered = ProductList.filter((item) => item.name.includes(searchProduct));
+    console.log(filtered);
+    setFilterProductList(filtered);
+  }, [searchProduct]);
+
+  // 初始化訂單詳情狀態
+  useEffect(() => {
+    dispatch(orderActions.resetBookingData());
+    dispatch(orderActions.resetOrderContent());
+  }, [dispatch]);
+
+  // 查看產品詳情
+  const handleLinkClick = (_productName: string, id: string) => {
     navigate(`/order/${id}`);
   };
 
@@ -24,7 +46,7 @@ const Reserve: React.FC = () => {
         預約/查詢班次座位
       </div>
       <div className={`flex flex-wrap justify-start gap-[20px]`}>
-        {ProductList.map((product) => (
+        {filterProductList.map((product) => (
           <div
             key={product.id}
             className={`relative cursor-pointer`}

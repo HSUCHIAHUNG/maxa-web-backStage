@@ -157,7 +157,6 @@ const MemberList: React.FC = () => {
 
   // 會員詳細資料
   const memberProfile = (item: MemberListType) => {
-    console.log(item);
     memberProfileRef.current = { ...memberProfileRef.current, ...item };
     setVisibleMemberProfile(true);
   };

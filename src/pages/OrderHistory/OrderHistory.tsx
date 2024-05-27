@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // router
 import { useNavigate } from "react-router-dom";
 // redux
@@ -36,6 +36,12 @@ const OrderHistory: React.FC = () => {
   // 動態路由
   const navigate = useNavigate();
 
+  // 初始化訂單詳情狀態
+  useEffect(() => {
+    dispatch(orderActions.resetBookingData());
+    dispatch(orderActions.resetOrderContent());
+  }, [dispatch]);
+
   // 篩選Modal開關狀態
   const [visible, setVisible] = useState(false);
 
@@ -55,6 +61,7 @@ const OrderHistory: React.FC = () => {
     orderTime: [null, null],
     orderStatus: [],
   });
+
   // 暫存篩選條件
   const [tempOrderHistoryFilters, setTempOrderHistoryFilters] = useState({
     orderNumber: "",
@@ -174,19 +181,6 @@ const OrderHistory: React.FC = () => {
     }
   };
 
-  // 訂購人(照片)
-  const customerImg = (customer: string) => {
-    switch (customer) {
-      case '現場購買':
-        return <img src={serviceImg} alt="現場購買" />;
-      case "無登入購買":
-        return <img src={guestImg} alt="無登入購買" />;
-
-      default:
-        return <img src={defaultImg} alt="預設圖" />;
-    }
-  };
-
   // 訂單狀態(篩選欄位樣式)
   const filterOrderStateStyle = (itemName: string) => {
     switch (itemName) {
@@ -203,6 +197,19 @@ const OrderHistory: React.FC = () => {
     }
   };
 
+  // 訂購人(照片)
+  const customerImg = (customer: string) => {
+    switch (customer) {
+      case "現場購買":
+        return <img src={serviceImg} alt="現場購買" />;
+      case "無登入購買":
+        return <img src={guestImg} alt="無登入購買" />;
+
+      default:
+        return <img src={defaultImg} alt="預設圖" />;
+    }
+  };
+
   // 訂單狀態(欄位樣式)
   const paymentState = (itemName: string) => {
     switch (itemName) {
@@ -215,7 +222,7 @@ const OrderHistory: React.FC = () => {
       case "已完成活動":
         return "activeComplate";
       default:
-        return "";
+        return itemName;
     }
   };
 
@@ -344,7 +351,7 @@ const OrderHistory: React.FC = () => {
               ]}
             />
 
-            {/* 訂單狀態、業者、商品篩選按鈕 */}
+            {/* 開啟隱藏選單按鈕-訂單狀態、業者、商品篩選按鈕 */}
             <Button
               onClick={() => {
                 setVisible(true);
@@ -359,6 +366,7 @@ const OrderHistory: React.FC = () => {
             </Button>
           </div>
         </div>
+        
         {/* 表格內容 */}
         <Table
           columns={columns}
@@ -371,7 +379,7 @@ const OrderHistory: React.FC = () => {
         />
       </div>
 
-      {/* 訂單狀態、業者、商品篩選 */}
+      {/* 隱藏選單-訂單狀態、業者、商品篩選 */}
       <Drawer
         width={400}
         title={<span className={`text-[16px]`}>篩選</span>}

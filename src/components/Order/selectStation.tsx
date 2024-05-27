@@ -6,7 +6,7 @@ import { orderActions } from "../../stores/order";
 import { RootState, useAppDispatch } from "../../stores/index";
 // 匯入型別
 import { ProductDetailType } from "../../pages/Reserve/type";
-import { stationDataType } from '../../stores/type/OrderType'
+import { StationDataType } from '../../stores/type/OrderType'
 // ui kit
 import {
   Form,
@@ -46,7 +46,7 @@ const SelectStation: React.FC<SelectStationProps> = ({
   const ticketState = useSelector((state: RootState) => state.order.ticket);
 
   // login表單提交
-  const submit = (value: stationDataType) => {
+  const submit = (value: StationDataType) => {
     // redux(切換tab全域狀態)
     dispatch(orderActions.switchStage("selectTime"));
     // redux儲存起訖點與日期資料

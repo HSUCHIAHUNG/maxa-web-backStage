@@ -10,8 +10,8 @@ export type BookingStageType =
 
 // 訂單詳情
 export type OrderContentType = {
-  paymentState: paymentStateType;
-  title: "reserve" | "orderHistory" | "";
+  paymentState: string;
+  title: "reserve" | "orderHistory" | "CheckoutDetails";
   industryName?: string;
   routeName?: string;
   remarks?: string;
@@ -27,18 +27,17 @@ export type paymentStateType =
   | "expired"
   | "refund"
   | "activeComplate"
-  | string;
 
 // 訂單資料
 export interface BookingData {
-  stationData: stationDataType;
+  stationData: StationDataType;
   timeData: { [key in TimeDataKey]: TimeDataType };
   passengerTicket: { [key in PassengerTicketKey]: PassengerTicketType };
   seatsData: SeatsData;
 }
 
 // 訂單資料-起訖站、訂車日期(stationData)
-export interface stationDataType {
+export interface StationDataType {
   endStation: string;
   startDate: string;
   startStation: string;

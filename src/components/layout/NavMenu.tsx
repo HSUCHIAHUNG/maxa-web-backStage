@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 // ui kit
 import { Menu, Button } from "@arco-design/web-react";
-import path from "path";
 
 // ui kit
 const MenuItem = Menu.Item;
@@ -19,7 +18,6 @@ function NavMenu() {
 
   /** @const {string} 當前路由path */
   const currentPathName = location.pathname;
-  console.log(currentPathName);
 
   // 動態路由
   const navigate = useNavigate()

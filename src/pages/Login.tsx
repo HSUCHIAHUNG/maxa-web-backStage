@@ -25,11 +25,11 @@ const Login: React.FC = () => {
   const submit = (value: object) => {
     console.log(value);
     dispatch(authActions.isLogin());
-    navigate("/order");
+    navigate("/");
   };
 
   return (
-    <div className=" relative bg-[url('../assets/images/login/loginBg.png')] w-full h-[100vh] bg-cover bg-no-repeat">
+    <div className=" fixed top-0 right-0 left-0 bottom-0 bg-[url('../assets/images/login/loginBg.png')] overflow-auto  bg-cover bg-no-repeat">
       <div
         className={` absolute right-[80px] top-[144px] bg-[#fff] w-[420px] h-[466px] rounded-[16px] shadow-md `}
       >

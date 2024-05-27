@@ -74,16 +74,89 @@ const OrderContent: React.FC = () => {
   const paymentStateFilter = () => {
     switch (orderContent.paymentState) {
       case "alreadyPaid":
-        return <Alert type="info" content="已付款，等待使用" />;
+        return (
+          <Alert
+            type="info"
+            showIcon={false}
+            content={
+              <div className={`flex gap-[8px] items-center justify-center`}>
+                <span className="icon-[majesticons--alert-circle] text-[#3A57E8] "></span>
+                <p>已付款，等待使用</p>
+              </div>
+            }
+            className={` justify-center`}
+          />
+        );
       case "refund":
-        return <Alert type="warning" content="申請退款中" />;
+        return (
+          <Alert
+            type="warning"
+            showIcon={false}
+            content={
+              <div className={`flex gap-[8px] items-center justify-center`}>
+                <span className="icon-[majesticons--alert-circle] text-[#FF7D00] "></span>
+                <p>申請退款中</p>
+              </div>
+            }
+            className={` justify-center`}
+          />
+        );
       case "activeComplate":
-        return <Alert type="success" content="已完成活動" />;
+        return (
+          <Alert
+            type="success"
+            showIcon={false}
+            content={
+              <div className={`flex gap-[8px] items-center justify-center`}>
+                <span className="icon-[majesticons--alert-circle] text-[#00B42A] "></span>
+                <p>已完成活動</p>
+              </div>
+            }
+            className={`justify-center`}
+          />
+        );
       case "pendingPayment":
-        return <Alert type="success" content="待付款" />;
+        return (
+          <Alert
+            showIcon={false}
+            content={
+              <div className={`flex gap-[8px] items-center justify-center`}>
+                <span className="icon-[majesticons--alert-circle] text-[#EC4A58] "></span>
+                <p>待付款</p>
+              </div>
+            }
+            className={` justify-center bg-[#FFEAE8]`}
+          />
+        );
       default:
-        break;
+        return (
+          <Alert
+            showIcon={false}
+            content={
+              <div className={`flex gap-[8px] items-center justify-center`}>
+                <span className="icon-[majesticons--alert-circle] text-[#808EB0] "></span>
+                <p>{orderContent.paymentState}</p>
+              </div>
+            }
+            className={` justify-center bg-[#E5E6EB]`}
+          />
+        );
     }
+  };
+
+  const checkoutDetailsStateFilter = () => {
+    return (
+      <Alert
+        showIcon={false}
+        content={
+          <div className={`flex gap-[8px] items-center justify-center`}>
+            <span className="icon-[majesticons--alert-circle] text-[#3A57E8] "></span>
+            <p>{orderContent.paymentState}</p>
+          </div>
+        }
+        className={` justify-center bg-[#E8F0FF]`}
+      />
+    );
   };
 
   return (
@@ -102,6 +175,11 @@ const OrderContent: React.FC = () => {
           {/* 已付款 */}
           {paymentStateFilter()}
         </>
+      )}
+
+      {/* 每日結帳明細查詢 */}
+      {orderContent.title === "CheckoutDetails" && (
+        <>{checkoutDetailsStateFilter()}</>
       )}
 
       {/* 主內容 */}
@@ -154,7 +232,11 @@ const OrderContent: React.FC = () => {
                   <div
                     className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
                   >
-                    <p className={``}>{orderContent.industryName}</p>
+                    <p className={``}>
+                      {orderContent.industryName?.length === 0
+                        ? "桃園客運"
+                        : orderContent.industryName}
+                    </p>
                   </div>
                 </div>
 
@@ -212,7 +294,7 @@ const OrderContent: React.FC = () => {
                 className={`border border-solid border-[#E5E6EB] rounded-[4px] md:rounded-[8px] overflow-hidden`}
               >
                 {/* 購買方式 */}
-                {orderContent.title === "orderHistory" && (
+                {orderContent.title !== "reserve" && (
                   <div
                     className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
                   >
@@ -241,12 +323,12 @@ const OrderContent: React.FC = () => {
                   <div
                     className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
                   >
-                    <p className={``}>{paymentMethod || "信用卡"}</p>
+                    <p className={``}>{paymentMethod === "" && "信用卡"}</p>
                   </div>
                 </div>
 
                 {/* 繳款人統編或ID */}
-                {orderContent.title === "orderHistory" && (
+                {orderContent.title !== "reserve" && (
                   <div
                     className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
                   >
@@ -264,7 +346,7 @@ const OrderContent: React.FC = () => {
                 )}
 
                 {/* 備註 */}
-                {orderContent.title === "orderHistory" && (
+                {orderContent.title !== "reserve" && (
                   <div
                     className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
                   >
@@ -306,6 +388,7 @@ const OrderContent: React.FC = () => {
                     <p className={``}>0001</p>
                   </div>
                 </div>
+
                 {/* 去程 */}
                 <div
                   className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
@@ -325,19 +408,35 @@ const OrderContent: React.FC = () => {
                       style={{ maxWidth: 780 }}
                     >
                       <Step
-                        title={bookingData?.stationData?.startStation}
-                        description={`${bookingData?.stationData?.startDate} ${bookingData?.timeData?.startTime?.startStation}`}
+                        title={
+                          orderContent.title === "reserve"
+                            ? bookingData?.stationData?.startStation
+                            : "大溪總站"
+                        }
+                        description={
+                          orderContent.title === "reserve"
+                            ? ` ${bookingData?.stationData?.startDate} ${bookingData?.timeData?.startTime?.startStation}`
+                            : "2024-05-13 10:05"
+                        }
                       />
                       <Step
-                        title={bookingData?.stationData?.endStation}
-                        description={`${bookingData?.stationData?.startDate} ${bookingData?.timeData?.startTime?.endStation}`}
+                        title={
+                          orderContent.title === "reserve"
+                            ? bookingData?.stationData?.endStation
+                            : "慈湖"
+                        }
+                        description={
+                          orderContent.title === "reserve"
+                            ? ` ${bookingData?.stationData?.startDate} ${bookingData?.timeData?.startTime?.endStation}`
+                            : "2024-05-13 11:00"
+                        }
                       />
                     </Steps>
                   </div>
                 </div>
 
                 {/* 回程 */}
-                {tabState === "roundTripTicket" && (
+                {(tabState === "roundTripTicket" && orderContent.title === "reserve") && (
                   <div
                     className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
                   >
@@ -383,8 +482,9 @@ const OrderContent: React.FC = () => {
                     <img src={selectSeats} alt="座位" />
                   </div>
                 </div>
+
                 {/* 回程座位 */}
-                {tabState === "roundTripTicket" && (
+                {(tabState === "roundTripTicket" && orderContent.title === "reserve") && (
                   <div
                     className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
                   >
@@ -404,7 +504,7 @@ const OrderContent: React.FC = () => {
             </ul>
 
             {/* 乘客資料 */}
-            {orderContent.title === "orderHistory" && (
+            {orderContent.title !== "reserve" && (
               <>
                 {passenger.map((item) => (
                   <PassengerInfo key={item.id} passenger={item} />

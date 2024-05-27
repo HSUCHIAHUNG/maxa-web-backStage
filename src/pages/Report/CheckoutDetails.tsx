@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // router
 import { useNavigate } from "react-router-dom";
 // redux
@@ -17,8 +17,6 @@ import {
 // 時間控制相關
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
-// 匯入型別
-import { paymentStateType } from '../../stores/type/OrderType'
 
 // 時間控制相關
 dayjs.extend(isBetween);
@@ -34,7 +32,7 @@ type OrderRecord = {
   paymentNumber: string;
   transactionDate: string;
   transactionAmount: string;
-  orderState: paymentStateType;
+  orderState: string;
   transactionName: string;
   clearanceDate?: string;
   liquidationDate?: string;
@@ -43,8 +41,16 @@ type OrderRecord = {
 const CheckoutDetails: React.FC = () => {
   // redux(方法調用)
   const dispatch = useAppDispatch();
+
   // 動態路由
   const navigate = useNavigate();
+
+  // 初始化訂單詳情狀態
+  useEffect(() => {
+    dispatch(orderActions.resetBookingData());
+    dispatch(orderActions.resetOrderContent());
+  }, [dispatch]);
+
   // 篩選Modal開關狀態
   const [visible, setVisible] = useState(false);
 
@@ -214,22 +220,6 @@ const CheckoutDetails: React.FC = () => {
     }
   };
 
-  // 交易狀態(欄位樣式)
-  const paymentState = (itemName: string) => {
-    switch (itemName) {
-      case "待付款":
-        return "pendingPayment";
-      case "已付款，等待使用":
-        return "alreadyPaid";
-      case "申請退款中":
-        return "refund";
-      case "已完成活動":
-        return "activeComplate";
-      default:
-        return "";
-    }
-  };
-
   // 篩選交易狀態(動態顯示tag樣式)
   function tagRender(props: {
     label: React.ReactNode;
@@ -292,16 +282,17 @@ const CheckoutDetails: React.FC = () => {
 
   // 訂單詳情
   const orderDetail = (record: OrderRecord) => {
-    console.log(record);
     // 將票價跟備註存進redux
     dispatch(
       orderActions.orderContentStateChenge({
-        title: "orderHistory",
-        paymentState: paymentState(record.orderState),
+        title: 'CheckoutDetails',
+        paymentState: record.orderState,
         remarks: "",
+        orderNumber: record.orderNumber,
+        
       })
     );
-    navigate("/orderContent/ABC1293822839");
+    navigate(`/orderContent/${record.orderNumber}`);
   };
 
   // 搜尋條件(交易日期、清分日期、清算日期)

@@ -1,4 +1,3 @@
-import { paymentStateType } from "../../stores/type/OrderType";
 
 // table資料內容型別
 export type OrderRecord = {
@@ -9,5 +8,5 @@ export type OrderRecord = {
   routeProduct: string;
   orderAmount: string;
   orderTime: string;
-  orderStatus: paymentStateType;
+  orderStatus: string;
 };

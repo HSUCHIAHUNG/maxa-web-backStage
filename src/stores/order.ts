@@ -7,21 +7,17 @@ import {
   TimeDataType,
   PassengerTicketType,
   SeatDataType,
-  stationDataType,
+  StationDataType,
   SeatsData
 } from "./type/OrderType";
 
-// 選擇產品
-interface SelectedProductType {
-  route: string;
-}
 
 const initialOrderState: {
   ticket: TicketType;
   bookingStage: BookingStageType;
   bookingData: BookingData;
   orderContent: OrderContentType;
-  selectedProduct: SelectedProductType;
+  searchProduct: string;
 } = {
   ticket: "oneWayTicket",
   bookingStage: "selectStation",
@@ -52,14 +48,14 @@ const initialOrderState: {
   },
   orderContent: {
     paymentState: "pendingPayment",
-    title: "",
+    title: "reserve",
     remarks: "",
     industryName: "",
     routeName:'',
     totalAmount: 0,
     paymentMethod: "",
   },
-  selectedProduct: { route: "" },
+  searchProduct: "" ,
 };
 
 
@@ -81,9 +77,13 @@ const orderSlice = createSlice({
       state.bookingStage = action.payload;
     },
     // 重設bookingData
-    reseBbookingData(state) {
+    resetBookingData(state) {
       state.bookingData = initialOrderState.bookingData;
       state.bookingStage = "selectStation";
+    },
+    // 重設orderContent
+    resetOrderContent(state) {
+      state.orderContent = initialOrderState.orderContent;
     },
     // 訂單狀態頁面狀態切換
     orderContentStateChenge(state, action: PayloadAction<OrderContentType>) {
@@ -92,8 +92,12 @@ const orderSlice = createSlice({
         ...action.payload,
       };
     },
+    // 儲存搜尋路線
+     setSearchProduct(state, action:PayloadAction<string>) {
+      state.searchProduct = action.payload
+     },
     // 儲存搭車車站、日期
-    setStationData(state, action: PayloadAction<stationDataType>) {
+    setStationData(state, action: PayloadAction<StationDataType>) {
       state.bookingData.stationData = action.payload;
     },
     // 儲存搭車時間
