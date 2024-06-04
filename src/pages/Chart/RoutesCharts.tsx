@@ -4,7 +4,7 @@ import { DatePicker, Radio, Select } from "@arco-design/web-react";
 // echarts
 import * as echarts from "echarts/core";
 import { GridComponent, GridComponentOption } from "echarts/components";
-import { LineChart, LineSeriesOption } from "echarts/charts";
+import { BarChart, BarSeriesOption } from "echarts/charts";
 import { UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
 // 時間控制相關
@@ -16,7 +16,7 @@ const { MonthPicker, YearPicker } = DatePicker;
 
 // echarts type
 type EChartsOption = echarts.ComposeOption<
-  GridComponentOption | LineSeriesOption
+  GridComponentOption | BarSeriesOption
 >;
 
 type ReportType = "日報表" | "月報表" | "年報表";
@@ -36,7 +36,7 @@ const RoutesCharts: React.FC = () => {
   // 設定chart容器
   const chartRef = useRef<HTMLDivElement>(null);
   // echarts配置
-  echarts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition]);
+  echarts.use([GridComponent, BarChart, CanvasRenderer, UniversalTransition]);
 
   // 路線選項
   const routeOptions = ["501大溪快線", "502桃園快線"];
@@ -54,58 +54,22 @@ const RoutesCharts: React.FC = () => {
       { xAxisData: string[]; seriesData: number[] }
     > = {
       日報表: {
-        xAxisData: [
-          "第1班",
-          "第2班",
-          "第3班",
-          "第4班",
-          "第5班",
-          "第6班",
-          "第7班",
-          "第8班",
-          "第9班",
-          "第10班",
-          "第11班",
-          "第12班",
-          "第13班",
-        ],
-        seriesData: [3, 26, 38, 35, 27, 15, 21, 6, 9, 18, 21, 9, 15],
+        xAxisData: Array.from({ length: 24 }, (_, i) => `${i}:00`),
+        seriesData: Array.from({ length: 24 }, () =>
+          Math.floor(Math.random() * 100)
+        ),
       },
       月報表: {
-        xAxisData: [
-          "第1班",
-          "第2班",
-          "第3班",
-          "第4班",
-          "第5班",
-          "第6班",
-          "第7班",
-          "第8班",
-          "第9班",
-          "第10班",
-          "第11班",
-          "第12班",
-          "第13班",
-        ],
-        seriesData: [300, 260, 380, 350, 270, 150, 210, 60, 90, 180, 210, 90],
+        xAxisData: Array.from({ length: 24 }, (_, i) => `${i}:00`),
+        seriesData: Array.from({ length: 24 }, () =>
+          Math.floor(Math.random() * 100)
+        ),
       },
       年報表: {
-        xAxisData: [
-          "第1班",
-          "第2班",
-          "第3班",
-          "第4班",
-          "第5班",
-          "第6班",
-          "第7班",
-          "第8班",
-          "第9班",
-          "第10班",
-          "第11班",
-          "第12班",
-          "第13班",
-        ],
-        seriesData: [3000, 2600, 3800, 3500, 2700, 1500, 2100],
+        xAxisData: Array.from({ length: 24 }, (_, i) => `${i}:00`),
+        seriesData: Array.from({ length: 24 }, () =>
+          Math.floor(Math.random() * 100)
+        ),
       },
     };
     return dataMapping[type];
@@ -135,7 +99,11 @@ const RoutesCharts: React.FC = () => {
           series: [
             {
               data: seriesData,
-              type: "line",
+              type: "bar",
+              itemStyle: {
+                color: "#3A57E8", // 柱狀圖顏色
+                borderRadius: [5, 5, 0, 0], // 圓角設置
+              },
             },
           ],
         };
@@ -170,7 +138,7 @@ const RoutesCharts: React.FC = () => {
       <div className="flex justify-between items-center w-full pb-[16px]">
         {/* 左-日、月、年報表 */}
         <div className="flex gap-[8px]">
-          <p className="text-[20px] text-[#1D2129]">路線班次預約數量統計</p>
+          <p className="text-[20px] text-[#1D2129]">路線時段預約售票數量統計(發車時間)</p>
           <ul className="flex items-center text-[#4E5969]">
             <li>
               <button

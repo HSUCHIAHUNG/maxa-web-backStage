@@ -51,7 +51,7 @@ function NavMenu() {
       icon: "icon-[solar--chart-2-bold-duotone]",
       path: '1',
       subMenu: [
-        { subItem: "路線班次預約數量統計", path: "/routesCharts" },
+        { subItem: "路線時段預約售票數量統計(發車時間)", path: "/routesCharts" },
         { subItem: "業者路線預約數量統計", path: "/industryCharts" },
       ],
     },

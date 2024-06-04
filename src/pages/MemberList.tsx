@@ -13,6 +13,7 @@ import ContentList from "../components/common/ContentList";
 
 // ui kit
 const InputSearch = Input.Search;
+const TextArea = Input.TextArea;
 
 // 會員列表型別
 interface MemberListType {
@@ -109,6 +110,9 @@ const MemberList: React.FC = () => {
   // 會員變更密碼
   const [visibleEditPassword, setVisibleEditPassword] = useState(false);
 
+  // 刪除會員模式
+  const deleteMenberRef = useRef(false);
+
   // 搜尋條件
   const searchCriteria = useRef("會員姓名");
 
@@ -119,6 +123,8 @@ const MemberList: React.FC = () => {
     identityId: "-----",
     phone: "(+886) 9123123",
     createDate: "2024-01-01 12:12:12",
+    reMark: "",
+    isDelete: false,
   });
 
   // pagination單頁顯示上限
@@ -155,8 +161,36 @@ const MemberList: React.FC = () => {
     setCurrentPage(1); // 重置為第一頁
   };
 
+  // 刪除會員
+  function deleteMenber(item: MemberListType) {
+    deleteMenberRef.current = true;
+    Modal.confirm({
+      title: "您確定要刪除會員嗎?",
+      content:
+        "提醒您，刪除會員後，該會員可能會被強制登出，若未事先通知會員，可能會導致其困擾。",
+      okButtonProps: {
+        status: "danger",
+      },
+      onOk: () => {
+        console.log(memberProfileRef.current);
+
+        memberProfileRef.current = { ...memberProfileRef.current, ...item };
+        console.log(memberProfileRef.current);
+        setVisibleMemberProfile(true);
+      },
+      onCancel: () => {
+        deleteMenberRef.current = false;
+      },
+    });
+  }
+
   // 會員詳細資料
   const memberProfile = (item: MemberListType) => {
+    if (item.name !== memberProfileRef.current.name)
+      memberProfileRef.current = {
+        ...memberProfileRef.current,
+        isDelete: false,
+      };
     memberProfileRef.current = { ...memberProfileRef.current, ...item };
     setVisibleMemberProfile(true);
   };
@@ -176,25 +210,47 @@ const MemberList: React.FC = () => {
     });
   }
 
+  // 刪除會員-確認刪除
+  function confirmDeleteMember() {
+    memberProfileRef.current = { ...memberProfileRef.current, isDelete: true };
+    setVisibleMemberProfile(false);
+    deleteMenberRef.current = false;
+    Message.success({
+      content: "會員刪除完成",
+    });
+  }
+
+  // 會員詳細資料關閉moal
+  function memberProfileModalClose() {
+    deleteMenberRef.current = false;
+    setVisibleMemberProfile(false);
+  }
 
   // 變更密碼表單提交
   const submit = () => {
     form.validate().then((res) => {
       console.log(res);
-      setVisibleEditPassword(false)
+      setVisibleEditPassword(false);
       Message.success({
-        content: '修改密碼完成',
+        content: "修改密碼完成",
       });
-      form.resetFields()
-    })
+      form.resetFields();
+    });
   };
 
   // 變更密碼視窗關閉
-  function EditPasswordClose () {
-    setVisibleEditPassword(false)
-    form.resetFields()
+  function EditPasswordClose() {
+    setVisibleEditPassword(false);
+    form.resetFields();
   }
-  
+
+  // 刪除會員成功狀態顯示
+  function deleteMemberSucess(name: string) {
+    return (
+      name === memberProfileRef.current.name &&
+      memberProfileRef.current.isDelete
+    );
+  }
 
   return (
     <div className={` w-[80%] py-[16px] m-[0_auto] flex flex-col `}>
@@ -243,13 +299,24 @@ const MemberList: React.FC = () => {
                 <p className={`pb-[2px]`}>{item.name}</p>
                 <p>{item.mail}</p>
               </div>
+              {deleteMemberSucess(item.name) && (
+                <div className={`flex items-center gap-[8px]`}>
+                  <div
+                    className={`rounded-[50%] bg-[#C6CCDD] w-[6px] h-[6px]`}
+                  ></div>
+                  <p>會員已刪除</p>
+                </div>
+              )}
             </div>
 
             {/* 右(刪除、詳情、修改) */}
             <div className={`flex gap-[8px]`}>
               {/* 刪除 */}
               <button
-                className={` flex justify-center items-center bg-[#FFEAE8] rounded-[2px] w-[32px] h-[32px]`}
+                onClick={() => deleteMenber(item)}
+                className={` justify-center items-center bg-[#FFEAE8] rounded-[2px] w-[32px] h-[32px] ${
+                  deleteMemberSucess(item.name) ? "hidden" : "flex"
+                }`}
               >
                 <span
                   className={`icon-[jam--trash-f] text-[#EC4A58] w-[16px] h-[16px] `}
@@ -259,7 +326,9 @@ const MemberList: React.FC = () => {
               {/* 變更密碼 */}
               <button
                 onClick={editPassword}
-                className={` flex justify-center items-center bg-[#F2F3F5] rounded-[2px] w-[32px] h-[32px]`}
+                className={` justify-center items-center bg-[#F2F3F5] rounded-[2px] w-[32px] h-[32px] ${
+                  deleteMemberSucess(item.name) ? "hidden" : "flex"
+                }`}
               >
                 <span
                   className={`icon-[solar--pen-bold-duotone] w-[16px] h-[16px] text-[#4E5969] `}
@@ -291,14 +360,29 @@ const MemberList: React.FC = () => {
 
       {/* 會員詳細內容 */}
       <Modal
-        title="詳細資料"
+        title={deleteMenberRef.current ? "刪除會員" : "詳細資料"}
         visible={visibleMemberProfile}
         onOk={() => setVisibleMemberProfile(false)}
-        onCancel={() => setVisibleMemberProfile(false)}
+        onCancel={memberProfileModalClose}
         autoFocus={false}
         focusLock={true}
         footer={
-          <>
+          deleteMenberRef.current ? (
+            <div>
+              <Button
+                onClick={confirmDeleteMember}
+                className={`!bg-[#F53F3F] !text-[#fff] !text-[14px]`}
+              >
+                確定刪除
+              </Button>
+              <Button
+                onClick={memberProfileModalClose}
+                className={`!bg-[#F1F2F8] !text-[##485781] !text-[14px] ml-[8px]`}
+              >
+                取消
+              </Button>
+            </div>
+          ) : (
             <Button
               onClick={() => {
                 setVisibleMemberProfile(false);
@@ -307,7 +391,7 @@ const MemberList: React.FC = () => {
             >
               ok
             </Button>
-          </>
+          )
         }
       >
         <div
@@ -337,6 +421,14 @@ const MemberList: React.FC = () => {
             content="2024-01-01 12:12:12"
           ></ContentList>
         </div>
+
+        {/* 備註-刪除帳號用 */}
+        {deleteMenberRef.current && (
+          <>
+            <p className={`text-[#485781] mb-[8px] mt-[20px]`}>備註</p>
+            <TextArea placeholder="Please enter ..." />
+          </>
+        )}
       </Modal>
 
       {/* 變更密碼 */}

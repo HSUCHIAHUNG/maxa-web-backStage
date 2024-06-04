@@ -34,8 +34,9 @@ const IndustryCharts: React.FC = () => {
   const [selectedRoute, setSelectedRoute] = useState("501大溪快線");
   // 單一日期狀態(預設值)
   const [singleDate, setSingleDate] = useState<Dayjs | null>(
-    dayjs().subtract(1, "days")
+    dayjs().subtract(1, "week").startOf("weeks")
   );
+
   // 日期範圍狀態(預設值)
   const [rangeDate, setRangeDate] = useState<Dayjs[] | null>(null);
 
@@ -60,43 +61,28 @@ const IndustryCharts: React.FC = () => {
     _date: Dayjs | null,
     type: ReportType
   ) => {
-    // charts資料
     const dataMapping: Record<
       ReportType,
       { xAxisData: string[]; seriesData: { name: string; data: number[] }[] }
     > = {
       週報表: {
-        xAxisData: [
-          "第1班",
-          "第2班",
-          "第3班",
-          "第4班",
-          "第5班",
-          "第6班",
-          "第7班",
-          "第8班",
-          "第9班",
-          "第10班",
-          "第11班",
-          "第12班",
-          "第13班",
-        ],
+        xAxisData: [],
         seriesData: [
           {
             name: "501 大溪快線",
-            data: [3, 26, 38, 35, 27, 15, 21, 6, 9, 18, 21, 9, 15],
+            data: [3, 26, 38, 35, 27, 15, 21],
           },
           {
             name: "502 小烏來線(假日行駛)",
-            data: [4, 18, 25, 40, 30, 20, 30, 10, 8, 15, 17, 10, 20],
+            data: [4, 18, 25, 40, 30, 20, 30],
           },
           {
             name: "503 石門水庫線(假日行駛)",
-            data: [5, 20, 30, 25, 35, 22, 28, 15, 12, 20, 23, 12, 18],
+            data: [5, 20, 30, 25, 35, 22, 28],
           },
           {
             name: "506 東眼山線",
-            data: [6, 22, 35, 30, 25, 20, 32, 14, 10, 18, 25, 14, 22],
+            data: [6, 22, 35, 30, 25, 20, 32],
           },
         ],
       },
@@ -156,6 +142,21 @@ const IndustryCharts: React.FC = () => {
         ],
       },
     };
+
+    if (_date && type === "週報表") {
+      let i = 0;
+      const previousWeekStart = dayjs().subtract(1, 'week').startOf('week');
+      if (previousWeekStart.isSame(_date.startOf('week'), 'day')) {
+        i++
+      }
+      const weekDays = [];
+      for (i+1; i < 7; i++) {
+        console.log(_date);
+        weekDays.push(_date.startOf("week").add(i, "day").format("MM-DD"));
+      }
+      dataMapping.週報表.xAxisData = weekDays;
+    }
+
     return dataMapping[type];
   };
 
@@ -217,7 +218,6 @@ const IndustryCharts: React.FC = () => {
     return () => {}; // 返回一個空的清理函數來避免錯誤
   }, [selectedRoute, position, singleDate, rangeDate, reportType]);
 
-  //
   const handleDateChange = (_: string | string[], date: Dayjs | Dayjs[]) => {
     if (Array.isArray(date)) {
       setRangeDate(date);
@@ -296,10 +296,8 @@ const IndustryCharts: React.FC = () => {
               onChange={(_dateString, date) =>
                 handleDateChange(_dateString, date)
               }
-              value={dayjs().subtract(1, "weeks")}
-              disabledDate={(current) =>
-                current.isAfter(dayjs().subtract(1, "weeks"))
-              }
+              value={singleDate || undefined}
+              disabledDate={(current) => current.isAfter(dayjs())}
               placeholder="請選擇日期"
               className="w-[240px]"
             />
@@ -312,9 +310,7 @@ const IndustryCharts: React.FC = () => {
               onChange={(_dateString, date) =>
                 handleDateChange(_dateString, date)
               }
-              disabledDate={(current) =>
-                current.isAfter(dayjs().subtract(1, "months"))
-              }
+              disabledDate={(current) => current.isAfter(dayjs())}
               className="w-[240px]"
             />
           )}

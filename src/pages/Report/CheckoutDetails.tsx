@@ -29,6 +29,7 @@ const Option = Select.Option;
 type OrderRecord = {
   key: string;
   orderNumber: string;
+  routeName: string;
   paymentNumber: string;
   transactionDate: string;
   transactionAmount: string;
@@ -57,11 +58,13 @@ const CheckoutDetails: React.FC = () => {
   // 篩選條件狀態
   const [filters, setFilters] = useState<{
     orderNumber: string;
+    routeName: string;
     orderState: string[];
     paymentNumber: string;
     dateRange: [dayjs.Dayjs | null, dayjs.Dayjs | null];
   }>({
     orderNumber: "",
+    routeName: '',
     orderState: [],
     paymentNumber: "",
     dateRange: [null, null],
@@ -82,7 +85,11 @@ const CheckoutDetails: React.FC = () => {
       title: "訂單編號",
       dataIndex: "orderNumber",
       fixed: "left" as const,
-      width: "150px",
+      width: "155px",
+    },
+    {
+      title: "路線名稱",
+      dataIndex: "routeName",
     },
     {
       title: "交易名稱",
@@ -142,6 +149,7 @@ const CheckoutDetails: React.FC = () => {
     {
       key: `1`,
       orderNumber: `648858131211213`,
+      routeName: "503 石門水庫線(假日行駛)",
       transactionName: "一般信用卡交易",
       paymentNumber: `542898***0123(649788)`,
       transactionDate: `2024-04-21 09:22:20`,
@@ -153,6 +161,7 @@ const CheckoutDetails: React.FC = () => {
     {
       key: `2`,
       orderNumber: `325251701232312`,
+      routeName: "501 大溪快線",
       transactionName: "一般信用卡交易",
       paymentNumber: `542898***0123(649788)`,
       transactionDate: `2024-04-22 09:22:20`,
@@ -164,6 +173,7 @@ const CheckoutDetails: React.FC = () => {
     {
       key: `3`,
       orderNumber: `207664866757545`,
+      routeName: "501 大溪快線",
       transactionName: "一般信用卡交易",
       paymentNumber: `542898***0123(649788)`,
       transactionDate: `2024-04-23 09:22:20`,
@@ -175,6 +185,7 @@ const CheckoutDetails: React.FC = () => {
     {
       key: `4`,
       orderNumber: `207664866757545`,
+      routeName: "502 小烏來線(假日行駛)",
       transactionName: "一般信用卡交易",
       paymentNumber: `542898***0123(649788)`,
       transactionDate: `2024-04-24 09:22:20`,
@@ -187,6 +198,14 @@ const CheckoutDetails: React.FC = () => {
 
   // 交易狀態篩選資料
   const orderStateOption = ["授權失敗", "已請款", "已撥款", "已授權"];
+
+  // 路線名稱列表
+  const routeNameOption = [
+    "503 石門水庫線(假日行駛)",
+    "501 大溪快線",
+    "501 大溪快線",
+    "502 小烏來線(假日行駛)",
+  ];
 
   // 交易狀態(table欄位樣式)
   const tableOrderStateStyle = (itemName: string) => {
@@ -229,7 +248,11 @@ const CheckoutDetails: React.FC = () => {
   }) {
     const { label, value, closable, onClose } = props;
     return (
-      <Tag closable={closable} onClose={onClose} className={`${filterOrderStateStyle(value)} `}>
+      <Tag
+        closable={closable}
+        onClose={onClose}
+        className={`${filterOrderStateStyle(value)} `}
+      >
         {label}
       </Tag>
     );
@@ -253,7 +276,7 @@ const CheckoutDetails: React.FC = () => {
 
   // 根據篩選條件篩選數據
   const filteredData = rows.filter((item) => {
-    const { orderNumber, orderState, paymentNumber, dateRange } = filters;
+    const { orderNumber, orderState, paymentNumber, dateRange, routeName } = filters;
     const startDate = dateRange[0];
     const endDate = dateRange[1];
 
@@ -274,6 +297,7 @@ const CheckoutDetails: React.FC = () => {
 
     return (
       (!orderNumber || item.orderNumber.includes(orderNumber)) &&
+      (!routeName || item.routeName.includes(routeName)) &&
       (!orderState.length || orderState.includes(item.orderState)) &&
       (!paymentNumber || item.paymentNumber.includes(paymentNumber)) &&
       dateCondition
@@ -285,11 +309,10 @@ const CheckoutDetails: React.FC = () => {
     // 將票價跟備註存進redux
     dispatch(
       orderActions.orderContentStateChenge({
-        title: 'CheckoutDetails',
+        title: "CheckoutDetails",
         paymentState: record.orderState,
         remarks: "",
         orderNumber: record.orderNumber,
-        
       })
     );
     navigate(`/orderContent/${record.orderNumber}`);
@@ -380,7 +403,6 @@ const CheckoutDetails: React.FC = () => {
               <DatePicker.RangePicker
                 placeholder={["開始日期", "結束日期"]}
                 className={`w-[70%]`}
-
                 disabledDate={(current) => current.isAfter(dayjs())}
                 shortcutsPlacementLeft
                 onChange={(dates) => handleTempFilterChange("dateRange", dates)}
@@ -417,6 +439,22 @@ const CheckoutDetails: React.FC = () => {
               renderTag={tagRender}
             >
               {orderStateOption.map((option) => (
+                <Option key={option} value={option} className={``}>
+                  {option}
+                </Option>
+              ))}
+            </Select>
+          </div>
+
+          {/* 路線名稱 */}
+          <div className={``}>
+            <p className={`text-[#4E5969] pb-[9px]`}>路線名稱</p>
+            <Select
+              onChange={(value) => handleTempFilterChange("routeName", value)}
+              placeholder="所有路線"
+              allowClear
+            >
+              {routeNameOption.map((option) => (
                 <Option key={option} value={option} className={``}>
                   {option}
                 </Option>

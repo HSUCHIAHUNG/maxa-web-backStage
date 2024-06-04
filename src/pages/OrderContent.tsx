@@ -165,7 +165,7 @@ const OrderContent: React.FC = () => {
       {orderContent.title === "reserve" && (
         <>
           {/* 已付款等待使用 */}
-          <Alert type="info" content={`已付款等待使用`} />
+          {paymentStateFilter()}
         </>
       )}
 
@@ -293,24 +293,6 @@ const OrderContent: React.FC = () => {
               <li
                 className={`border border-solid border-[#E5E6EB] rounded-[4px] md:rounded-[8px] overflow-hidden`}
               >
-                {/* 購買方式 */}
-                {orderContent.title !== "reserve" && (
-                  <div
-                    className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
-                  >
-                    <div
-                      className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
-                    >
-                      <p className={`w-[112px]`}>購買方式</p>
-                    </div>
-                    <div
-                      className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
-                    >
-                      <p className={``}>線上訂購</p>
-                    </div>
-                  </div>
-                )}
-
                 {/* 付款方式 */}
                 <div
                   className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
@@ -324,6 +306,68 @@ const OrderContent: React.FC = () => {
                     className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
                   >
                     <p className={``}>{paymentMethod === "" && "信用卡"}</p>
+                  </div>
+                </div>
+
+                {/* 信用卡卡號 */}
+                <div
+                  className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
+                >
+                  <div
+                    className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
+                  >
+                    <p className={`w-[112px]`}>信用卡卡號</p>
+                  </div>
+                  <div
+                    className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
+                  >
+                    <p className={``}>510540**2468</p>
+                  </div>
+                </div>
+
+                {/* 授權碼 */}
+                <div
+                  className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
+                >
+                  <div
+                    className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
+                  >
+                    <p className={`w-[112px]`}>授權碼</p>
+                  </div>
+                  <div
+                    className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
+                  >
+                    <p className={``}>666</p>
+                  </div>
+                </div>
+
+                {/* 交易流程 */}
+                <div
+                  className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
+                >
+                  <div
+                    className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
+                  >
+                    <p className={`w-[112px]`}>去程</p>
+                  </div>
+                  <div
+                    className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
+                  >
+                    <Steps
+                      type="dot"
+                      direction="vertical"
+                      current={2}
+                      style={{ maxWidth: 780 }}
+                    >
+                      <Step
+                        title={`付款時間`}
+                        description={`2024-12-12 12:12:12`}
+                      />
+                      <Step
+                        title={`驗證支付`}
+                        description={`2024-12-12 12:12:12`}
+                      />
+                    </Steps>
                   </div>
                 </div>
 
@@ -373,14 +417,14 @@ const OrderContent: React.FC = () => {
               <li
                 className={`border border-solid border-[#E5E6EB] rounded-[4px] md:rounded-[8px] overflow-hidden`}
               >
-                {/* 預定班次 */}
+                {/* 去程班次 */}
                 <div
                   className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
                 >
                   <div
                     className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
                   >
-                    <p className={`w-[112px]`}>預定班次</p>
+                    <p className={`w-[112px]`}>去程班次</p>
                   </div>
                   <div
                     className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
@@ -389,14 +433,14 @@ const OrderContent: React.FC = () => {
                   </div>
                 </div>
 
-                {/* 去程 */}
+                {/* 去程時間 */}
                 <div
                   className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
                 >
                   <div
                     className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
                   >
-                    <p className={`w-[112px]`}>去程</p>
+                    <p className={`w-[112px]`}>去程時間</p>
                   </div>
                   <div
                     className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
@@ -435,38 +479,6 @@ const OrderContent: React.FC = () => {
                   </div>
                 </div>
 
-                {/* 回程 */}
-                {(tabState === "roundTripTicket" && orderContent.title === "reserve") && (
-                  <div
-                    className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
-                  >
-                    <div
-                      className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
-                    >
-                      <p className={`w-[112px]`}>回程</p>
-                    </div>
-                    <div
-                      className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
-                    >
-                      <Steps
-                        type="dot"
-                        direction="vertical"
-                        current={2}
-                        style={{ maxWidth: 780 }}
-                      >
-                        <Step
-                          title={bookingData?.stationData?.endStation}
-                          description={`${bookingData?.stationData?.startDate} ${bookingData.timeData.startTime}`}
-                        />
-                        <Step
-                          title={bookingData?.stationData?.startStation}
-                          description="2024-05-20 11:00"
-                        />
-                      </Steps>
-                    </div>
-                  </div>
-                )}
-
                 {/* 去程座位 */}
                 <div
                   className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
@@ -483,23 +495,73 @@ const OrderContent: React.FC = () => {
                   </div>
                 </div>
 
-                {/* 回程座位 */}
-                {(tabState === "roundTripTicket" && orderContent.title === "reserve") && (
+                {/* 回程班次 */}
+                <div
+                  className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
+                >
                   <div
-                    className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
+                    className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
                   >
-                    <div
-                      className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
-                    >
-                      <p className={`w-[112px] `}>回程座位</p>
-                    </div>
-                    <div
-                      className={`flex justify-center md:py-[9px] md:px-[20px] md:w-full`}
-                    >
-                      <img src={selectSeats} alt="座位" />
-                    </div>
+                    <p className={`w-[112px]`}>回程班次</p>
                   </div>
-                )}
+                  <div
+                    className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
+                  >
+                    <p className={``}>0002</p>
+                  </div>
+                </div>
+
+                {/* 回程時間 */}
+                {tabState === "roundTripTicket" &&
+                  orderContent.title === "reserve" && (
+                    <div
+                      className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
+                    >
+                      <div
+                        className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
+                      >
+                        <p className={`w-[112px]`}>回程時間</p>
+                      </div>
+                      <div
+                        className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
+                      >
+                        <Steps
+                          type="dot"
+                          direction="vertical"
+                          current={2}
+                          style={{ maxWidth: 780 }}
+                        >
+                          <Step
+                            title={bookingData?.stationData?.endStation}
+                            description={`${bookingData?.stationData?.startDate} ${bookingData.timeData.startTime}`}
+                          />
+                          <Step
+                            title={bookingData?.stationData?.startStation}
+                            description="2024-05-20 11:00"
+                          />
+                        </Steps>
+                      </div>
+                    </div>
+                  )}
+
+                {/* 回程座位 */}
+                {tabState === "roundTripTicket" &&
+                  orderContent.title === "reserve" && (
+                    <div
+                      className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
+                    >
+                      <div
+                        className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
+                      >
+                        <p className={`w-[112px] `}>回程座位</p>
+                      </div>
+                      <div
+                        className={`flex justify-center md:py-[9px] md:px-[20px] md:w-full`}
+                      >
+                        <img src={selectSeats} alt="座位" />
+                      </div>
+                    </div>
+                  )}
               </li>
             </ul>
 

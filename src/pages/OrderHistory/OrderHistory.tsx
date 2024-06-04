@@ -72,6 +72,9 @@ const OrderHistory: React.FC = () => {
     orderStatus: [] as string[],
   });
 
+  // 購買方式狀態
+  const [purchaseType, setPurchaseType] = useState("online"); // 'online' or 'onsite'
+
   // table columns
   const columns = [
     {
@@ -79,16 +82,20 @@ const OrderHistory: React.FC = () => {
       dataIndex: "orderNumber",
       fixed: "left" as const,
     },
-    {
-      title: "訂購人",
-      dataIndex: "customer",
-      render: (_col: unknown, record: OrderRecord) => (
-        <div className={`flex justify-start items-center gap-[8px]`}>
-          {customerImg(record.customer)}
-          <p>{record.customer}</p>
-        </div>
-      ),
-    },
+    ...(purchaseType === "online"
+      ? []
+      : [
+          {
+            title: "訂購人",
+            dataIndex: "customer",
+            render: (_col: unknown, record: OrderRecord) => (
+              <div className={`flex justify-start items-center gap-[8px]`}>
+                {customerImg(record.customer)}
+                <p>{record.customer}</p>
+              </div>
+            ),
+          },
+        ]),
     {
       title: "路線(商品)",
       dataIndex: "routeProduct",
@@ -193,18 +200,16 @@ const OrderHistory: React.FC = () => {
       case "已完成活動":
         return "text-[#0FC6C2] bg-[#E8FFFB] px-[8px] py-[2px] text-[14px]";
       default:
-        return "text-[#808EB0] bg-[#F2F3F5] px-[8px] py-[2px] text-[14px]";
+        return "text-[#808EB0] bg-[#F2F3F5] px-[8px] py-[2px]";
     }
   };
 
-  // 訂購人(照片)
   const customerImg = (customer: string) => {
     switch (customer) {
       case "現場購買":
         return <img src={serviceImg} alt="現場購買" />;
       case "無登入購買":
         return <img src={guestImg} alt="無登入購買" />;
-
       default:
         return <img src={defaultImg} alt="預設圖" />;
     }
@@ -245,6 +250,12 @@ const OrderHistory: React.FC = () => {
     );
   }
 
+  // DatePicker清空時的處理函數
+  const handleDatePickerClear = () => {
+    // 清空日期篩選條件
+    handleImmediateFilterChange("orderTime", [null, null]);
+  };
+
   // 即時篩選變更處理函數
   const handleImmediateFilterChange = (key: string, value: unknown) => {
     setOrderHistoryFilters((prevFilters) => ({
@@ -282,7 +293,10 @@ const OrderHistory: React.FC = () => {
       (!startDate ||
         !endDate ||
         (dayjs(item.orderTime).isAfter(startDate) &&
-          dayjs(item.orderTime).isBefore(endDate)))
+          dayjs(item.orderTime).isBefore(endDate))) &&
+      (purchaseType === "online"
+        ? item.customer !== "現場購買"
+        : item.customer === "現場購買")
     );
   }).map((item) => ({
     ...item,
@@ -310,7 +324,29 @@ const OrderHistory: React.FC = () => {
       <div className={`w-[80%] py-[16px] m-[0_auto] `}>
         {/* 標題、篩選 */}
         <div className={`flex justify-between items-center w-full pb-[16px]`}>
-          <p className={`text-[20px] text-[#1D2129]`}>訂單記錄</p>
+          <div className={`flex gap-[8px]`}>
+            <p className={`text-[20px] text-[#1D2129]`}>訂單記錄</p>
+
+            {/* 線上購買、現場購買狀態切換 */}
+            <div className={`text-[#485781] flex items-center gap-[8px]`}>
+              <button
+                onClick={() => setPurchaseType("online")}
+                className={purchaseType === "online" ? "text-[#3A57E8]" : ""}
+              >
+                線上購買
+              </button>
+              <div
+                className={` h-[12px] border-r-[2px] border-solid border-[#E4E6EF]`}
+              ></div>
+              <button
+                onClick={() => setPurchaseType("onsite")}
+                className={purchaseType === "onsite" ? "text-[#3A57E8]" : ""}
+              >
+                現場購買
+              </button>
+            </div>
+          </div>
+
           <div className={`flex gap-[8px]`}>
             {/* 訂單編號篩選 */}
             <InputSearch
@@ -349,6 +385,8 @@ const OrderHistory: React.FC = () => {
                   value: () => [dayjs(), dayjs().subtract(6, "month")],
                 },
               ]}
+              // 添加onClear屬性
+              onClear={handleDatePickerClear}
             />
 
             {/* 開啟隱藏選單按鈕-訂單狀態、業者、商品篩選按鈕 */}
@@ -366,7 +404,7 @@ const OrderHistory: React.FC = () => {
             </Button>
           </div>
         </div>
-        
+
         {/* 表格內容 */}
         <Table
           columns={columns}
