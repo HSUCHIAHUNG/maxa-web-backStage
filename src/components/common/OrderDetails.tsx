@@ -6,10 +6,11 @@ import { RootState } from "../../stores/index.ts";
 interface OrderDetailsProps {
   title?: boolean;
   buttonState?: string;
+  modal?: () => void
   className?: string;
 }
 
-const OrderDetails: React.FC<OrderDetailsProps> = ({ className }) => {
+const OrderDetails: React.FC<OrderDetailsProps> = ({ className, modal }) => {
   // 去程已選座位數
   const orderContent = useSelector(
     (state: RootState) => state.order.orderContent
@@ -53,6 +54,15 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ className }) => {
             className={`mt-[20px] px-[16px] py-[5px] w-full text-[#4E5969] bg-[#F2F3F5] `}
           >
             申請退款
+          </button>
+        );
+      case "refund":
+        return (
+          <button
+            onClick={modal}
+            className={`mt-[20px] px-[16px] py-[5px] w-full text-[#fff] bg-[#3A57E8] `}
+          >
+            退款
           </button>
         );
       case "pendingPayment":
@@ -108,7 +118,9 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ className }) => {
         {orderContent.title !== "reserve" && (
           <>
             <div className={`pb-[20px] text-[20px]`}>
-              { orderContent.title === 'CheckoutDetails' ? '501 大溪快線' : orderContent.routeName}
+              {orderContent.title === "CheckoutDetails"
+                ? "501 大溪快線"
+                : orderContent.routeName}
             </div>
             <div className={`flex justify-between`}>
               <p>成人票*2</p>

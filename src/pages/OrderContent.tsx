@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../stores/index.ts";
 // ui kit
-import { Alert, Steps } from "@arco-design/web-react";
+import { Alert, Modal, Steps, Form, InputNumber } from "@arco-design/web-react";
 import Step from "@arco-design/web-react/es/Steps/step";
 // 匯入組件
 import OrderDetails from "../components/common/OrderDetails";
@@ -52,8 +52,15 @@ const OrderContent: React.FC = () => {
   // redux方法呼叫
   // const dispatch = useAppDispatch();
 
+  // ui kit
+  const FormItem = Form.Item;
+  const [form] = Form.useForm();
+
   // 目前路由(動態參數)
   const { id } = useParams<{ id: string }>();
+
+  // 退款modal狀態
+  const [refundVisible, setRefundVisible] = React.useState(false);
 
   // 訂單資料
   const bookingData = useSelector(
@@ -191,6 +198,7 @@ const OrderContent: React.FC = () => {
           <OrderDetails
             buttonState={paymentState}
             title={false}
+            modal={() => setRefundVisible(true)}
             className={`border-b rounded-none md:border md:border-solid md:border-[#E5E6EB] md:rounded-[8px] `}
           ></OrderDetails>
           <div
@@ -576,6 +584,61 @@ const OrderContent: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* 退款modal */}
+      <Modal
+        title="退款"
+        visible={refundVisible}
+        onOk={() => setRefundVisible(false)}
+        onCancel={() => setRefundVisible(false)}
+        okText="送出"
+        autoFocus={false}
+        focusLock={true}
+        className={`w-fit`}
+      >
+        <div className={`text-[#485781]`}>
+          <Form
+            form={form}
+            autoComplete="on"
+            requiredSymbol={{ position: "start" }}
+            layout="vertical"
+            // initialValues={{
+            //   adult: 0,
+            //   child: 0,
+            //   old: 0,
+            //   payment: "現金付款",
+            // }}
+            className={`flex flex-row items-center`}
+          >
+            {/* 訂單金額 */}
+            <div className={`w-[120px]`}>
+              <p>訂單金額</p>
+              <p className={`text-[24px] pt-[12px]`}>1,100</p>
+            </div>
+
+            {/* 減號 */}
+            <div className={`bg-[#F1F2F8] w-[24px] h-[24px] mx-[12px] `}>
+              <span className="icon-[pepicons-pop--minus] w-full h-full "></span>
+            </div>
+
+            <FormItem
+              label="成人票數"
+              field="adult"
+              required
+              className={`m-0 md:w-[180px]`}
+            >
+              <InputNumber
+                mode="button"
+                defaultValue={0}
+                min={0}
+                max={10}
+                className={`!w-full md:w-[200px]`}
+                style={{ width: 160, margin: "10px 24px 10px 0" }}
+              />
+            </FormItem>
+          </Form>
+        </div>
+      </Modal>
     </div>
   );
 };
