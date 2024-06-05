@@ -54,19 +54,22 @@ const RoutesCharts: React.FC = () => {
       { xAxisData: string[]; seriesData: number[] }
     > = {
       日報表: {
-        xAxisData: Array.from({ length: 24 }, (_, i) => `${i}:00`),
+        xAxisData: Array.from(
+          { length: 24 },
+          (_, i) => `${i < 10 ? "0"+i : i}:15`
+        ),
         seriesData: Array.from({ length: 24 }, () =>
           Math.floor(Math.random() * 100)
         ),
       },
       月報表: {
-        xAxisData: Array.from({ length: 24 }, (_, i) => `${i}:00`),
+        xAxisData: Array.from({ length: 24 }, (_, i) => `${i < 10 ? "0"+i : i}:00`),
         seriesData: Array.from({ length: 24 }, () =>
           Math.floor(Math.random() * 100)
         ),
       },
       年報表: {
-        xAxisData: Array.from({ length: 24 }, (_, i) => `${i}:00`),
+        xAxisData: Array.from({ length: 24 }, (_, i) => `${i < 10 ? "0"+i : i}:00`),
         seriesData: Array.from({ length: 24 }, () =>
           Math.floor(Math.random() * 100)
         ),
@@ -138,7 +141,9 @@ const RoutesCharts: React.FC = () => {
       <div className="flex justify-between items-center w-full pb-[16px]">
         {/* 左-日、月、年報表 */}
         <div className="flex gap-[8px]">
-          <p className="text-[20px] text-[#1D2129]">路線時段預約售票數量統計(發車時間)</p>
+          <p className="text-[20px] text-[#1D2129]">
+            路線時段預約售票數量統計(發車時間)
+          </p>
           <ul className="flex items-center text-[#4E5969]">
             <li>
               <button

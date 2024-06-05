@@ -348,7 +348,7 @@ const OrderContent: React.FC = () => {
                   <div
                     className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
                   >
-                    <p className={`w-[112px]`}>去程</p>
+                    <p className={`w-[112px]`}>交易流程</p>
                   </div>
                   <div
                     className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}

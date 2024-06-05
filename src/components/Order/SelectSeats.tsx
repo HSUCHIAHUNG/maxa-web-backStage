@@ -13,7 +13,7 @@ import {
 } from "@arco-design/web-react";
 import SetSeat from "./SetSeat";
 // 匯入型別
-import { PassengerTicketKey } from '../../stores/type/OrderType'
+import { PassengerTicketKey } from "../../stores/type/OrderType";
 
 // 付款方式選項
 const paymentOptions = [
@@ -103,7 +103,8 @@ const SelectSeats: React.FC = () => {
 
     if (
       tabState === "roundTripTicket" &&
-      selectedRoundTripMethod === "手動劃位"
+      (selectedOneWayMethod === "手動劃位" ||
+        selectedRoundTripMethod === "手動劃位")
     ) {
       if (
         seatsData.oneWayTicket.length + seatsData.roundTripTicket.length !==
@@ -168,7 +169,7 @@ const SelectSeats: React.FC = () => {
           adult: 0,
           child: 0,
           old: 0,
-          payment: '現金付款'
+          payment: "現金付款",
         }}
         onSubmit={submit}
       >
