@@ -144,7 +144,7 @@ const RoutesCharts: React.FC = () => {
       <div className="flex justify-between items-center w-full pb-[16px]">
         {/* 左-日、月、年報表 */}
         <div className="flex gap-[8px]">
-          <p className="text-[20px] text-[#1D2129]">
+          <p className="text-[20px] text-[#1D2129] w-[240px]">
             路線時段預約售票數量統計(發車時間)
           </p>
           <ul className="flex items-center text-[#4E5969]">

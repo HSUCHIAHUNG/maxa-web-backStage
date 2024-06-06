@@ -2406,19 +2406,19 @@
     "banner": [
       {
         "id": "1",
-        "url": "https://travel.tycg.gov.tw/content/images/attractions/89733/1024x768_attractions-image-ennx_jbexuoyp2-xvpdohw.jpg"
+        "url": "https://tourism.chcg.gov.tw/upload/27/2023051214214634495.jpg"
       },
       {
         "id": "2",
-        "url": "https://travel.tycg.gov.tw/content/images/attractions/3942/1024x768_Filedata635487368006246289.jpg"
+        "url": "https://www.trimt-nsa.gov.tw/_api/Image/10190/?r=1700797709694"
       },
       {
         "id": "3",
-        "url": "https://travel.tycg.gov.tw/content/images/attractions/10815/1024x768_files635866515657363593.jpg"
+        "url": "https://www.twtainan.net/content/images/attractions/17552/1024x768_Filedata635593488485210998.jpg"
       },
       {
         "id": "4",
-        "url": "https://travel.tycg.gov.tw/content/images/attractions/99749/1024x768_attractions-image-xkdbsvsywue6l6ewm3ajxq.jpg"
+        "url": "https://tourism.chcg.gov.tw/upload/27/2016112114420510483.jpg"
       }
     ],
     "stations": [
@@ -2433,27 +2433,23 @@
     "tags": ["部分無障礙班車", "預約車位"],
     "content": [
       {
-        "id": "11",
+        "id": "1",
         "mainTitle": {
-          "title": "商品說明",
-          "content": "台灣好行大溪快線從高鐵桃園站天天發車，行經快速道路直達大溪、慈湖，沿線好吃好玩又好逛，像是大溪老街除了有全臺聞名豆干美食，木藝文化及百年建築歷史也是本區必看重點，每年農曆6月24日關公生日更是在地慶典盛事，以及慈湖是著名兩蔣文化保存地，也是相當適合優閒漫步景區，除了前慈湖、後慈湖優美的風景外，鄰近還有許多特色休閒農場。此外這條路線沿線還有打鐵寮古道、原住民文化會館、大江購物中心，高鐵桃園站周邊則有Xpark八景島水族館、Outlet、橫山書法藝術館等，歡迎搭乘此路線，帶您快速前往，體驗桃園多元之美。"
+          "title": "洽詢電話",
+          "content": ""
         },
         "subTitle": [
           {
-            "id": "11",
-            "title": "",
+            "id": "1",
+            "title": "國光客運客服中心：0800-010-138",
             "content": [{ "id": "1", "text": "" }],
             "link": ""
-          }
-        ],
-
-        "route": [
+          },
           {
-            "id": "11",
-            "images": "https://travel.tycg.gov.tw/content/images/attractions/89733/1024x768_attractions-image-ennx_jbexuoyp2-xvpdohw.jpg",
-            "customImages": "",
-            "title": "大溪老街｜下車站點：大溪站",
-            "content": [{ "id": "2", "text": "" }]
+            "id": "2",
+            "title": "國光客運申訴電話：(02)2688-4366",
+            "content": [{ "id": "1", "text": "" }],
+            "link": ""
           }
         ]
       }
@@ -2466,19 +2462,19 @@
     "banner": [
       {
         "id": "1",
-        "url": "https://travel.tycg.gov.tw/content/images/attractions/89733/1024x768_attractions-image-ennx_jbexuoyp2-xvpdohw.jpg"
+        "url": "https://tourism.chcg.gov.tw/upload/27/2021090109200764781.jpg"
       },
       {
         "id": "2",
-        "url": "https://travel.tycg.gov.tw/content/images/attractions/3942/1024x768_Filedata635487368006246289.jpg"
+        "url": "https://tourism.chcg.gov.tw/upload/27/2024041113494326327.jpg"
       },
       {
         "id": "3",
-        "url": "https://travel.tycg.gov.tw/content/images/attractions/10815/1024x768_files635866515657363593.jpg"
+        "url": "https://viatravel.tw/wp-content/uploads/2019/10/2291_20161156.jpg"
       },
       {
         "id": "4",
-        "url": "https://travel.tycg.gov.tw/content/images/attractions/99749/1024x768_attractions-image-xkdbsvsywue6l6ewm3ajxq.jpg"
+        "url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgRYzgNOKvZ43M3L5QCJHUK2uiJMZkOHtEcXkLDdcohwWqLfgRE5-B6On1gdN6wqW_BkdjXftR-IXd7NBAWCl3feLZjg0PRwk9_p4pCGnZhCodKnh6Gyh3HtAnmlR132a5mblEyuqMG0hM/s1600/%25E5%2593%25A1%25E6%259E%2597%25E8%2588%2588%25E8%25B3%25A2%25E6%259B%25B8%25E9%2599%25A2_6033.jpg"
       }
     ],
     "stations": [
@@ -2501,14 +2497,14 @@
     "tags": ["部分無障礙班車", "預約車位"],
     "content": [
       {
-        "id": "12",
+        "id": "1",
         "mainTitle": {
           "title": "商品說明",
-          "content": "台灣好行大溪快線從高鐵桃園站天天發車，行經快速道路直達大溪、慈湖，沿線好吃好玩又好逛，像是大溪老街除了有全臺聞名豆干美食，木藝文化及百年建築歷史也是本區必看重點，每年農曆6月24日關公生日更是在地慶典盛事，以及慈湖是著名兩蔣文化保存地，也是相當適合優閒漫步景區，除了前慈湖、後慈湖優美的風景外，鄰近還有許多特色休閒農場。此外這條路線沿線還有打鐵寮古道、原住民文化會館、大江購物中心，高鐵桃園站周邊則有Xpark八景島水族館、Outlet、橫山書法藝術館等，歡迎搭乘此路線，帶您快速前往，體驗桃園多元之美。"
+          "content": ""
         },
         "subTitle": [
           {
-            "id": "12",
+            "id": "1",
             "title": "",
             "content": [{ "id": "1", "text": "" }],
             "link": ""
@@ -2517,11 +2513,77 @@
 
         "route": [
           {
-            "id": "12",
-            "images": "https://travel.tycg.gov.tw/content/images/attractions/89733/1024x768_attractions-image-ennx_jbexuoyp2-xvpdohw.jpg",
+            "id": "1",
+            "images": "https://tourism.chcg.gov.tw/upload/27/2021090109200764781.jpg",
             "customImages": "",
-            "title": "大溪老街｜下車站點：大溪站",
-            "content": [{ "id": "2", "text": "" }]
+            "title": "琉璃仙境｜下車站點：員林轉運站",
+            "content": [
+              {
+                "id": "1",
+                "text": "琉璃仙境位於彰化員林，係以婚紗攝影基地為主題的觀光休閒農場，園區內提供20幾個3D彩繪牆提供旅客拍攝，休閒外拍或專業婚紗攝影都非常適合，此外還有證婚亭、紫風車、有機農業教育推廣、大型白沙攤、戶外教學寓教於樂、假日琉璃市集、街頭藝人表演、不定期的動物互動演出、假日親子互動旅遊、團體社務會議交接活動及用餐，更經常舉辦精彩多樣的主題活動(如童玩水樂園、中秋晚會、跨年晚會、耶誕嘉年華等)。"
+              }
+            ]
+          },
+          {
+            "id": "2",
+            "images": "https://tourism.chcg.gov.tw/upload/27/2024041113494326327.jpg",
+            "customImages": "",
+            "title": "警察故事館｜下車站點：員林轉運站",
+            "content": [
+              {
+                "id": "1",
+                "text": "原為日本時期員林郡役場之官員宿舍，屬判任官乙種二戶建官舍，現在由彰化縣警察局保管使用。目前管內保留完整日式建築樣式，並陳列各樣的文史資料以及警察文物，包括警用帽子、衣服、手搖電話、消防器、警報器、以及各時期老照片，保存珍貴史料，也讓許多人得以看見台灣警察的發展歷史軌跡。(如童玩水樂園、中秋晚會、跨年晚會、耶誕嘉年華等)。"
+              }
+            ]
+          },
+          {
+            "id": "3",
+            "images": "https://viatravel.tw/wp-content/uploads/2019/10/2291_20161156.jpg",
+            "customImages": "",
+            "title": "蜀葵花海｜下車站點：員林轉運站",
+            "content": [
+              {
+                "id": "1",
+                "text": "彩色繽紛、熱情綻放的蜀葵花海，每年春天都會掀起賞花熱潮，探訪「花中巨人」蜀葵花，彷彿進入童話世界般令人嘆為觀止!蜀葵花期視氣候、花況而定，彰化共有兩處賞蜀葵花勝地「田中窯創藝園區」與「員林蜀葵花季」。(如童玩水樂園、中秋晚會、跨年晚會、耶誕嘉年華等)。"
+              }
+            ]
+          },
+          {
+            "id": "4",
+            "images": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgRYzgNOKvZ43M3L5QCJHUK2uiJMZkOHtEcXkLDdcohwWqLfgRE5-B6On1gdN6wqW_BkdjXftR-IXd7NBAWCl3feLZjg0PRwk9_p4pCGnZhCodKnh6Gyh3HtAnmlR132a5mblEyuqMG0hM/s1600/%25E5%2593%25A1%25E6%259E%2597%25E8%2588%2588%25E8%25B3%25A2%25E6%259B%25B8%25E9%2599%25A2_6033.jpg",
+            "customImages": "",
+            "title": "員林興賢書院｜下車站點：員林轉運站",
+            "content": [
+              {
+                "id": "1",
+                "text": "興賢書院縣定古蹟原名「文昌帝君廟」，主祀文昌帝君，迄今已近兩百年歷史。「文昌帝君廟」創建於清嘉慶12年〈西元1807年〉，為當地昔日之學堂，初創時期，內設有社學興賢社，供員林地區諸士子結社會友，以為敬業樂群的地方。雙進式建築格局，樸實的教學及居住空間。(如童玩水樂園、中秋晚會、跨年晚會、耶誕嘉年華等)。"
+              },
+              {
+                "id": "2",
+                "text": "興賢書院採雙進式的建築格局，空間性質以教學及居住為主，建築構造包括正殿、後堂、廂房、花廳和敬聖亭等。正殿構架型式簡潔樸實，是屬於較少見的雙連山牆式屋架。書院中重要的文物還有御路石，御路石又稱為「龍階」，龍階的雕工精美，以花崗岩雕成雲龍圖案，樸拙中透著一股靈性，造型古樸卻又不失細膩。(如童玩水樂園、中秋晚會、跨年晚會、耶誕嘉年華等)。"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "2",
+        "mainTitle": {
+          "title": "洽詢電話",
+          "content": ""
+        },
+        "subTitle": [
+          {
+            "id": "1",
+            "title": "國光客運客服中心：0800-010-138",
+            "content": [{ "id": "1", "text": "" }],
+            "link": ""
+          },
+          {
+            "id": "2",
+            "title": "國光客運申訴電話：(02)2688-4366",
+            "content": [{ "id": "2", "text": "" }],
+            "link": ""
           }
         ]
       }
@@ -2534,19 +2596,19 @@
     "banner": [
       {
         "id": "1",
-        "url": "https://travel.tycg.gov.tw/content/images/attractions/89733/1024x768_attractions-image-ennx_jbexuoyp2-xvpdohw.jpg"
+        "url": "https://tourism.chcg.gov.tw/upload/27/2020020615493179630.jpg"
       },
       {
         "id": "2",
-        "url": "https://travel.tycg.gov.tw/content/images/attractions/3942/1024x768_Filedata635487368006246289.jpg"
+        "url": "https://tourism.chcg.gov.tw/upload/27/2017093011325547320.jpg"
       },
       {
         "id": "3",
-        "url": "https://travel.tycg.gov.tw/content/images/attractions/10815/1024x768_files635866515657363593.jpg"
+        "url": "https://tourism.chcg.gov.tw/upload/27/2023032915573564030.jpg"
       },
       {
         "id": "4",
-        "url": "https://travel.tycg.gov.tw/content/images/attractions/99749/1024x768_attractions-image-xkdbsvsywue6l6ewm3ajxq.jpg"
+        "url": "https://live.staticflickr.com/65535/53594105312_5765f4f0d4_b.jpg"
       }
     ],
     "stations": [
@@ -2573,14 +2635,14 @@
     "tags": ["部分無障礙班車", "預約車位"],
     "content": [
       {
-        "id": "13",
+        "id": "1",
         "mainTitle": {
           "title": "商品說明",
-          "content": "台灣好行大溪快線從高鐵桃園站天天發車，行經快速道路直達大溪、慈湖，沿線好吃好玩又好逛，像是大溪老街除了有全臺聞名豆干美食，木藝文化及百年建築歷史也是本區必看重點，每年農曆6月24日關公生日更是在地慶典盛事，以及慈湖是著名兩蔣文化保存地，也是相當適合優閒漫步景區，除了前慈湖、後慈湖優美的風景外，鄰近還有許多特色休閒農場。此外這條路線沿線還有打鐵寮古道、原住民文化會館、大江購物中心，高鐵桃園站周邊則有Xpark八景島水族館、Outlet、橫山書法藝術館等，歡迎搭乘此路線，帶您快速前往，體驗桃園多元之美。"
+          "content": ""
         },
         "subTitle": [
           {
-            "id": "13",
+            "id": "1",
             "title": "",
             "content": [{ "id": "1", "text": "" }],
             "link": ""
@@ -2589,11 +2651,73 @@
 
         "route": [
           {
-            "id": "13",
-            "images": "https://travel.tycg.gov.tw/content/images/attractions/89733/1024x768_attractions-image-ennx_jbexuoyp2-xvpdohw.jpg",
+            "id": "1",
+            "images": "https://tourism.chcg.gov.tw/upload/27/2020020615493179630.jpg",
             "customImages": "",
-            "title": "大溪老街｜下車站點：大溪站",
-            "content": [{ "id": "2", "text": "" }]
+            "title": "成美文化園｜下車站點：永靖",
+            "content": [
+              {
+                "id": "2",
+                "text": "彰化縣永靖地區兼具歷史人文與觀光休憩的精緻庭園空間。園內融合自然與人文景緻，擁有百年古厝「成美公堂」與匠心獨具的「和園」。古厝訴說著魏氏先人篳路藍縷，渡臺開家的艱辛歷程，更傳承著家族百年來傳揚孔孟、成人之美的文化記憶，是臺灣閩客文化結合的重要場域；園林則承襲海內歷代名園技法，揉合園林工藝精華，並藏有諸多老樹植栽，為臺灣庭園工藝樹立新典範。成美文化園秉承先祖志業，以「成人之美」作為核心精神，冀望在社會與企業之間搭建起雙邊共好之橋梁，成為業內典範。"
+              }
+            ]
+          },
+          {
+            "id": "2",
+            "images": "https://tourism.chcg.gov.tw/upload/27/2017093011325547320.jpg",
+            "customImages": "",
+            "title": "永靖公學校宿舍｜下車站點：永靖",
+            "content": [
+              {
+                "id": "2",
+                "text": "永靖公學校宿舍保存台灣日治時期公學校宿舍的歷史性景觀，其日式建築樣式保留完整。此宿舍為二戶合併之『判任官』建築形式，周圍環境良好，建築物尚可使用。目前由彰化縣文化局委外經營為永靖大東屋，其餐點以日式料理為主，在宿舍裡喝著咖啡與下午茶令人回味快樂的童年，而永靖鄉的古早味─「永靖枝仔冰」，在永靖公學校庭園咖啡，也可以買的到喔!"
+              }
+            ]
+          },
+          {
+            "id": "3",
+            "images": "https://tourism.chcg.gov.tw/upload/27/2023032915573564030.jpg",
+            "customImages": "",
+            "title": "田尾公路花園｜下車站點：田尾國小",
+            "content": [
+              {
+                "id": "2",
+                "text": "當稻田轉換成一畝畝花田，就來到素有花卉故鄉美譽的田尾鄉，這裡是全台灣最大的花卉生產地區，也是最大的植栽販售中心，以園藝產業為主題，形成了世界各地都無法複製的公路花園，聚集多達140多家的園藝行、景觀庭園等，交響譜出最廣袤多采、四季繽紛的超級花博會。尤其，田尾花農和業者們各各功力深厚，是無數流行園藝的操盤手，無論是想「捻花惹草」，尋找最潮的花樣，還是想「走馬看花」，賞花、買植栽、休憩觀光，抑或要深入園藝這門學問，這座跨村落的花鄉王國都讓人有無窮的探索樂趣。"
+              }
+            ]
+          },
+          {
+            "id": "4",
+            "images": "https://live.staticflickr.com/65535/53594105312_5765f4f0d4_b.jpg",
+            "customImages": "",
+            "title": "田尾怡心園｜下車站點：田尾國小",
+            "content": [
+              {
+                "id": "2",
+                "text": "位於田尾公路花園區域內的共融式公園-田尾怡心園擁有豐富的設施，包括兼具活潑性及記憶點的怡心園入口意象，大、小朋友都喜歡的磨石子溜滑梯、綜合球體攀爬架、彈跳床、旋轉杯、攀爬挑戰繩組、幼兒戲沙場、盪秋千等，還有大人、長輩喜歡的體健設施區、休憩座椅、遮陽棚與環區步道等服務設施，同時也加強植栽綠化和照明設備，提升整體的美觀與安全性，讓大家能夠在綠意盎然的環境中，享受休憩時光，並在夜間安全地使用設施，建構一處全齡、多元及友善的特色遊戲場域。"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "2",
+        "mainTitle": {
+          "title": "洽詢電話",
+          "content": ""
+        },
+        "subTitle": [
+          {
+            "id": "1",
+            "title": "國光客運客服中心：0800-010-138",
+            "content": [{ "id": "1", "text": "" }],
+            "link": ""
+          },
+          {
+            "id": "2",
+            "title": "國光客運申訴電話：(02)2688-4366",
+            "content": [{ "id": "1", "text": "" }],
+            "link": ""
           }
         ]
       }
@@ -2606,19 +2730,19 @@
     "banner": [
       {
         "id": "1",
-        "url": "https://travel.tycg.gov.tw/content/images/attractions/89733/1024x768_attractions-image-ennx_jbexuoyp2-xvpdohw.jpg"
+        "url": "https://photo.travelking.com.tw/scenery/A9389601-9C76-4CB3-84D4-30DE901D8087_e.jpg"
       },
       {
         "id": "2",
-        "url": "https://travel.tycg.gov.tw/content/images/attractions/3942/1024x768_Filedata635487368006246289.jpg"
+        "url": "https://pgw.udn.com.tw/gw/photo.php?u=https://uc.udn.com.tw/photo/2023/12/06/realtime/27943563.jpg&x=0&y=0&sw=0&sh=0&sl=W&fw=800&exp=3600"
       },
       {
         "id": "3",
-        "url": "https://travel.tycg.gov.tw/content/images/attractions/10815/1024x768_files635866515657363593.jpg"
+        "url": "https://g.udn.com.tw/upfiles/B_AM/amyhsiuying/PSN_PHOTO/113/f_20870113_1.jpg"
       },
       {
         "id": "4",
-        "url": "https://travel.tycg.gov.tw/content/images/attractions/99749/1024x768_attractions-image-xkdbsvsywue6l6ewm3ajxq.jpg"
+        "url": "https://tenjo.tw/wp-content/uploads/20210809132243_62.jpg"
       }
     ],
     "stations": [
@@ -2633,10 +2757,10 @@
     "tags": ["部分無障礙班車", "預約車位"],
     "content": [
       {
-        "id": "14",
+        "id": "1",
         "mainTitle": {
           "title": "商品說明",
-          "content": "台灣好行大溪快線從高鐵桃園站天天發車，行經快速道路直達大溪、慈湖，沿線好吃好玩又好逛，像是大溪老街除了有全臺聞名豆干美食，木藝文化及百年建築歷史也是本區必看重點，每年農曆6月24日關公生日更是在地慶典盛事，以及慈湖是著名兩蔣文化保存地，也是相當適合優閒漫步景區，除了前慈湖、後慈湖優美的風景外，鄰近還有許多特色休閒農場。此外這條路線沿線還有打鐵寮古道、原住民文化會館、大江購物中心，高鐵桃園站周邊則有Xpark八景島水族館、Outlet、橫山書法藝術館等，歡迎搭乘此路線，帶您快速前往，體驗桃園多元之美。"
+          "content": ""
         },
         "subTitle": [
           {
@@ -2649,11 +2773,73 @@
 
         "route": [
           {
-            "id": "14",
-            "images": "https://travel.tycg.gov.tw/content/images/attractions/89733/1024x768_attractions-image-ennx_jbexuoyp2-xvpdohw.jpg",
+            "id": "1",
+            "images": "https://photo.travelking.com.tw/scenery/A9389601-9C76-4CB3-84D4-30DE901D8087_e.jpg",
             "customImages": "",
-            "title": "大溪老街｜下車站點：大溪站",
-            "content": [{ "id": "2", "text": "" }]
+            "title": "日月潭國家風景區｜下車站點：日月潭",
+            "content": [
+              {
+                "id": "1",
+                "text": "全台最大淡水湖泊「日月潭」位於南投魚池鄉，潭面碧綠加上群山圍繞，像一幅壯麗的山水畫。而日月潭環潭自行車道，也被CNN譽為「全球前十大最美的自行車路線」，沿途景色美得令人屏息。在日月潭也能搭乘環湖遊艇，將風光一覽盡收，愜意地往返潭邊三大碼頭，微風徐徐，聽船長講述日月潭的歷史與文化，彷彿進入世外桃源。"
+              }
+            ]
+          },
+          {
+            "id": "2",
+            "images": "https://pgw.udn.com.tw/gw/photo.php?u=https://uc.udn.com.tw/photo/2023/12/06/realtime/27943563.jpg&x=0&y=0&sw=0&sh=0&sl=W&fw=800&exp=3600",
+            "customImages": "",
+            "title": "拉魯島｜下車站點：日月潭",
+            "content": [
+              {
+                "id": "1",
+                "text": "「拉魯島」是位於南投日月潭中央的小山，是邵族人的祖靈島。「拉魯」是邵族語稱此山為「Lalu」，是心中聖山的意思。「拉魯島」就像汪洋中的孤島，也宛如漂浮在天空中的神祕小島，搭配著日月潭優美的藍綠色湖水，絕美的景色讓人屏氣凝神，看得如癡如醉。"
+              }
+            ]
+          },
+          {
+            "id": "3",
+            "images": "https://g.udn.com.tw/upfiles/B_AM/amyhsiuying/PSN_PHOTO/113/f_20870113_1.jpg",
+            "customImages": "",
+            "title": "水社親水步道｜下車站點：日月潭",
+            "content": [
+              {
+                "id": "1",
+                "text": "位於南投日月潭畔的「水社親水步道」，是從水社碼頭沿日月潭至文武廟間的湖岸步道，全長達3.4公里。步道口在水社碼頭旁，步道全程都是無障礙坡道，也相當的平緩，是適合闔家大小同遊的景點。"
+              }
+            ]
+          },
+          {
+            "id": "4",
+            "images": "https://tenjo.tw/wp-content/uploads/20210809132243_62.jpg",
+            "customImages": "",
+            "title": "日月潭老茶廠｜下車站點：魚池",
+            "content": [
+              {
+                "id": "1",
+                "text": "守候著老舊廠房過著山中與世無爭的愜意和寧靜，偶爾機器啟動轟隆隆的聲響，令人憶起過去兩三百人日夜趕工製茶外銷盛況。薄霧中歷經紅茶文化興衰的老茶園，溫柔等待一股新力量的復甦，呼喚著大地的孩子，心靈深處那鑽石般的原動力，那是對生活的省思和選擇、對萬物的疼惜與感恩、對生命的信念與熱情。這個聲音，讓我們決定和老茶廠換上新裝，過不一樣的生活和人們分享感動。藉由歷史、空間和生態有趣的導覽，身歷其境的參與這一場新生活再造的過程。"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "2",
+        "mainTitle": {
+          "title": "洽詢電話",
+          "content": ""
+        },
+        "subTitle": [
+          {
+            "id": "1",
+            "title": "國光客運客服中心：0800-010-138",
+            "content": [{ "id": "1", "text": "" }],
+            "link": ""
+          },
+          {
+            "id": "2",
+            "title": "國光客運申訴電話：(02)2688-4366",
+            "content": [{ "id": "1", "text": "" }],
+            "link": ""
           }
         ]
       }
@@ -2666,19 +2852,19 @@
     "banner": [
       {
         "id": "1",
-        "url": "https://travel.tycg.gov.tw/content/images/attractions/89733/1024x768_attractions-image-ennx_jbexuoyp2-xvpdohw.jpg"
+        "url": "https://travel.taichung.gov.tw/image/24411/1024x768"
       },
       {
         "id": "2",
-        "url": "https://travel.tycg.gov.tw/content/images/attractions/3942/1024x768_Filedata635487368006246289.jpg"
+        "url": "https://travel.taichung.gov.tw/image/50505/1024x768"
       },
       {
         "id": "3",
-        "url": "https://travel.tycg.gov.tw/content/images/attractions/10815/1024x768_files635866515657363593.jpg"
+        "url": "https://photo.travelking.com.tw/scenery/A9C11851-AE27-418F-9BF5-70F38569E7C8_e.jpg"
       },
       {
         "id": "4",
-        "url": "https://travel.tycg.gov.tw/content/images/attractions/99749/1024x768_attractions-image-xkdbsvsywue6l6ewm3ajxq.jpg"
+        "url": "https://khh.travel/image/20507/?r=1590473398531"
       }
     ],
     "stations": [
@@ -2693,14 +2879,14 @@
     "tags": ["部分無障礙班車", "預約車位"],
     "content": [
       {
-        "id": "15",
+        "id": "1",
         "mainTitle": {
           "title": "商品說明",
-          "content": "台灣好行大溪快線從高鐵桃園站天天發車，行經快速道路直達大溪、慈湖，沿線好吃好玩又好逛，像是大溪老街除了有全臺聞名豆干美食，木藝文化及百年建築歷史也是本區必看重點，每年農曆6月24日關公生日更是在地慶典盛事，以及慈湖是著名兩蔣文化保存地，也是相當適合優閒漫步景區，除了前慈湖、後慈湖優美的風景外，鄰近還有許多特色休閒農場。此外這條路線沿線還有打鐵寮古道、原住民文化會館、大江購物中心，高鐵桃園站周邊則有Xpark八景島水族館、Outlet、橫山書法藝術館等，歡迎搭乘此路線，帶您快速前往，體驗桃園多元之美。"
+          "content": ""
         },
         "subTitle": [
           {
-            "id": "15",
+            "id": "1",
             "title": "",
             "content": [{ "id": "1", "text": "" }],
             "link": ""
@@ -2709,11 +2895,77 @@
 
         "route": [
           {
-            "id": "15",
-            "images": "https://travel.tycg.gov.tw/content/images/attractions/89733/1024x768_attractions-image-ennx_jbexuoyp2-xvpdohw.jpg",
+            "id": "1",
+            "images": "https://travel.taichung.gov.tw/image/24411/1024x768",
             "customImages": "",
-            "title": "大溪老街｜下車站點：大溪站",
-            "content": [{ "id": "2", "text": "" }]
+            "title": "秋紅谷廣場｜下車站點：朝馬站(國光)",
+            "content": [
+              {
+                "id": "1",
+                "text": "來到臺灣大道二段、朝富路口，就能看到被稱之為「都市之肺」的秋紅谷廣場，投身於秋紅的懷抱，彷佛瞬間從車來人往的繁華都市，進入一個寧靜悠閒的都市森林中，倍感清新宜人。"
+              }
+            ]
+          },
+          {
+            "id": "2",
+            "images": "https://travel.taichung.gov.tw/image/50505/1024x768",
+            "customImages": "",
+            "title": "綠川水岸廊道｜下車站點：國光客運臺中車站",
+            "content": [
+              {
+                "id": "1",
+                "text": " 綠川新盛橋以水質及防洪為優先考量，打破傳統水岸景觀整治方式，企圖營造為生態棲地、結合低衝擊開發的環境，打造臺中火車站新生水岸門戶意象。綠川水岸以自然及藝文展現為主題，導入公共藝術並運用水元素，創造多元創意藝術舞動空間，並融合多元東協風情。"
+              }
+            ]
+          },
+          {
+            "id": "3",
+            "images": "https://photo.travelking.com.tw/scenery/A9C11851-AE27-418F-9BF5-70F38569E7C8_e.jpg",
+            "customImages": "",
+            "title": "高雄都會公園｜下車站點：楠梓",
+            "content": [
+              {
+                "id": "1",
+                "text": "高雄都會公園這座公園面積廣達九十五公頃，園內綠樹扶疏，彷彿走進森林一般。園區範圍主要為台糖青埔農場，休閒設施包括兒童遊戲場、景觀親水池、散步步道、涼亭、籃球場、網球場等。不僅是楠梓當地居民喜歡前來運動的地方，假日也有許多戶外活動在此舉辦，總能吸引眾多遊客入園。"
+              }
+            ]
+          },
+          {
+            "id": "4",
+            "images": "https://khh.travel/image/20507/?r=1590473398531",
+            "customImages": "",
+            "title": "新堀江商圈｜下車站點：高雄站(國光)",
+            "content": [
+              {
+                "id": "1",
+                "text": "新堀江商圈鎖定年輕客層，提供流行最前線的休閒購物選擇，販賣各種流行服飾單品，提供流行最前線的休閒購物選擇，還有許多店家販賣夜市小吃供大小朋友一同享用。"
+              },
+              {
+                "id": "2",
+                "text": "附近聚集許多美容美髮店家，是近來許多年輕族群美髮地方之處，還有許多大型連鎖餐廳也在此附近之處設點，知名運動品牌林立大街，吃完飯之後來新崛江逛街買衣服首飾吧～"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "2",
+        "mainTitle": {
+          "title": "洽詢電話",
+          "content": ""
+        },
+        "subTitle": [
+          {
+            "id": "1",
+            "title": "國光客運客服中心：0800-010-138",
+            "content": [{ "id": "1", "text": "" }],
+            "link": ""
+          },
+          {
+            "id": "2",
+            "title": "國光客運申訴電話：(02)2688-4366",
+            "content": [{ "id": "1", "text": "" }],
+            "link": ""
           }
         ]
       }

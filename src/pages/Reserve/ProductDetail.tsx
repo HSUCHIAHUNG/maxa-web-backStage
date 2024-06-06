@@ -56,80 +56,92 @@ const ProductDetail: React.FC = () => {
   };
 
   return (
-    <>
-      <div className={`w-[80%] pb-[16px] max-w-[1240px] m-[0_auto]`}>
-        <div className={`py-[16px] text-[20px] text-center`}>{product.name}</div>
+    <div className={`w-[80%] pb-[16px] max-w-[1240px] m-[0_auto]`}>
+      <div className={`py-[16px] text-[20px] text-center`}>{product.name}</div>
 
-        <Carousel
-          className={`overflow-x-hidden max-w-[1200px] h-[500px] rounded-[16px] md:h-[320px] xl:h-[500px]`}
-          autoPlay={true}
-        >
-          {product.banner.map((item) => (
-            <Banner key={item.id} src={item.url} />
-          ))}
-        </Carousel>
+      <Carousel
+        className={`overflow-x-hidden max-w-[1200px] h-[500px] rounded-[16px] md:h-[320px] xl:h-[500px]`}
+        autoPlay={true}
+      >
+        {product.banner.map((item) => (
+          <Banner key={item.id} src={item.url} />
+        ))}
+      </Carousel>
 
-        <div className={`flex gap-[20px] w-full`}>
-          <div className={`w-[70%]`}>
-            <div className={`flex gap-[8px] py-[20px] md:pt-[40px] xl:pt-[60px]`}>
-              <span
-                className={`icon-[solar--ticket-bold-duotone] w-[24px] h-[24px] md:w-[32px] md:h-[32px] text-[#86909C]`}
-              ></span>
-              <p className={`text-[16px] md:text-[20px]`}>選擇日期與票數</p>
-            </div>
-            <Tabs defaultActiveTab={ticketState} type="card-gutter" onChange={switchTab}>
-              <TabPane key="oneWayTicket" title="單程票">
-                {ticketState === "oneWayTicket" && (
-                  <Typography.Paragraph>
-                    <SelectStation productDetail={product}></SelectStation>
-                    <SelectTime></SelectTime>
-                    <SelectSeats></SelectSeats>
-                  </Typography.Paragraph>
-                )}
-              </TabPane>
-              <TabPane key="roundTripTicket" title="來回票">
-                {ticketState === "roundTripTicket" && (
-                  <Typography.Paragraph>
-                    <SelectStation productDetail={product}></SelectStation>
-                    <SelectTime></SelectTime>
-                    <SelectSeats></SelectSeats>
-                  </Typography.Paragraph>
-                )}
-              </TabPane>
-            </Tabs>
+      <div className={`flex gap-[20px] w-full`}>
+        <div className={`w-[70%]`}>
+          <div className={`flex gap-[8px] py-[20px] md:pt-[40px] xl:pt-[60px]`}>
+            <span
+              className={`icon-[solar--ticket-bold-duotone] w-[24px] h-[24px] md:w-[32px] md:h-[32px] text-[#86909C]`}
+            ></span>
+            <p className={`text-[16px] md:text-[20px]`}>選擇日期與票數</p>
           </div>
+          <Tabs
+            defaultActiveTab={ticketState}
+            type="card-gutter"
+            onChange={switchTab}
+          >
+            <TabPane key="oneWayTicket" title="單程票">
+              {ticketState === "oneWayTicket" && (
+                <Typography.Paragraph>
+                  <SelectStation productDetail={product}></SelectStation>
+                  <SelectTime></SelectTime>
+                  <SelectSeats></SelectSeats>
+                </Typography.Paragraph>
+              )}
+            </TabPane>
+            <TabPane key="roundTripTicket" title="來回票">
+              {ticketState === "roundTripTicket" && (
+                <Typography.Paragraph>
+                  <SelectStation productDetail={product}></SelectStation>
+                  <SelectTime></SelectTime>
+                  <SelectSeats></SelectSeats>
+                </Typography.Paragraph>
+              )}
+            </TabPane>
+          </Tabs>
+        </div>
 
-          <div className={`w-[30%]`}>
-            <div className={`flex gap-[8px] py-[20px] md:pt-[40px] xl:pt-[60px]`}>
-              <span
-                className={`icon-[solar--ticket-bold-duotone] w-[24px] h-[24px] md:w-[32px] md:h-[32px] text-[#86909C]`}
-              ></span>
-              <p className={`text-[16px] md:text-[20px]`}>乘車路線圖</p>
-            </div>
-            <Tabs defaultActiveTab={ticketState} type="card-gutter">
-              <TabPane key="oneWayTicket" title="去程">
-                <Typography.Paragraph>
-                  <Steps type="dot" direction="vertical" current={product.stations.length} style={{ maxWidth: 780 }}>
-                    {product.stations.map((station) => (
-                      <Step key={station.id} title={station.name} />
-                    ))}
-                  </Steps>
-                </Typography.Paragraph>
-              </TabPane>
-              <TabPane key="roundTripTicket" title="回程">
-                <Typography.Paragraph>
-                  <Steps type="dot" direction="vertical" current={product.stations.length} style={{ maxWidth: 780 }}>
-                    {product.stations.reverse().map((station) => (
-                      <Step key={station.id} title={station.name} />
-                    ))}
-                  </Steps>
-                </Typography.Paragraph>
-              </TabPane>
-            </Tabs>
+        <div className={`w-[30%]`}>
+          <div className={`flex gap-[8px] py-[20px] md:pt-[40px] xl:pt-[60px]`}>
+            <span
+              className={`icon-[solar--ticket-bold-duotone] w-[24px] h-[24px] md:w-[32px] md:h-[32px] text-[#86909C]`}
+            ></span>
+            <p className={`text-[16px] md:text-[20px]`}>乘車路線圖</p>
           </div>
+          <Tabs defaultActiveTab={ticketState} type="card-gutter">
+            <TabPane key="oneWayTicket" title="去程">
+              <Typography.Paragraph>
+                <Steps
+                  type="dot"
+                  direction="vertical"
+                  current={product.stations.length}
+                  style={{ maxWidth: 780 }}
+                >
+                  {product.stations.map((station) => (
+                    <Step key={station.id} title={station.name} />
+                  ))}
+                </Steps>
+              </Typography.Paragraph>
+            </TabPane>
+            <TabPane key="roundTripTicket" title="回程">
+              <Typography.Paragraph>
+                <Steps
+                  type="dot"
+                  direction="vertical"
+                  current={product.stations.length}
+                  style={{ maxWidth: 780 }}
+                >
+                  {product.stations.reverse().map((station) => (
+                    <Step key={station.id} title={station.name} />
+                  ))}
+                </Steps>
+              </Typography.Paragraph>
+            </TabPane>
+          </Tabs>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

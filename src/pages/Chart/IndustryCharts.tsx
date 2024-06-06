@@ -29,7 +29,7 @@ type ReportType = "週報表" | "月報表" | "季報表";
 
 const IndustryCharts: React.FC = () => {
   // 無資料圖表顯示狀態
-  const emptyData = useRef(false);
+  const emptyData = useRef({ week: false, month: false, quarter: false });
 
   // 去回程狀態(預設值)
   const [position, setPosition] = useState("去程");
@@ -45,10 +45,14 @@ const IndustryCharts: React.FC = () => {
     dayjs().subtract(1, "week").startOf("week")
   );
 
-  // 日期範圍狀態(預設值)
+  // 日期範圍狀態(預設值) - 月報表和季報表
   const [rangeDate, setRangeDate] = useState<Dayjs[]>([
     dayjs().subtract(12, "month").startOf("month"),
     dayjs().subtract(1, "month").endOf("month"),
+  ]);
+  const [quarterDate, setQuarterDate] = useState<Dayjs[]>([
+    dayjs().subtract(3, "year").startOf("quarter"),
+    dayjs().startOf("quarter"),
   ]);
 
   // 設定chart容器
@@ -68,8 +72,21 @@ const IndustryCharts: React.FC = () => {
   // 變更tab
   function chengeReportType(reportType: ReportType) {
     setReportType(reportType);
-    emptyData.current = false;
   }
+
+  // 添加一个映射函数
+  const mapReportTypeToKey = (reportType: ReportType): keyof typeof emptyData.current => {
+    switch (reportType) {
+      case "週報表":
+        return "week";
+      case "月報表":
+        return "month";
+      case "季報表":
+        return "quarter";
+      default:
+        return "week";
+    }
+  };
 
   // 模擬API取得圖表資料
   const fetchData = (
@@ -125,23 +142,23 @@ const IndustryCharts: React.FC = () => {
         ],
       },
       季報表: {
-        xAxisData: ["Q1", "Q2", "Q3", "Q4"],
+        xAxisData: [],
         seriesData: [
           {
             name: "501 大溪快線",
-            data: [900, 800, 1200, 1000],
+            data: [],
           },
           {
             name: "502 小烏來線(假日行駛)",
-            data: [850, 750, 1150, 950],
+            data: [],
           },
           {
             name: "503 石門水庫線(假日行駛)",
-            data: [1000, 900, 1300, 1100],
+            data: [],
           },
           {
             name: "506 東眼山線",
-            data: [950, 850, 1250, 1050],
+            data: [],
           },
         ],
       },
@@ -153,6 +170,7 @@ const IndustryCharts: React.FC = () => {
         weekDays.push(_date.startOf("week").add(i, "day").format("MM-DD"));
       }
       dataMapping.週報表.xAxisData = weekDays;
+      emptyData.current.week = false;
     }
 
     if (rangeDate && type === "月報表") {
@@ -165,7 +183,7 @@ const IndustryCharts: React.FC = () => {
       }
 
       if (months.length !== 12) {
-        emptyData.current = true;
+        emptyData.current.month = true;
         return { xAxisData: [], seriesData: [] };
       }
 
@@ -175,10 +193,52 @@ const IndustryCharts: React.FC = () => {
           .fill(0)
           .map(() => Math.floor(Math.random() * 100) + 50);
       });
-      emptyData.current = false;
+      emptyData.current.month = false;
+    }
+
+    if (quarterDate && type === "季報表") {
+      const startDate = quarterDate[0];
+      const endDate = quarterDate[1];
+      const quarters = [];
+      let currentQuarter = startDate.startOf("quarter");
+
+      while (quarters.length < 12) {
+        quarters.push(currentQuarter.format("YYYY-[Q]Q"));
+        currentQuarter = currentQuarter.add(3, "month");
+      }
+
+      dataMapping.季報表.xAxisData = quarters;
+      dataMapping.季報表.seriesData.forEach((series) => {
+        series.data = Array(quarters.length)
+          .fill(0)
+          .map(() => Math.floor(Math.random() * 1000) + 500);
+      });
+      emptyData.current.quarter = quarters.length === 0;
     }
 
     return dataMapping[type];
+  };
+
+  const handleDateChange = (_: string | string[], date: Dayjs | Dayjs[]) => {
+    if (reportType === "月報表" && Array.isArray(date)) {
+      const startDate = date[0];
+      const endDate = date[1];
+      const months = [];
+      const diff = endDate.diff(startDate, "month");
+
+      for (let i = 0; i <= diff; i++) {
+        months.push(startDate.add(i, "month").format("YYYY-MM"));
+      }
+
+      emptyData.current.month = months.length !== 12;
+      setRangeDate(date);
+    } else if (reportType === "季報表" && Array.isArray(date)) {
+      setQuarterDate(date);
+      emptyData.current.quarter = false;
+    } else if (!Array.isArray(date)) {
+      setSingleDate(date);
+      emptyData.current.week = false;
+    }
   };
 
   useEffect((): (() => void) => {
@@ -187,10 +247,12 @@ const IndustryCharts: React.FC = () => {
 
       const updateChart = () => {
         let date: Dayjs | null = null;
-        if (reportType === "週報表" || reportType === "月報表") {
+        if (reportType === "週報表") {
           date = singleDate;
-        } else if (reportType === "季報表") {
+        } else if (reportType === "月報表") {
           date = rangeDate ? rangeDate[0] : null;
+        } else if (reportType === "季報表") {
+          date = quarterDate ? quarterDate[0] : null;
         }
 
         const { xAxisData, seriesData } = fetchData(
@@ -200,7 +262,7 @@ const IndustryCharts: React.FC = () => {
           reportType
         );
 
-        if (emptyData.current) {
+        if (emptyData.current[mapReportTypeToKey(reportType)]) {
           myChart.clear(); // 清空图表
           return;
         }
@@ -241,38 +303,7 @@ const IndustryCharts: React.FC = () => {
       };
     }
     return () => {}; // 返回一个空的清理函数来避免错误
-  }, [selectedRoute, position, singleDate, rangeDate, reportType]);
-
-  const handleDateChange = (_: string | string[], date: Dayjs | Dayjs[]) => {
-    if (reportType === "月報表" && Array.isArray(date)) {
-      const startDate = date[0];
-      const endDate = date[1];
-      const months = [];
-      const diff = endDate.diff(startDate, "month");
-
-      for (let i = 0; i <= diff; i++) {
-        months.push(startDate.add(i, "month").format("YYYY-MM"));
-      }
-
-      if (months.length !== 12) {
-        emptyData.current = true;
-      } else {
-        emptyData.current = false;
-      }
-
-      setRangeDate(date);
-    } else if (!Array.isArray(date)) {
-      setSingleDate(date);
-    }
-
-    // if (reportType !== "月報表" && Array.isArray(date)) {
-    //   emptyData.current = false;
-    //   setRangeDate(date);
-    // } else if (!Array.isArray(date)) {
-    //   emptyData.current = false;
-    //   setSingleDate(date);
-    // }
-  };
+  }, [selectedRoute, position, singleDate, rangeDate, quarterDate, reportType]);
 
   return (
     <div className="w-[80%] py-[16px] m-[0_auto] flex flex-col">
@@ -367,10 +398,7 @@ const IndustryCharts: React.FC = () => {
           {/* 日期篩選-季 */}
           {reportType === "季報表" && (
             <RangePicker
-              value={[
-                dayjs().subtract(6, "months"),
-                dayjs().subtract(3, "months"),
-              ]}
+              value={quarterDate}
               onChange={(_dateString, dates) =>
                 handleDateChange(_dateString, dates as Dayjs[])
               }
@@ -383,13 +411,14 @@ const IndustryCharts: React.FC = () => {
       </div>
 
       {/* 圖表內容 */}
-      {emptyData.current === false ? (
-        <div id="main" ref={chartRef} style={{ height: "700px" }}></div>
-      ) : (
+      {emptyData.current[mapReportTypeToKey(reportType)] ? (
         <p>無資料</p>
+      ) : (
+        <div id="main" ref={chartRef} style={{ height: "700px" }}></div>
       )}
     </div>
   );
 };
 
 export default IndustryCharts;
+
