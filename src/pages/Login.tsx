@@ -49,10 +49,18 @@ const Login: React.FC = () => {
             onSubmit={submit}
             className={` pt-[20px] w-[260px]`}
           >
-            <FormItem label="帳號" field="email" required>
+            <FormItem
+              label="帳號"
+              field="email"
+              rules={[{ required: true, message: "必填" }]}
+            >
               <Input placeholder="Please enter" />
             </FormItem>
-            <FormItem label="密碼" field="password" required>
+            <FormItem
+              label="密碼"
+              field="password"
+              rules={[{ required: true, message: "必填" }]}
+            >
               <Input.Password
                 placeholder="Please enter password"
                 autoComplete="on"

@@ -159,14 +159,12 @@ const OrderHistory: React.FC = () => {
   // 訂單狀態篩選資料
   const orderStateOption = [
     "待付款",
-    "已付款，等待使用",
+    "已付款",
     "申請退款中",
-    "已完成活動",
     "付款期限已截止 ",
-    "逾期未使用",
     "已退款",
-    "訂單取消(會員)",
-    "訂單取消(系統)",
+    "訂單已取消(會員)",
+    "訂單已取消(系統)",
   ];
 
   // 業者篩選資料
@@ -177,7 +175,7 @@ const OrderHistory: React.FC = () => {
     switch (itemName) {
       case "待付款":
         return " bg-[#EC4A58] w-[6px] h-[6px] rounded-[100px]";
-      case "已付款，等待使用":
+      case "已付款":
         return "bg-[#3A57E8] w-[6px] h-[6px] rounded-[100px]";
       case "申請退款中":
         return "bg-[#FF7D00] w-[6px] h-[6px] rounded-[100px]";
@@ -193,7 +191,7 @@ const OrderHistory: React.FC = () => {
     switch (itemName) {
       case "待付款":
         return "text-[#EC4A58] bg-[#FFEAE8] px-[8px] py-[2px] text-[14px]";
-      case "已付款，等待使用":
+      case "已付款":
         return "text-[#3A57E8] bg-[#E8F0FF] px-[8px] py-[2px] text-[14px]";
       case "申請退款中":
         return "text-[#FF7D00] bg-[#FFF3E8] px-[8px] py-[2px] text-[14px]";
@@ -220,7 +218,7 @@ const OrderHistory: React.FC = () => {
     switch (itemName) {
       case "待付款":
         return "pendingPayment";
-      case "已付款，等待使用":
+      case "已付款":
         return "alreadyPaid";
       case "申請退款中":
         return "refund";

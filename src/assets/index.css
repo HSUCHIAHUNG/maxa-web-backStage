@@ -71,3 +71,9 @@ input[name='card-radio-group']:focus-visible + .custom-radio-card {
 .arco-drawer-content {
   padding: 12px 16px 12px 16px ;
 }
+
+.arco-form-label-item > label{
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}

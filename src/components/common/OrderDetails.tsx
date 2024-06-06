@@ -6,7 +6,7 @@ import { RootState } from "../../stores/index.ts";
 interface OrderDetailsProps {
   title?: boolean;
   buttonState?: string;
-  modal?: () => void
+  modal?: () => void;
   className?: string;
 }
 
@@ -97,15 +97,16 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ className, modal }) => {
             <div className={`pb-[20px] text-[20px]`}>
               {orderContent.routeName}
             </div>
+            {tabState === "roundTripTicket" ? <p>來回票</p> : <p>單程票</p>}
             {totalTicketType.map((item, index) => (
               <div key={index}>
                 {item.total !== 0 && (
                   <div className={`flex justify-between `}>
                     <p>
-                      {ticketName(item.type)}*{item.total}
+                      {ticketName(item.type)}*{tabState === "roundTripTicket" ? item.total*2 : item.total}
                     </p>
                     <p>
-                      NT$ {ticketPrice(item.type)}*{item.total}
+                      NT$ {ticketPrice(item.type)}*{tabState === "roundTripTicket" ? item.total*2 : item.total}
                     </p>
                   </div>
                 )}

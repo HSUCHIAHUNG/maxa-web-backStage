@@ -3,6 +3,9 @@ export interface ProductDetailType {
   id: string;
   industry: string;
   name: string;
-  stations: string[];
+  banner: {
+    id: string;
+    url: string;
+  }[];
+  stations: { id: string; name: string }[];
 }
-

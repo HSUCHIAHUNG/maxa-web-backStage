@@ -104,7 +104,10 @@ const RoutesCharts: React.FC = () => {
               data: seriesData,
               type: "bar",
               itemStyle: {
-                color: "#3A57E8", // 柱狀圖顏色
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: "#A9ADFF" },
+                  { offset: 1, color: "#3A57E8" },
+                ]),
                 borderRadius: [5, 5, 0, 0], // 圓角設置
               },
             },

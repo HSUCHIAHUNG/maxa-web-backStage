@@ -15,13 +15,6 @@ import ProductDetailData from "../../assets/API/ProductDetail.json";
 const TabPane = Tabs.TabPane;
 const Step = Steps.Step;
 
-const imageSrc = [
-  "//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/cd7a1aaea8e1c5e3d26fe2591e561798.png~tplv-uwbnlip3yd-webp.webp",
-  "//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/6480dbc69be1b5de95010289787d64f1.png~tplv-uwbnlip3yd-webp.webp",
-  "//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/0265a04fddbd77a19602a15d9d55d797.png~tplv-uwbnlip3yd-webp.webp",
-  "//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/24e0dd27418d2291b65db1b21aa62254.png~tplv-uwbnlip3yd-webp.webp",
-];
-
 interface ProductDetailDataType {
   [key: string]: ProductDetailType;
 }
@@ -71,8 +64,8 @@ const ProductDetail: React.FC = () => {
           className={`overflow-x-hidden max-w-[1200px] h-[500px] rounded-[16px] md:h-[320px] xl:h-[500px]`}
           autoPlay={true}
         >
-          {imageSrc.map((src) => (
-            <Banner key={src} src={src} />
+          {product.banner.map((item) => (
+            <Banner key={item.id} src={item.url} />
           ))}
         </Carousel>
 
@@ -117,8 +110,8 @@ const ProductDetail: React.FC = () => {
               <TabPane key="oneWayTicket" title="去程">
                 <Typography.Paragraph>
                   <Steps type="dot" direction="vertical" current={product.stations.length} style={{ maxWidth: 780 }}>
-                    {product.stations.map((station, index) => (
-                      <Step key={index} title={station} />
+                    {product.stations.map((station) => (
+                      <Step key={station.id} title={station.name} />
                     ))}
                   </Steps>
                 </Typography.Paragraph>
@@ -126,8 +119,8 @@ const ProductDetail: React.FC = () => {
               <TabPane key="roundTripTicket" title="回程">
                 <Typography.Paragraph>
                   <Steps type="dot" direction="vertical" current={product.stations.length} style={{ maxWidth: 780 }}>
-                    {product.stations.reverse().map((station, index) => (
-                      <Step key={index} title={station} />
+                    {product.stations.reverse().map((station) => (
+                      <Step key={station.id} title={station.name} />
                     ))}
                   </Steps>
                 </Typography.Paragraph>

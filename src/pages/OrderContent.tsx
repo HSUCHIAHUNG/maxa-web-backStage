@@ -1,12 +1,22 @@
 // react原生方法
-import React from "react";
+import React, { useState } from "react";
 // router
 import { useParams } from "react-router-dom";
 // redux
 import { useSelector } from "react-redux";
-import { RootState } from "../stores/index.ts";
+import { RootState, useAppDispatch } from "../stores/index.ts";
+// redux
+import { orderActions } from "../stores/order";
 // ui kit
-import { Alert, Modal, Steps, Form, InputNumber } from "@arco-design/web-react";
+import {
+  Alert,
+  Modal,
+  Steps,
+  Form,
+  Input,
+  InputNumber,
+  Message,
+} from "@arco-design/web-react";
 import Step from "@arco-design/web-react/es/Steps/step";
 // 匯入組件
 import OrderDetails from "../components/common/OrderDetails";
@@ -50,11 +60,12 @@ const passenger = [
 
 const OrderContent: React.FC = () => {
   // redux方法呼叫
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   // ui kit
   const FormItem = Form.Item;
   const [form] = Form.useForm();
+  const TextArea = Input.TextArea;
 
   // 目前路由(動態參數)
   const { id } = useParams<{ id: string }>();
@@ -75,7 +86,14 @@ const OrderContent: React.FC = () => {
     (state: RootState) => state.order.orderContent
   );
   const { paymentState, remarks, paymentMethod } = orderContent;
-  console.log(orderContent);
+
+  // 退款金額計算狀態
+  const [refundCalcState, setRefundCalcState] = useState({
+    orderAmount: 798,
+    refundAmount: 0,
+  });
+  const [deduction, setDeduction] = useState<number>(0);
+  const [handlingFee, setHandlingFee] = useState<number>(0);
 
   // 付款狀態樣式動態設定
   const paymentStateFilter = () => {
@@ -166,6 +184,61 @@ const OrderContent: React.FC = () => {
     );
   };
 
+  // 計算退款金額
+  const calcAmount = (value: number, type: string) => {
+    const newDeduction = type === "deduction" ? value : deduction;
+    const newHandlingFee = type === "handlingFee" ? value : handlingFee;
+    const newRefundAmount =
+      refundCalcState.orderAmount - newDeduction - newHandlingFee;
+    console.log(newRefundAmount);
+    if (newRefundAmount < 0 || newRefundAmount > 798) {
+      Message.warning("退款金額錯誤");
+    }
+
+    if (isNaN(newRefundAmount) || newRefundAmount < 0) {
+      setRefundCalcState((prevState) => ({
+        ...prevState,
+        refundAmount: 0,
+      }));
+      if (type === "deduction") {
+        setDeduction(0);
+      } else if (type === "handlingFee") {
+        setHandlingFee(0);
+      }
+      return;
+    }
+
+    if (type === "deduction") {
+      setDeduction(value);
+    } else if (type === "handlingFee") {
+      setHandlingFee(value);
+    }
+
+    setRefundCalcState((prevState) => ({
+      ...prevState,
+      refundAmount: newRefundAmount,
+    }));
+  };
+
+  // 送出退款表單
+  const submit = () => {
+    if (
+      refundCalcState.refundAmount > 0 &&
+      refundCalcState.refundAmount < 798
+    ) {
+      Message.success("退款完成");
+      dispatch(
+        orderActions.orderContentStateChenge({
+          title: "orderHistory",
+          paymentState: "已退款",
+        })
+      );
+      setRefundVisible(false);
+    } else {
+      Message.warning("請確認退款金額");
+    }
+  };
+
   return (
     <div className={`flex flex-col w-full`}>
       {/* 預約 */}
@@ -228,48 +301,31 @@ const OrderContent: React.FC = () => {
                   </div>
                 </div>
 
-                {/* 業者 */}
+                {/* 訂購時間 */}
                 <div
                   className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
                 >
                   <div
                     className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
                   >
-                    <p className={`w-[112px]`}>業者</p>
+                    <p className={`w-[112px] pb-[8px] `}>訂購時間</p>
                   </div>
-                  <div
-                    className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
-                  >
-                    <p className={``}>
-                      {orderContent.industryName?.length === 0
-                        ? "桃園客運"
-                        : orderContent.industryName}
-                    </p>
+                  <div className={`md:py-[9px] md:px-[20px] md:w-full`}>
+                    2024-04-21 12:12:12
                   </div>
                 </div>
 
-                {/* 訂單流程 */}
+                {/* 備註 */}
                 <div
                   className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
                 >
                   <div
                     className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
                   >
-                    <p className={`w-[112px] pb-[8px] `}>訂單流程</p>
+                    <p className={`w-[112px] pb-[8px] `}>備註</p>
                   </div>
                   <div className={`md:py-[9px] md:px-[20px] md:w-full`}>
-                    <Steps
-                      type="dot"
-                      direction="vertical"
-                      current={1}
-                      style={{ maxWidth: 780 }}
-                    >
-                      <Step
-                        title="付款時間"
-                        description={moment().format("YYYY-MM-DD HH:mm:ss")}
-                      />
-                      <Step title="等待使用" description="------" />
-                    </Steps>
+                    -----
                   </div>
                 </div>
 
@@ -364,7 +420,7 @@ const OrderContent: React.FC = () => {
                     <Steps
                       type="dot"
                       direction="vertical"
-                      current={2}
+                      current={7}
                       style={{ maxWidth: 780 }}
                     >
                       <Step
@@ -375,6 +431,28 @@ const OrderContent: React.FC = () => {
                         title={`驗證支付`}
                         description={`2024-12-12 12:12:12`}
                       />
+                      <Step
+                        title={`提交交易`}
+                        description={`2024-12-12 12:12:12`}
+                      />
+                      <Step
+                        title={`提交授權申請`}
+                        description={`2024-12-12 12:12:12`}
+                      />
+                      <Step
+                        title={`獲得授權`}
+                        description={`2024-12-12 12:12:12`}
+                      />
+                      <Step
+                        title={`向商戶付款`}
+                        description={`2024-12-12 12:12:12`}
+                      />
+                      {orderContent.paymentState === "已退款" && (
+                        <Step
+                          title={`已退款`}
+                          description={`2024-12-12 12:12:12`}
+                        />
+                      )}
                     </Steps>
                   </div>
                 </div>
@@ -504,20 +582,23 @@ const OrderContent: React.FC = () => {
                 </div>
 
                 {/* 回程班次 */}
-                <div
-                  className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
-                >
-                  <div
-                    className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
-                  >
-                    <p className={`w-[112px]`}>回程班次</p>
-                  </div>
-                  <div
-                    className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
-                  >
-                    <p className={``}>0002</p>
-                  </div>
-                </div>
+                {tabState === "roundTripTicket" &&
+                  orderContent.title === "reserve" && (
+                    <div
+                      className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
+                    >
+                      <div
+                        className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
+                      >
+                        <p className={`w-[112px]`}>回程班次</p>
+                      </div>
+                      <div
+                        className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
+                      >
+                        <p className={``}>0002</p>
+                      </div>
+                    </div>
+                  )}
 
                 {/* 回程時間 */}
                 {tabState === "roundTripTicket" &&
@@ -589,7 +670,7 @@ const OrderContent: React.FC = () => {
       <Modal
         title="退款"
         visible={refundVisible}
-        onOk={() => setRefundVisible(false)}
+        onOk={() => form.submit()}
         onCancel={() => setRefundVisible(false)}
         okText="送出"
         autoFocus={false}
@@ -599,42 +680,75 @@ const OrderContent: React.FC = () => {
         <div className={`text-[#485781]`}>
           <Form
             form={form}
+            onSubmit={submit}
             autoComplete="on"
             requiredSymbol={{ position: "start" }}
             layout="vertical"
-            // initialValues={{
-            //   adult: 0,
-            //   child: 0,
-            //   old: 0,
-            //   payment: "現金付款",
-            // }}
-            className={`flex flex-row items-center`}
           >
-            {/* 訂單金額 */}
-            <div className={`w-[120px]`}>
-              <p>訂單金額</p>
-              <p className={`text-[24px] pt-[12px]`}>1,100</p>
-            </div>
+            <div className={`flex flex-row items-start h-[82px]`}>
+              {/* 訂單金額 */}
+              <div className={`w-[120px] h-[56px]`}>
+                <p>訂單金額</p>
+                <p className={`text-[24px] `}>{refundCalcState.orderAmount}</p>
+              </div>
 
-            {/* 減號 */}
-            <div className={`bg-[#F1F2F8] w-[24px] h-[24px] mx-[12px] `}>
-              <span className="icon-[pepicons-pop--minus] w-full h-full "></span>
-            </div>
+              {/* 減號 */}
+              <div
+                className={`bg-[#F1F2F8] w-[20px] h-[20px] mx-[12px] mt-[35.5px]  `}
+              >
+                <span className="icon-[pepicons-pop--minus] w-full h-full "></span>
+              </div>
 
-            <FormItem
-              label="成人票數"
-              field="adult"
-              required
-              className={`m-0 md:w-[180px]`}
-            >
-              <InputNumber
-                mode="button"
-                defaultValue={0}
-                min={0}
-                max={10}
-                className={`!w-full md:w-[200px]`}
-                style={{ width: 160, margin: "10px 24px 10px 0" }}
-              />
+              {/* 退票扣款金額 */}
+              <FormItem
+                label="退票扣款金額"
+                field="deduction"
+                required
+                className={`m-0 md:w-[138px] `}
+              >
+                <InputNumber
+                  value={deduction}
+                  onChange={(value) => calcAmount(value, "deduction")}
+                  min={0}
+                />
+              </FormItem>
+
+              {/* 減號 */}
+              <div
+                className={`bg-[#F1F2F8] w-[20px] h-[20px] mx-[12px] mt-[35.5px]  `}
+              >
+                <span className="icon-[pepicons-pop--minus] w-full h-full "></span>
+              </div>
+
+              {/* 退票手續費 */}
+              <FormItem
+                label="退票手續費"
+                field="handlingFee"
+                required
+                className={`m-0 md:w-[138px] `}
+              >
+                <InputNumber
+                  value={handlingFee}
+                  onChange={(value) => calcAmount(value, "handlingFee")}
+                  min={0}
+                />
+              </FormItem>
+
+              {/* 等號 */}
+              <div
+                className={`bg-[#F1F2F8] w-[20px] h-[20px] mx-[12px] mt-[35.5px]  `}
+              >
+                <span className="icon-[pepicons-pop--equal] w-full h-full "></span>
+              </div>
+
+              {/* 實際退款金額 */}
+              <div className={`w-[120px] h-[56px]`}>
+                <p>實際退款金額</p>
+                <p className={`text-[24px] `}>{refundCalcState.refundAmount}</p>
+              </div>
+            </div>
+            <FormItem label="備註" field="remark">
+              <TextArea placeholder="Please enter ..." className={`w-full`} />
             </FormItem>
           </Form>
         </div>
