@@ -3,8 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { DatePicker, Radio, Select } from "@arco-design/web-react";
 // echarts
 import * as echarts from "echarts/core";
-import { GridComponent, GridComponentOption } from "echarts/components";
-import { BarChart, BarSeriesOption } from "echarts/charts";
+import { GridComponent, GridComponentOption, TooltipComponent } from "echarts/components";
+import { BarChart, BarSeriesOption  } from "echarts/charts";
 import { UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
 // 時間控制相關
@@ -36,7 +36,7 @@ const RoutesCharts: React.FC = () => {
   // 設定chart容器
   const chartRef = useRef<HTMLDivElement>(null);
   // echarts配置
-  echarts.use([GridComponent, BarChart, CanvasRenderer, UniversalTransition]);
+  echarts.use([GridComponent, BarChart, CanvasRenderer, UniversalTransition, TooltipComponent]);
 
   // 路線選項
   const routeOptions = ["501大溪快線", "502桃園快線"];
@@ -56,20 +56,26 @@ const RoutesCharts: React.FC = () => {
       日報表: {
         xAxisData: Array.from(
           { length: 24 },
-          (_, i) => `${i < 10 ? "0"+i : i}:15`
+          (_, i) => `${i < 10 ? "0" + i : i}:15`
         ),
         seriesData: Array.from({ length: 24 }, () =>
           Math.floor(Math.random() * 100)
         ),
       },
       月報表: {
-        xAxisData: Array.from({ length: 24 }, (_, i) => `${i < 10 ? "0"+i : i}:00`),
+        xAxisData: Array.from(
+          { length: 24 },
+          (_, i) => `${i < 10 ? "0" + i : i}:00`
+        ),
         seriesData: Array.from({ length: 24 }, () =>
           Math.floor(Math.random() * 100)
         ),
       },
       年報表: {
-        xAxisData: Array.from({ length: 24 }, (_, i) => `${i < 10 ? "0"+i : i}:00`),
+        xAxisData: Array.from(
+          { length: 24 },
+          (_, i) => `${i < 10 ? "0" + i : i}:00`
+        ),
         seriesData: Array.from({ length: 24 }, () =>
           Math.floor(Math.random() * 100)
         ),
@@ -99,6 +105,9 @@ const RoutesCharts: React.FC = () => {
           yAxis: {
             type: "value",
           },
+          tooltip: {
+            trigger: 'axis'
+          },
           series: [
             {
               data: seriesData,
@@ -113,7 +122,6 @@ const RoutesCharts: React.FC = () => {
             },
           ],
         };
-
         myChart.setOption(option);
       };
 
@@ -247,14 +255,13 @@ const RoutesCharts: React.FC = () => {
           {/* 日期篩選-月 */}
           {reportType === "月報表" && (
             <MonthPicker
-              value={dayjs().subtract(1, "months")}
+              value={
+                selectedDate || dayjs().subtract(1, "months")
+              }
               onChange={(_dateString, date) =>
                 handleDateChange(_dateString, date)
               }
-              disabledDate={(current) =>
-                current.isAfter(dayjs().subtract(1, "months"))
-              }
-              defaultValue={dayjs()}
+              disabledDate={(current) => current.isAfter(dayjs(), "month")}
               className="w-[240px]"
             />
           )}
@@ -262,14 +269,11 @@ const RoutesCharts: React.FC = () => {
           {/* 日期篩選-年 */}
           {reportType === "年報表" && (
             <YearPicker
-              value={dayjs().subtract(1, "years")}
-              disabledDate={(current) =>
-                current.isAfter(dayjs().subtract(1, "years"))
-              }
+              value={selectedDate || dayjs().subtract(1, "years")}
               onChange={(_dateString, date) =>
                 handleDateChange(_dateString, date)
               }
-              defaultValue="2019"
+              disabledDate={(current) => current.isAfter(dayjs(), "year")}
               className="w-[240px]"
             />
           )}

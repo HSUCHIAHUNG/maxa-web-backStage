@@ -45,6 +45,9 @@ const SelectStation: React.FC<SelectStationProps> = ({
   // ticket( 單程票、來回票 )狀態
   const ticketState = useSelector((state: RootState) => state.order.ticket);
 
+  // 站點資訊
+  const stations = productDetail.stations.map((station) => station.name)
+
   // login表單提交
   const submit = (value: StationDataType) => {
     // redux(切換tab全域狀態)
@@ -76,7 +79,7 @@ const SelectStation: React.FC<SelectStationProps> = ({
         >
           <Select
             placeholder="選擇起點"
-            options={productDetail.stations}
+            options={stations}
             allowClear
           />
         </FormItem>
@@ -104,7 +107,7 @@ const SelectStation: React.FC<SelectStationProps> = ({
         >
           <Select
             placeholder="選擇迄點"
-            options={productDetail.stations}
+            options={stations}
             allowClear
           />
         </FormItem>

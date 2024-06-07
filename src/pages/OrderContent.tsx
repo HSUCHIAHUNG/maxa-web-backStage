@@ -23,8 +23,6 @@ import OrderDetails from "../components/common/OrderDetails";
 import PassengerInfo from "../components/Order/PassengerInfo.tsx";
 // 匯入圖片
 import selectSeats from "../assets/images/memberCenter/selectSeats.png";
-// data
-import moment from "moment";
 
 // 乘客資料
 const passenger = [

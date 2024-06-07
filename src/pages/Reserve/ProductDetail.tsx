@@ -11,14 +11,14 @@ import SelectStation from "../../components/Order/selectStation";
 import SelectTime from "../../components/Order/SelectTime";
 import SelectSeats from "../../components/Order/SelectSeats";
 import ProductDetailData from "../../assets/API/ProductDetail.json";
-
+import { IconLocation } from "@arco-design/web-react/icon";
 const TabPane = Tabs.TabPane;
 const Step = Steps.Step;
 
 interface ProductDetailDataType {
   [key: string]: ProductDetailType;
 }
-
+console.log(IconLocation);
 const productDetailData: ProductDetailDataType = ProductDetailData;
 
 const ProductDetail: React.FC = () => {
@@ -119,7 +119,11 @@ const ProductDetail: React.FC = () => {
                   style={{ maxWidth: 780 }}
                 >
                   {product.stations.map((station) => (
-                    <Step key={station.id} title={station.name} />
+                    <Step
+                      key={station.id}
+                      title={station.name}
+                      icon={<IconLocation />}
+                    />
                   ))}
                 </Steps>
               </Typography.Paragraph>
@@ -133,7 +137,11 @@ const ProductDetail: React.FC = () => {
                   style={{ maxWidth: 780 }}
                 >
                   {product.stations.reverse().map((station) => (
-                    <Step key={station.id} title={station.name} />
+                    <Step
+                      key={station.id}
+                      title={station.name}
+                      icon={<IconLocation />}
+                    />
                   ))}
                 </Steps>
               </Typography.Paragraph>

@@ -7,6 +7,7 @@ import {
   GridComponent,
   GridComponentOption,
   LegendComponent,
+  TooltipComponent,
 } from "echarts/components";
 import { LineChart, LineSeriesOption } from "echarts/charts";
 import { UniversalTransition } from "echarts/features";
@@ -14,7 +15,7 @@ import { CanvasRenderer } from "echarts/renderers";
 // 時間控制相關
 import dayjs, { Dayjs } from "dayjs";
 // 匯入圖片
-// import emptyImg from "../../assets/images/empty-state.png";
+import emptyImg from "../../assets/images/empty-state.png";
 
 // ui kit
 const Option = Select.Option;
@@ -51,8 +52,8 @@ const IndustryCharts: React.FC = () => {
     dayjs().subtract(1, "month").endOf("month"),
   ]);
   const [quarterDate, setQuarterDate] = useState<Dayjs[]>([
-    dayjs().subtract(3, "year").startOf("quarter"),
-    dayjs().startOf("quarter"),
+    dayjs().subtract(3, "year"),
+    dayjs().subtract(3, "month"),
   ]);
 
   // 設定chart容器
@@ -64,6 +65,7 @@ const IndustryCharts: React.FC = () => {
     CanvasRenderer,
     UniversalTransition,
     LegendComponent,
+    TooltipComponent,
   ]);
 
   // 路線選項
@@ -75,7 +77,9 @@ const IndustryCharts: React.FC = () => {
   }
 
   // 添加一个映射函数
-  const mapReportTypeToKey = (reportType: ReportType): keyof typeof emptyData.current => {
+  const mapReportTypeToKey = (
+    reportType: ReportType
+  ): keyof typeof emptyData.current => {
     switch (reportType) {
       case "週報表":
         return "week";
@@ -200,11 +204,19 @@ const IndustryCharts: React.FC = () => {
       const startDate = quarterDate[0];
       const endDate = quarterDate[1];
       const quarters = [];
-      let currentQuarter = startDate.startOf("quarter");
+      let currentQuarter = startDate;
 
-      while (quarters.length < 12) {
+      while (
+        currentQuarter.isBefore(endDate) ||
+        currentQuarter.isSame(endDate)
+      ) {
         quarters.push(currentQuarter.format("YYYY-[Q]Q"));
         currentQuarter = currentQuarter.add(3, "month");
+      }
+
+      if (quarters.length < 12) {
+        emptyData.current.quarter = true;
+        return { xAxisData: [], seriesData: [] };
       }
 
       dataMapping.季報表.xAxisData = quarters;
@@ -213,7 +225,7 @@ const IndustryCharts: React.FC = () => {
           .fill(0)
           .map(() => Math.floor(Math.random() * 1000) + 500);
       });
-      emptyData.current.quarter = quarters.length === 0;
+      emptyData.current.quarter = false;
     }
 
     return dataMapping[type];
@@ -233,8 +245,21 @@ const IndustryCharts: React.FC = () => {
       emptyData.current.month = months.length !== 12;
       setRangeDate(date);
     } else if (reportType === "季報表" && Array.isArray(date)) {
+      const startDate = date[0];
+      const endDate = date[1];
+      const quarters = [];
+      let currentQuarter = startDate;
+
+      while (
+        currentQuarter.isBefore(endDate) ||
+        currentQuarter.isSame(endDate)
+      ) {
+        quarters.push(currentQuarter.format("YYYY-[Q]Q"));
+        currentQuarter = currentQuarter.add(3, "month");
+      }
+
+      emptyData.current.quarter = quarters.length < 12;
       setQuarterDate(date);
-      emptyData.current.quarter = false;
     } else if (!Array.isArray(date)) {
       setSingleDate(date);
       emptyData.current.week = false;
@@ -278,6 +303,9 @@ const IndustryCharts: React.FC = () => {
           legend: {
             left: "left",
             data: seriesData.map((series) => series.name),
+          },
+          tooltip: {
+            trigger: "axis",
           },
           series: seriesData.map((series) => ({
             name: series.name,
@@ -412,13 +440,24 @@ const IndustryCharts: React.FC = () => {
 
       {/* 圖表內容 */}
       {emptyData.current[mapReportTypeToKey(reportType)] ? (
-        <p>無資料</p>
+        <div
+          className={`flex flex-col justify-center items-center gap-[20px] h-full`}
+        >
+          <img
+            src={emptyImg}
+            alt="查無資料"
+            className={`w-[280px] h-[280px]`}
+          />
+          <p className={`text-[16px]`}>搜尋不到結果</p>
+        </div>
       ) : (
-        <div id="main" ref={chartRef} style={{ height: "700px" }}></div>
+        <>
+          <p></p>
+          <div id="main" ref={chartRef} style={{ height: "700px" }}></div>
+        </>
       )}
     </div>
   );
 };
 
 export default IndustryCharts;
-
