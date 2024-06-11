@@ -104,7 +104,8 @@ const OrderContent: React.FC = () => {
     const handleScroll = () => {
       if (orderDetailsRef.current) {
         const rect = orderDetailsRef.current.getBoundingClientRect();
-        setIsSticky(rect.top <= 0);
+        console.log(rect.top);
+        setIsSticky(rect.top < -320);
       }
     };
 
@@ -278,8 +279,16 @@ const OrderContent: React.FC = () => {
               : " h-0"
           }
         >
-          <p>商品合計 NT$ 1,100</p>
-          <p>商品合計</p>
+          <p>{orderContent.routeName}</p>
+          <p>{orderContent.title !== "reserve" && "NT$798"}</p>
+          {orderContent.title === "reserve" && (
+            <p>
+              <span className={`pr-[4px]`}>NT$</span>
+              {tabState === "roundTripTicket" && orderContent.totalAmount
+                ? +orderContent.totalAmount * 2
+                : orderContent.totalAmount}
+            </p>
+          )}
         </div>
 
         {/* 預約 */}
