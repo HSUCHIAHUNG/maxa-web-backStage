@@ -11,6 +11,7 @@ export default {
       mainorange: '#0F1C31'
     },
     screens: {
+      '2xl': '1440px',
       'xl': '1200px',
       'md': '768px',
     },

@@ -15,7 +15,16 @@
     "routeProduct": "501 大溪快線",
     "orderAmount": "NT$ 1,100",
     "orderTime": "2024-04-21 12:12:12",
-    "orderStatus": "已付款，等待使用"
+    "orderStatus": "已付款"
+  },
+  {
+    "orderNumber": "207664866757545",
+    "customer": "無登入購買",
+    "provider": "桃園客運",
+    "routeProduct": "501 大溪快線",
+    "orderAmount": "NT$ 1,100",
+    "orderTime": "2024-04-21 12:12:12",
+    "orderStatus": "已付款"
   },
   {
     "orderNumber": "207664866757545",
@@ -26,15 +35,7 @@
     "orderTime": "2024-04-21 12:12:12",
     "orderStatus": "申請退款中"
   },
-  {
-    "orderNumber": "516243772343244",
-    "customer": "李四",
-    "provider": "金門台灣好行",
-    "routeProduct": "502 小烏來線(假日行駛)",
-    "orderAmount": "NT$ 1,100",
-    "orderTime": "2024-04-21 12:12:12",
-    "orderStatus": "已完成活動"
-  },
+
   {
     "orderNumber": "7195577623525551",
     "customer": "王五",
@@ -44,15 +45,7 @@
     "orderTime": "2024-04-21 12:12:12",
     "orderStatus": "付款期限已截止"
   },
-  {
-    "orderNumber": "7195577623525552",
-    "customer": "胡六",
-    "provider": "桃園客運",
-    "routeProduct": "502 小烏來線(假日行駛)",
-    "orderAmount": "NT$ 1,100",
-    "orderTime": "2024-04-21 12:12:12",
-    "orderStatus": "逾期未使用"
-  },
+ 
   {
     "orderNumber": "7195577623525553",
     "customer": "劉七",

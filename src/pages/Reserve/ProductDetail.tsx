@@ -5,7 +5,7 @@ import { RootState } from "../../stores/index";
 import { orderActions } from "../../stores/order";
 import { ProductDetailType } from "./type";
 import { Carousel, Steps, Tabs, Typography } from "@arco-design/web-react";
-import "../../assets/ProductDetail.css";
+import "../../assets/css/ProductDetail.css";
 import Banner from "../../components/Carousel";
 import SelectStation from "../../components/Order/selectStation";
 import SelectTime from "../../components/Order/SelectTime";

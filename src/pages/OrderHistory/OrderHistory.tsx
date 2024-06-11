@@ -11,6 +11,7 @@ import {
   Drawer,
   Input,
   Select,
+  Space,
   Table,
   Tag,
 } from "@arco-design/web-react";
@@ -18,12 +19,16 @@ import {
 import dayjs, { Dayjs } from "dayjs";
 // 匯入型別
 import { OrderRecord } from "./type";
+// 匯入樣式
+import "../../assets/css/OrderHistory.css";
 // 匯入json
 import OrderHistoryList from "../../assets/API/OrderHistory.json";
 // 匯入圖片
 import defaultImg from "../../assets/images/orderHistory/defaultImg.png";
 import guestImg from "../../assets/images/orderHistory/guestImg.png";
 import serviceImg from "../../assets/images/orderHistory/serviceImg.png";
+import emptyImg from "../../assets/images/empty-state.png";
+
 
 // ui kit
 const InputSearch = Input.Search;
@@ -80,6 +85,7 @@ const OrderHistory: React.FC = () => {
     {
       title: "訂單編號",
       dataIndex: "orderNumber",
+      width: "60px",
       fixed: "left" as const,
     },
     ...(purchaseType === "online"
@@ -88,6 +94,7 @@ const OrderHistory: React.FC = () => {
           {
             title: "訂購人",
             dataIndex: "customer",
+            width: "50px",
             render: (_col: unknown, record: OrderRecord) => (
               <div className={`flex justify-start items-center gap-[8px]`}>
                 {customerImg(record.customer)}
@@ -99,22 +106,27 @@ const OrderHistory: React.FC = () => {
     {
       title: "路線(商品)",
       dataIndex: "routeProduct",
+      width: "70px",
     },
     {
       title: "業者",
       dataIndex: "provider",
+      width: "38px",
     },
     {
       title: "訂單金額",
       dataIndex: "orderAmount",
+      width: "35px",
     },
     {
       title: "訂購時間",
       dataIndex: "orderTime",
+      width: "60px",
     },
     {
       title: "訂單狀態",
       dataIndex: "orderStatus",
+      width: "60px",
       render: (_col: unknown, record: OrderRecord) => (
         <div className={`flex justify-start items-center gap-[8px]`}>
           <div
@@ -127,6 +139,7 @@ const OrderHistory: React.FC = () => {
     {
       title: "操作",
       dataIndex: "操作",
+      width: "18px",
       render: (_col: unknown, record: OrderRecord) => (
         <Button
           onClick={() => orderDetail(record)}
@@ -317,9 +330,20 @@ const OrderHistory: React.FC = () => {
     navigate(`/orderContent/${record.orderNumber}`);
   };
 
+  const clearFilters = () => {
+    setTempOrderHistoryFilters({
+      orderNumber: "",
+      customer: "",
+      provider: "",
+      routeProduct: "",
+      orderTime: [null, null],
+      orderStatus: [],
+    });
+  };
+
   return (
     <>
-      <div className={`w-[80%] py-[16px] m-[0_auto] `}>
+      <div className={`orderHistory w-[80%] py-[16px] m-[0_auto] `}>
         {/* 標題、篩選 */}
         <div className={`flex justify-between items-center w-full pb-[16px]`}>
           <div className={`flex gap-[8px]`}>
@@ -408,6 +432,18 @@ const OrderHistory: React.FC = () => {
           columns={columns}
           data={filteredData}
           pagination={false}
+          noDataElement={
+            <div
+              className={`flex flex-col justify-center items-center gap-[20px] h-full`}
+            >
+              <img
+                src={emptyImg}
+                alt="查無資料"
+                className={`w-[200px] h-[200px]`}
+              />
+              <p className={`text-[16px]`}>搜尋不到結果</p>
+            </div>
+          }
           scroll={{
             y: 500,
             x: 1000,
@@ -416,6 +452,7 @@ const OrderHistory: React.FC = () => {
       </div>
 
       {/* 隱藏選單-訂單狀態、業者、商品篩選 */}
+
       <Drawer
         width={400}
         title={<span className={`text-[16px]`}>篩選</span>}
@@ -430,15 +467,33 @@ const OrderHistory: React.FC = () => {
         onCancel={() => {
           setVisible(false);
         }}
+        footer={
+          <Space>
+            <Button onClick={clearFilters}>還原預設值</Button>
+            <Button
+              type="primary"
+              onClick={() => {
+                setOrderHistoryFilters((prevFilters) => ({
+                  ...prevFilters,
+                  ...tempOrderHistoryFilters,
+                })); // 當點擊確定按鈕時，將暫存的篩選條件應用到正式的篩選條件
+                setVisible(false);
+              }}
+            >
+              確定
+            </Button>
+          </Space>
+        }
       >
         <div
-          className={` flex flex-col gap-[20px] px-[16px] py-[12px] w-[345px]`}
+          className={`flex flex-col gap-[20px] px-[16px] py-[12px] w-[345px]`}
         >
           {/* 訂單狀態 */}
           <div className={``}>
             <p className={`text-[#4E5969] pb-[9px]`}>訂單狀態</p>
             <Select
               onChange={(value) => handleTempFilterChange("orderStatus", value)}
+              value={tempOrderHistoryFilters.orderStatus} // 綁定值
               mode="multiple"
               placeholder="所有狀態"
               allowClear
@@ -457,7 +512,9 @@ const OrderHistory: React.FC = () => {
             <p className={`text-[#4E5969] pb-[9px]`}>業者</p>
             <Select
               onChange={(value) => handleTempFilterChange("provider", value)}
-              placeholder="Please select"
+              value={tempOrderHistoryFilters.provider || undefined} // 綁定值
+              placeholder="所有業者"
+              allowClear
             >
               {industryOptions.map((option) => (
                 <Option key={option} value={option}>
@@ -474,9 +531,10 @@ const OrderHistory: React.FC = () => {
               onChange={(value) =>
                 handleTempFilterChange("routeProduct", value)
               }
+              value={tempOrderHistoryFilters.routeProduct || undefined} // 綁定值
               showSearch
               allowClear
-              placeholder="Select route"
+              placeholder="所有商品"
             >
               {productGroups.map((options) => {
                 return (

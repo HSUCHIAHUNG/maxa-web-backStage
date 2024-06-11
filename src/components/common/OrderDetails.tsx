@@ -6,11 +6,11 @@ import { RootState } from "../../stores/index.ts";
 interface OrderDetailsProps {
   title?: boolean;
   buttonState?: string;
-  modal?: () => void;
+  // modal?: () => void;
   className?: string;
 }
 
-const OrderDetails: React.FC<OrderDetailsProps> = ({ className, modal }) => {
+const OrderDetails: React.FC<OrderDetailsProps> = ({ className }) => {
   // 去程已選座位數
   const orderContent = useSelector(
     (state: RootState) => state.order.orderContent
@@ -46,37 +46,37 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ className, modal }) => {
   }
 
   // 動態顯示按鈕狀態
-  const buttonState = () => {
-    switch (orderContent.paymentState) {
-      case "alreadyPaid":
-        return (
-          <button
-            className={`mt-[20px] px-[16px] py-[5px] w-full text-[#4E5969] bg-[#F2F3F5] `}
-          >
-            申請退款
-          </button>
-        );
-      case "refund":
-        return (
-          <button
-            onClick={modal}
-            className={`mt-[20px] px-[16px] py-[5px] w-full text-[#fff] bg-[#3A57E8] `}
-          >
-            退款
-          </button>
-        );
-      case "pendingPayment":
-        return (
-          <button
-            className={`mt-[20px] px-[16px] py-[5px] w-full text-[#4E5969] bg-[#F2F3F5] `}
-          >
-            取消訂單
-          </button>
-        );
-      default:
-        break;
-    }
-  };
+  // const buttonState = () => {
+  //   switch (orderContent.paymentState) {
+  //     case "alreadyPaid":
+  //       return (
+  //         <button
+  //           className={`mt-[20px] px-[16px] py-[5px] w-full text-[#4E5969] bg-[#F2F3F5] `}
+  //         >
+  //           申請退款
+  //         </button>
+  //       );
+  //     case "refund":
+  //       return (
+  //         <button
+  //           onClick={modal}
+  //           className={`mt-[20px] px-[16px] py-[5px] w-full text-[#fff] bg-[#3A57E8] `}
+  //         >
+  //           退款
+  //         </button>
+  //       );
+  //     case "pendingPayment":
+  //       return (
+  //         <button
+  //           className={`mt-[20px] px-[16px] py-[5px] w-full text-[#4E5969] bg-[#F2F3F5] `}
+  //         >
+  //           取消訂單
+  //         </button>
+  //       );
+  //     default:
+  //       break;
+  //   }
+  // };
 
   return (
     <div
@@ -148,7 +148,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ className, modal }) => {
           )}
         </div>
         {/* 依照按鈕切換按鈕狀態 */}
-        {buttonState()}
+        {/* {buttonState()} */}
       </div>
     </div>
   );

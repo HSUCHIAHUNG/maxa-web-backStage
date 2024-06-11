@@ -1,4 +1,6 @@
 import React from "react";
+// 匯入樣式
+import "../../assets/css/CheckoutReport.css";
 // ui kit
 import { DatePicker, Table } from "@arco-design/web-react";
 
@@ -6,6 +8,7 @@ const columns = [
   {
     title: "清分處理日期",
     dataIndex: "clearanceProcessingDate",
+    width: "0.5px",
     render: (col: string, _item: unknown, index: number) => {
       const obj = {
         children: col,
@@ -31,10 +34,12 @@ const columns = [
   {
     title: "交易代號",
     dataIndex: "transactionCode",
+    width: "0.5px",
   },
   {
     title: "交易名稱",
     dataIndex: "transactionName",
+    width: "0.5px",
   },
   {
     title: "應收筆數金額",
@@ -43,12 +48,14 @@ const columns = [
       {
         title: "筆數",
         dataIndex: "receivablesQuantity",
-        align: 'right' as const
+        width: "0.5px",
+        align: "right" as const,
       },
       {
         title: "金額",
         dataIndex: "receivablesAmount",
-        align: 'right' as const
+        width: "0.5px",
+        align: "right" as const,
       },
     ],
   },
@@ -59,12 +66,14 @@ const columns = [
       {
         title: "筆數",
         dataIndex: "payableQuantity",
-        align: 'right' as const
+        width: "0.5px",
+        align: "right" as const,
       },
       {
         title: "金額",
+        width: "0.5px",
         dataIndex: "payableAmount",
-        align: 'right' as const
+        align: "right" as const,
       },
     ],
   },
@@ -79,8 +88,8 @@ const data = [
     receivables: "32 Park Road, London",
     receivablesQuantity: "1000",
     receivablesAmount: "400001",
-    payableQuantity: '0',
-    payableAmount: '0',
+    payableQuantity: "0",
+    payableAmount: "0",
   },
   {
     key: "2",
@@ -89,8 +98,8 @@ const data = [
     receivables: "35 Park Road, London",
     receivablesQuantity: "500",
     receivablesAmount: "92000",
-    payableQuantity: '0',
-    payableAmount: '0',
+    payableQuantity: "0",
+    payableAmount: "0",
   },
   {
     key: "3",
@@ -99,8 +108,8 @@ const data = [
     receivables: "31 Park Road, London",
     receivablesQuantity: "0",
     receivablesAmount: "0",
-    payableQuantity: '2',
-    payableAmount: '802',
+    payableQuantity: "2",
+    payableAmount: "802",
   },
   {
     key: "4",
@@ -110,8 +119,8 @@ const data = [
     receivables: "42 Park Road, London",
     receivablesQuantity: "3",
     receivablesAmount: "100",
-    payableQuantity: '0',
-    payableAmount: '0',
+    payableQuantity: "0",
+    payableAmount: "0",
   },
   {
     key: "5",
@@ -120,21 +129,38 @@ const data = [
     receivables: "62 Park Road, London",
     receivablesQuantity: "3",
     receivablesAmount: "100",
-    payableQuantity: '0',
-    payableAmount: '0',
+    payableQuantity: "0",
+    payableAmount: "0",
   },
 ];
 
 const CheckoutReport: React.FC = () => {
   // 計算總計
-  const totalReceivablesQuantity = data.reduce((sum, item) => sum + parseFloat(item.receivablesQuantity.replace(/,/g, '')) || 0, 0);
-  const totalReceivablesAmount = data.reduce((sum, item) => sum + parseFloat(item.receivablesAmount.replace(/,/g, '')) || 0, 0);
-  const totalPayableQuantity = data.reduce((sum, item) => sum + parseFloat(item.payableQuantity.replace(/,/g, '')) || 0, 0);
-  const totalPayableAmount = data.reduce((sum, item) => sum + parseFloat(item.payableAmount.replace(/,/g, '')) || 0, 0);
+  const totalReceivablesQuantity = data.reduce(
+    (sum, item) =>
+      sum + parseFloat(item.receivablesQuantity.replace(/,/g, "")) || 0,
+    0
+  );
+  const totalReceivablesAmount = data.reduce(
+    (sum, item) =>
+      sum + parseFloat(item.receivablesAmount.replace(/,/g, "")) || 0,
+    0
+  );
+  const totalPayableQuantity = data.reduce(
+    (sum, item) =>
+      sum + parseFloat(item.payableQuantity.replace(/,/g, "")) || 0,
+    0
+  );
+  const totalPayableAmount = data.reduce(
+    (sum, item) => sum + parseFloat(item.payableAmount.replace(/,/g, "")) || 0,
+    0
+  );
   const totalNetAmount = totalReceivablesAmount - totalPayableAmount;
 
   return (
-    <div className={` w-[80%] py-[16px] m-[0_auto] flex flex-col `}>
+    <div
+      className={` checkoutReport w-[80%] py-[16px] m-[0_auto] flex flex-col `}
+    >
       {/* 標題、篩選 */}
       <div className={`flex justify-between items-center w-full pb-[16px]`}>
         <p className={`text-[20px] text-[#1D2129]`}>每日結帳報表</p>
@@ -163,7 +189,7 @@ const CheckoutReport: React.FC = () => {
       {/* table */}
       <Table
         scroll={{
-          x: 1200,
+          x: 750,
         }}
         border={{
           wrapper: true,
@@ -175,14 +201,28 @@ const CheckoutReport: React.FC = () => {
           <>
             <Table.Summary.Row>
               <Table.Summary.Cell colSpan={3}>總計</Table.Summary.Cell>
-              <Table.Summary.Cell className="text-right">{totalReceivablesQuantity}</Table.Summary.Cell>
-              <Table.Summary.Cell className="text-right">{totalReceivablesAmount.toLocaleString()}</Table.Summary.Cell>
-              <Table.Summary.Cell className="text-right">{totalPayableQuantity}</Table.Summary.Cell>
-              <Table.Summary.Cell className="text-right">{totalPayableAmount.toLocaleString()}</Table.Summary.Cell>
+              <Table.Summary.Cell className="text-right">
+                {totalReceivablesQuantity}
+              </Table.Summary.Cell>
+              <Table.Summary.Cell className="text-right">
+                {totalReceivablesAmount.toLocaleString()}
+              </Table.Summary.Cell>
+              <Table.Summary.Cell className="text-right">
+                {totalPayableQuantity}
+              </Table.Summary.Cell>
+              <Table.Summary.Cell className="text-right">
+                {totalPayableAmount.toLocaleString()}
+              </Table.Summary.Cell>
             </Table.Summary.Row>
             <Table.Summary.Row>
               <Table.Summary.Cell colSpan={6}>淨額</Table.Summary.Cell>
-              <Table.Summary.Cell className={`text-right ${totalNetAmount >= 0 ? '!bg-[#E8FFEA] text-[#00B42A]' : '!bg-[#FFEAE8] text-[#EC4A58] '}`} >
+              <Table.Summary.Cell
+                className={`text-right ${
+                  totalNetAmount >= 0
+                    ? "!bg-[#E8FFEA] text-[#00B42A]"
+                    : "!bg-[#FFEAE8] text-[#EC4A58] "
+                }`}
+              >
                 {totalNetAmount.toLocaleString()}
               </Table.Summary.Cell>
             </Table.Summary.Row>

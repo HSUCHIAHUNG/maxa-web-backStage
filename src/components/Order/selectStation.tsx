@@ -6,7 +6,7 @@ import { orderActions } from "../../stores/order";
 import { RootState, useAppDispatch } from "../../stores/index";
 // 匯入型別
 import { ProductDetailType } from "../../pages/Reserve/type";
-import { StationDataType } from '../../stores/type/OrderType'
+import { StationDataType } from "../../stores/type/OrderType";
 // ui kit
 import {
   Form,
@@ -46,7 +46,7 @@ const SelectStation: React.FC<SelectStationProps> = ({
   const ticketState = useSelector((state: RootState) => state.order.ticket);
 
   // 站點資訊
-  const stations = productDetail.stations.map((station) => station.name)
+  const stations = productDetail.stations.map((station) => station.name);
 
   // login表單提交
   const submit = (value: StationDataType) => {
@@ -77,11 +77,7 @@ const SelectStation: React.FC<SelectStationProps> = ({
           required
           rules={[{ required: true, message: "必填" }]}
         >
-          <Select
-            placeholder="選擇起點"
-            options={stations}
-            allowClear
-          />
+          <Select placeholder="選擇起點" options={stations} allowClear />
         </FormItem>
         <FormItem
           label="選擇迄點"
@@ -105,11 +101,7 @@ const SelectStation: React.FC<SelectStationProps> = ({
             },
           ]}
         >
-          <Select
-            placeholder="選擇迄點"
-            options={stations}
-            allowClear
-          />
+          <Select placeholder="選擇迄點" options={stations} allowClear />
         </FormItem>
       </div>
       {/* 選擇日期 */}
@@ -124,8 +116,11 @@ const SelectStation: React.FC<SelectStationProps> = ({
           <DatePicker
             onSelect={(_valueString, value) => {
               setTimeDates(value);
+              form.resetFields(["endDate"]);
             }}
-            disabledDate={(current) => current.isBefore(dayjs())}
+            disabledDate={(current) =>
+              current.isBefore(dayjs().subtract(1, "days"))
+            }
             placeholder="選擇去程日期"
             className={`w-full`}
           />
@@ -150,7 +145,7 @@ const SelectStation: React.FC<SelectStationProps> = ({
                   const selected = current.isBefore(timeDates);
                   return beforeDtae || selected;
                 }
-                return false;
+                return current.isBefore(dayjs().subtract(1, "day"));
               }}
               placeholder="選擇回程日期"
               className={`w-full`}

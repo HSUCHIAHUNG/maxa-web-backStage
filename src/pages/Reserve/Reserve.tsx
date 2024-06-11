@@ -45,7 +45,7 @@ const Reserve: React.FC = () => {
       <div className={`py-[16px] text-[20px] text-center`}>
         預約/查詢班次座位
       </div>
-      <div className={`flex flex-wrap justify-start gap-[20px]`}>
+      <div className={`flex flex-wrap justify-start gap-[20px] max-w-[960px] m-[0_auto] `}>
         {filterProductList.map((product) => (
           <div
             key={product.id}
@@ -53,11 +53,11 @@ const Reserve: React.FC = () => {
             onClick={() => handleLinkClick(product.name, product.id)}
           >
             {/* 圖片 */}
-            <div className="w-[373px] h-[200px] rounded-[16px] shadow-md overflow-hidden">
+            <div className="w-[306px] h-[200px] rounded-[16px] shadow-md overflow-hidden">
               <img
                 src={product.imageUrl}
                 alt={product.name}
-                className={`w-[373px] h-[200px]`}
+                className={`w-full h-full`}
               />
             </div>
             {/* 產品內文 */}

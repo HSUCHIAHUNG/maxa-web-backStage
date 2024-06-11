@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { orderActions } from "../../stores/order";
 import { RootState, useAppDispatch } from "../../stores/index";
+import "../../assets/css/SelectTime.css";
 import {
   Button,
   Divider,
@@ -38,23 +39,28 @@ const SelectTime: React.FC = () => {
     {
       title: "班次編號",
       dataIndex: "id",
+      width: "25px",
       fixed: "left",
     },
     {
       title: bookingData?.stationData?.startStation,
       dataIndex: "endStation",
+      width: "30px",
     },
     {
       title: bookingData?.stationData?.endStation,
       dataIndex: "startStation",
+      width: "30px",
     },
     {
       title: "空位數",
       dataIndex: "seats",
+      width: "20px",
     },
     {
       title: "車種",
       dataIndex: "Vehicles",
+      width: "25px",
     },
   ];
 
@@ -62,23 +68,28 @@ const SelectTime: React.FC = () => {
     {
       title: "班次編號",
       dataIndex: "id",
+      width: "25px",
       fixed: "left",
     },
     {
       title: bookingData.stationData.endStation,
       dataIndex: "startStation",
+      width: "30px",
     },
     {
       title: bookingData.stationData.startStation,
       dataIndex: "endStation",
+      width: "30px",
     },
     {
       title: "空位數",
       dataIndex: "seats",
+      width: "20px",
     },
     {
       title: "車種",
       dataIndex: "Vehicles",
+      width: "25px",
     },
   ];
 
@@ -151,7 +162,7 @@ const SelectTime: React.FC = () => {
 
   return (
     <>
-      <div className={`${isOpen()}`}>
+      <div className={` selectTime ${isOpen()}`}>
         <Form
           form={form}
           autoComplete="on"
@@ -163,7 +174,7 @@ const SelectTime: React.FC = () => {
           <div className={` md:gap-[20px] `}>
             <FormItem label="選擇去程班次" field="startTime" required>
               <Table
-                scroll={{ x: 630 }}
+                scroll={{ x: 300 }}
                 rowKey="id"
                 columns={departureColumns}
                 data={data}
@@ -172,6 +183,7 @@ const SelectTime: React.FC = () => {
                 className={`w-full`}
                 rowSelection={{
                   type: "radio",
+                  columnWidth: 20,
                   onChange: (selectedRowKeys, selectedRows) =>
                     setSelectData(selectedRowKeys, selectedRows, "startTime"),
                 }}
@@ -180,7 +192,7 @@ const SelectTime: React.FC = () => {
             {ticketState === "roundTripTicket" && (
               <FormItem label="選擇回程班次" field="endTime" required>
                 <Table
-                  scroll={{ x: 630 }}
+                  scroll={{ x: 300 }}
                   rowKey="id"
                   columns={returnTripColumns}
                   data={data}
@@ -189,6 +201,7 @@ const SelectTime: React.FC = () => {
                   className={`w-full`}
                   rowSelection={{
                     type: "radio",
+                    columnWidth: 20,
                     onChange: (selectedRowKeys, selectedRows) =>
                       setSelectData(selectedRowKeys, selectedRows, "endTime"),
                   }}

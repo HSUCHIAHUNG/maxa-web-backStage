@@ -4,7 +4,7 @@ import App from './App.tsx'
 import store from './stores/index'
 import { Provider } from 'react-redux'
 import "@arco-design/web-react/dist/css/arco.css";
-import './assets/index.css'
+import './assets/css/index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // <React.StrictMode>
