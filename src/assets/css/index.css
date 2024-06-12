@@ -80,19 +80,19 @@ input[name="card-radio-group"]:focus-visible + .custom-radio-card {
 
 /* styles.css or equivalent */
 .loading-enter {
-  opacity: 0;
+  opacity: 1;
 }
 
 .loading-enter-active {
-  opacity: 1;
+  opacity: 0;
   transition: all 0.3s;
 }
 
 .loading-exit {
-  opacity: 1;
+  opacity: 0;
 }
 
 .loading-exit-active {
-  opacity: 0;
+  opacity: 1;
   transition: all 0.3s;
 }

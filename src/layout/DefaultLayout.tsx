@@ -7,7 +7,7 @@ import { RootState } from "../stores/index.ts";
 // 匯入組件
 import Header from "../components/layout/Header";
 import NavMenu from "../components/layout/NavMenu";
-import Loading from "../components/Loading.tsx";
+import { CSSTransition } from "react-transition-group";
 
 function DefaultLayout() {
   // 全域狀態auth
@@ -37,16 +37,20 @@ function DefaultLayout() {
   }, [location]);
 
   return (
-    <>
-      <Loading isLoading={isLoading} />
       <div className="flex flex-col min-h-[100vh] m-[0_auto]">
         <Header />
         <div className="flex flex-1">
           <NavMenu />
-          <Outlet />
+          <CSSTransition
+            in={isLoading}
+            timeout={300}
+            classNames="loading"
+            unmountOnExit={false}
+          >
+            <Outlet />
+          </CSSTransition>
         </div>
       </div>
-    </>
   );
 }
 
