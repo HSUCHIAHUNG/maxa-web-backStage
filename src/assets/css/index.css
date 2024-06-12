@@ -78,21 +78,44 @@ input[name="card-radio-group"]:focus-visible + .custom-radio-card {
   gap: 4px;
 }
 
-/* styles.css or equivalent */
+/* loading */
 .loading-enter {
   opacity: 1;
+  transition: all 300ms;
 }
 
 .loading-enter-active {
-  opacity: 0;
-  transition: all 0.3s;
+  opacity: 1;
+  transition: all 300ms;
 }
 
 .loading-exit {
-  opacity: 0;
+  opacity: 0.5;
+  transition: all 300ms;
 }
 
 .loading-exit-active {
+  opacity: 0;
+  transition: all 300ms;
+}
+
+/* fade */
+.fade-enter {
+  opacity: 0;
+  transition: all 300ms;
+}
+
+.fade-enter-active {
+  opacity: 0;
+  transition: all 300ms;
+}
+
+.fade-exit {
+  opacity: 0.5;
+  transition: all 300ms;
+}
+
+.fade-exit-active {
   opacity: 1;
-  transition: all 0.3s;
+  transition: all 300ms;
 }

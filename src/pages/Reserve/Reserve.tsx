@@ -30,7 +30,6 @@ const Reserve: React.FC = () => {
     const filtered = ProductList.filter((item) =>
       item.name.includes(searchProduct)
     );
-    console.log(filtered);
     setFilterProductList(filtered);
   }, [searchProduct]);
 
