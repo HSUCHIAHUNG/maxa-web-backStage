@@ -1,12 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 // router
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 // redux
 import { useSelector } from "react-redux";
 import { RootState } from "../stores/index.ts";
 // 匯入組件
 import Header from "../components/layout/Header";
 import NavMenu from "../components/layout/NavMenu";
+import Loading from "../components/Loading.tsx";
 
 function DefaultLayout() {
   // 全域狀態auth
@@ -14,20 +15,38 @@ function DefaultLayout() {
 
   // 動態路由
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // 控制 Loading 顯示的狀態
+  const [isLoading, setIsLoading] = useState(true);
 
   // 如果沒登入就被踢回登入頁面
   useEffect(() => {
-    if (!auth) navigate("login");
+    if (!auth) {
+      navigate("login");
+    }
   }, [navigate, auth]);
 
+  // 監聽路由變化，顯示 Loading 並設定 0.3 秒後隱藏
+  useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [location]);
+
   return (
-    <div className="flex flex-col min-h-[100vh] m-[0_auto]">
-      <Header />
-      <div className="flex flex-1">
-        <NavMenu />
-        <Outlet />
+    <>
+      <Loading isLoading={isLoading} />
+      <div className="flex flex-col min-h-[100vh] m-[0_auto]">
+        <Header />
+        <div className="flex flex-1">
+          <NavMenu />
+          <Outlet />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

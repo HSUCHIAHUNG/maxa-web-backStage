@@ -18,7 +18,6 @@ const Step = Steps.Step;
 interface ProductDetailDataType {
   [key: string]: ProductDetailType;
 }
-console.log(IconLocation);
 const productDetailData: ProductDetailDataType = ProductDetailData;
 
 const ProductDetail: React.FC = () => {

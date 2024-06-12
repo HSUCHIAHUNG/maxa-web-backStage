@@ -7,12 +7,23 @@ import { authActions } from "../../stores/auth.ts";
 import { orderActions } from "../../stores/order.ts";
 import { useAppDispatch } from "../../stores/index.ts";
 // ui kit
-import { Input } from "@arco-design/web-react";
+import { AutoComplete } from "@arco-design/web-react";
 // Icon
 import headerText from "@/assets/images/header/header_text.svg";
 import memberIcon from "@/assets/images/header/memberAvatar.svg";
+// json
+import allProduct from "../../assets/API/AllProduct.json";
+
 // ui ki( 搜尋框 )
-const InputSearch = Input.Search;
+// const InputSearch = Input.Search;
+
+interface Product {
+  id: string;
+  industry: string;
+  name: string;
+  imageUrl: string;
+  description: string;
+}
 
 const Header: React.FC = () => {
   // redux
@@ -21,13 +32,36 @@ const Header: React.FC = () => {
   // 動態路由
   const navigate = useNavigate();
 
+  const [inputValue, setInputValue] = useState("");
+  const [data, setData] = useState<Product[]>([]);
   const [memberList, setMemberList] = useState(false);
 
   /** @func 搜尋商品 */
-  const searchProduct = (value: string) => {
-    dispatch(orderActions.setSearchProduct(value));
+  const handleSearch = (inputValue: string) => {
+    setInputValue(inputValue);
+    setData(
+      inputValue
+        ? allProduct.filter((item) => item.name.includes(inputValue))
+        : []
+    );
+  };
+
+  // 案enter時搜尋條件
+  const handlePressEnter = () => {
+    dispatch(orderActions.setSearchProduct(inputValue));
     navigate("/");
   };
+
+  // autoComplet選擇選項時
+  const handleSelect = (selectValue: string) => {
+    dispatch(orderActions.setSearchProduct(selectValue));
+    navigate("/");
+  };
+
+  // const searchProduct = (inputValue: string) => {
+  //   console.log(inputValue);
+
+  // }
 
   return (
     <>
@@ -40,11 +74,21 @@ const Header: React.FC = () => {
             <img src={headerText} alt="MAXA" className="w-[66px] h-[14px]" />
           </NavLink>
           {/* 電腦版搜尋行程 */}
-          <InputSearch
+          {/* <InputSearch
             onSearch={searchProduct}
             className={` w-[265px] h-[32px] hidden md:block `}
             placeholder="搜尋行程"
             // loading
+          /> */}
+
+          <AutoComplete
+            placeholder="Search"
+            onSearch={handleSearch}
+            onSelect={handleSelect}
+            onPressEnter={handlePressEnter}
+            data={data.map((item) => item.name)}
+            allowClear
+            style={{ width: 185 }}
           />
         </div>
         {/* 會員icon */}

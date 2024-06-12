@@ -3,7 +3,8 @@ import React from "react";
 import "../../assets/css/CheckoutReport.css";
 // ui kit
 import { DatePicker, Table } from "@arco-design/web-react";
-
+// SheetJS
+import * as XLSX from 'xlsx';
 const columns = [
   {
     title: "清分處理日期",
@@ -157,6 +158,44 @@ const CheckoutReport: React.FC = () => {
   );
   const totalNetAmount = totalReceivablesAmount - totalPayableAmount;
 
+  // table轉excel
+  const exportToExcel = () => {
+    const worksheetData = data.map((row) => ({
+      清分處理日期: row.clearanceProcessingDate,
+      交易代號: row.transactionCode,
+      交易名稱: row.transactionName,
+      應收筆數: row.receivablesQuantity,
+      應收金額: row.receivablesAmount,
+      應付筆數: row.payableQuantity,
+      應付金額: row.payableAmount,
+    }));
+
+    worksheetData.push({
+      清分處理日期: "總計",
+      交易代號: "",
+      交易名稱: "",
+      應收筆數: totalReceivablesQuantity.toString(),
+      應收金額: totalReceivablesAmount.toLocaleString(),
+      應付筆數: totalPayableQuantity.toString(),
+      應付金額: totalPayableAmount.toLocaleString(),
+    });
+
+    worksheetData.push({
+      清分處理日期: "淨額",
+      交易代號: "",
+      交易名稱: "",
+      應收筆數: "",
+      應收金額: "",
+      應付筆數: "",
+      應付金額: totalNetAmount.toLocaleString(),
+    });
+
+    const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    XLSX.writeFile(workbook, "每日結帳報表.xlsx");
+  };
+
   return (
     <div
       className={` checkoutReport w-[80%] py-[16px] m-[0_auto] flex flex-col `}
@@ -179,6 +218,7 @@ const CheckoutReport: React.FC = () => {
 
           {/* 匯出 */}
           <button
+            onClick={exportToExcel} // 添加此行
             className={`bg-[#3A57E8] rounded-[2px] px-[16px] py-[5px] text-[#fff]`}
           >
             匯出

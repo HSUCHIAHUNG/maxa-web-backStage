@@ -10,6 +10,7 @@ import {
   DatePicker,
   Drawer,
   Input,
+  Pagination,
   Select,
   Space,
   Table,
@@ -28,8 +29,8 @@ import defaultImg from "../../assets/images/orderHistory/defaultImg.png";
 import guestImg from "../../assets/images/orderHistory/guestImg.png";
 import serviceImg from "../../assets/images/orderHistory/serviceImg.png";
 import emptyImg from "../../assets/images/empty-state.png";
-
-
+// SheetJS
+import * as XLSX from "xlsx";
 // ui kit
 const InputSearch = Input.Search;
 const Option = Select.Option;
@@ -79,6 +80,10 @@ const OrderHistory: React.FC = () => {
 
   // 購買方式狀態
   const [purchaseType, setPurchaseType] = useState("online"); // 'online' or 'onsite'
+
+  // pagination
+  const [current, setCurrent] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   // table columns
   const columns = [
@@ -273,6 +278,7 @@ const OrderHistory: React.FC = () => {
       ...prevFilters,
       [key]: value,
     }));
+    setCurrent(1); // 重置頁碼
   };
 
   // 暫存篩選變更處理函數
@@ -281,6 +287,17 @@ const OrderHistory: React.FC = () => {
       ...prevFilters,
       [key]: value,
     }));
+    setCurrent(1); // 重置頁碼
+  };
+
+  // 篩選條件時重置頁碼
+  const applyFilters = () => {
+    setOrderHistoryFilters((prevFilters) => ({
+      ...prevFilters,
+      ...tempOrderHistoryFilters,
+    }));
+    setCurrent(1); // 重置頁碼
+    setVisible(false);
   };
 
   // 根據篩選條件篩選數據
@@ -340,6 +357,30 @@ const OrderHistory: React.FC = () => {
       orderStatus: [],
     });
   };
+
+  // table轉excel
+  const exportToExcel = () => {
+    const worksheetData = paginatedData.map((row) => ({
+      訂單編號: row.orderNumber,
+      訂購人: row.customer,
+      "路線(商品)": row.routeProduct,
+      業者: row.provider,
+      訂單金額: row.orderAmount,
+      訂購時間: row.orderTime,
+      訂單狀態: row.orderStatus,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    XLSX.writeFile(workbook, "訂單紀錄.xlsx");
+  };
+
+  // 分頁後的數據
+  const paginatedData = filteredData.slice(
+    (current - 1) * pageSize,
+    current * pageSize
+  );
 
   return (
     <>
@@ -424,13 +465,21 @@ const OrderHistory: React.FC = () => {
               ></span>
               <p className={``}>篩選</p>
             </Button>
+
+            {/* 匯出 */}
+            <button
+              onClick={exportToExcel}
+              className={`bg-[#3A57E8] rounded-[2px] px-[16px] py-[5px] text-[#fff]`}
+            >
+              匯出
+            </button>
           </div>
         </div>
 
         {/* 表格內容 */}
         <Table
           columns={columns}
-          data={filteredData}
+          data={paginatedData}
           pagination={false}
           noDataElement={
             <div
@@ -449,6 +498,19 @@ const OrderHistory: React.FC = () => {
             x: 1000,
           }}
         />
+
+        <Pagination
+          current={current}
+          pageSize={pageSize}
+          total={filteredData.length}
+          onChange={(page) => setCurrent(page)}
+          onPageSizeChange={(size) => {
+            setPageSize(size);
+            setCurrent(1);
+          }}
+          showTotal={(total) => `共${total}筆`}
+          className="flex justify-end mt-4"
+        />
       </div>
 
       {/* 隱藏選單-訂單狀態、業者、商品篩選 */}
@@ -457,29 +519,14 @@ const OrderHistory: React.FC = () => {
         width={400}
         title={<span className={`text-[16px]`}>篩選</span>}
         visible={visible}
-        onOk={() => {
-          setOrderHistoryFilters((prevFilters) => ({
-            ...prevFilters,
-            ...tempOrderHistoryFilters,
-          })); // 當點擊確定按鈕時，將暫存的篩選條件應用到正式的篩選條件
-          setVisible(false);
-        }}
+        onOk={applyFilters}
         onCancel={() => {
           setVisible(false);
         }}
         footer={
           <Space>
             <Button onClick={clearFilters}>還原預設值</Button>
-            <Button
-              type="primary"
-              onClick={() => {
-                setOrderHistoryFilters((prevFilters) => ({
-                  ...prevFilters,
-                  ...tempOrderHistoryFilters,
-                })); // 當點擊確定按鈕時，將暫存的篩選條件應用到正式的篩選條件
-                setVisible(false);
-              }}
-            >
+            <Button type="primary" onClick={applyFilters}>
               確定
             </Button>
           </Space>

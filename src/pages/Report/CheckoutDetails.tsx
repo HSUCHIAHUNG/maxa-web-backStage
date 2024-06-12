@@ -5,21 +5,26 @@ import { useNavigate } from "react-router-dom";
 import { orderActions } from "../../stores/order";
 import { useAppDispatch } from "../../stores/index";
 // 匯入樣式
-import '../../assets/css/CheckoutDetails.css'
+import "../../assets/css/CheckoutDetails.css";
+// 匯入圖片
+import emptyImg from "../../assets/images/empty-state.png";
 // ui kit
 import {
   Button,
   DatePicker,
   Drawer,
   Input,
+  Pagination,
   Select,
+  Space,
   Table,
   Tag,
 } from "@arco-design/web-react";
 // 時間控制相關
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
-
+// SheetJS
+import * as XLSX from "xlsx";
 // 時間控制相關
 dayjs.extend(isBetween);
 
@@ -63,20 +68,29 @@ const CheckoutDetails: React.FC = () => {
     routeName: string;
     orderState: string[];
     paymentNumber: string;
-    dateRange: [dayjs.Dayjs | null, dayjs.Dayjs | null];
+    dateRange: [Dayjs | null, Dayjs | null];
   }>({
     orderNumber: "",
-    routeName: '',
+    routeName: "",
     orderState: [],
     paymentNumber: "",
     dateRange: [null, null],
   });
 
   // 暫存篩選條件
-  const [tempFilters, setTempFilters] = useState({
-    transactionName: [] as string[],
-    paymentNumber: "",
+  const [tempFilters, setTempFilters] = useState<{
+    routeName: string;
+    orderState: string[];
+    dateRange: [Dayjs | null, Dayjs | null];
+  }>({
+    dateRange: [null, null],
+    orderState: [],
+    routeName: "",
   });
+
+  // 分頁狀態
+  const [current, setCurrent] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   // 搜尋條件
   const searchCriteria = useRef("交易日期");
@@ -113,7 +127,6 @@ const CheckoutDetails: React.FC = () => {
       title: "交易金額",
       dataIndex: "transactionAmount",
       width: "90px",
-
     },
     {
       title: "交易狀態",
@@ -141,7 +154,7 @@ const CheckoutDetails: React.FC = () => {
     {
       title: "操作",
       dataIndex: "操作",
-      width: "45px",
+      width: "65px",
       render: (_col: unknown, record: OrderRecord) => (
         <Button
           onClick={() => orderDetail(record)}
@@ -205,6 +218,150 @@ const CheckoutDetails: React.FC = () => {
       orderState: "授權失敗",
       clearanceDate: "2024-04-27",
       liquidationDate: "2024-04-28",
+    },
+    {
+      key: `5`,
+      orderNumber: `207664866757545`,
+      routeName: "501 大溪快線",
+      transactionName: "一般信用卡交易",
+      paymentNumber: `542898***0123(649788)`,
+      transactionDate: `2024-04-23 09:22:20`,
+      transactionAmount: `NT$ 1,100`,
+      orderState: "已請款",
+      clearanceDate: "2024-04-25",
+      liquidationDate: "2024-04-26",
+    },
+    {
+      key: `6`,
+      orderNumber: `207664866757545`,
+      routeName: "501 大溪快線",
+      transactionName: "一般信用卡交易",
+      paymentNumber: `542898***0123(649788)`,
+      transactionDate: `2024-04-23 09:22:20`,
+      transactionAmount: `NT$ 1,100`,
+      orderState: "已請款",
+      clearanceDate: "2024-04-25",
+      liquidationDate: "2024-04-26",
+    },
+    {
+      key: `7`,
+      orderNumber: `207664866757545`,
+      routeName: "501 大溪快線",
+      transactionName: "一般信用卡交易",
+      paymentNumber: `542898***0123(649788)`,
+      transactionDate: `2024-04-23 09:22:20`,
+      transactionAmount: `NT$ 1,100`,
+      orderState: "已請款",
+      clearanceDate: "2024-04-25",
+      liquidationDate: "2024-04-26",
+    },
+    {
+      key: `8`,
+      orderNumber: `207664866757545`,
+      routeName: "501 大溪快線",
+      transactionName: "一般信用卡交易",
+      paymentNumber: `542898***0123(649788)`,
+      transactionDate: `2024-04-23 09:22:20`,
+      transactionAmount: `NT$ 1,100`,
+      orderState: "已請款",
+      clearanceDate: "2024-04-25",
+      liquidationDate: "2024-04-26",
+    },
+    {
+      key: `9`,
+      orderNumber: `207664866757545`,
+      routeName: "501 大溪快線",
+      transactionName: "一般信用卡交易",
+      paymentNumber: `542898***0123(649788)`,
+      transactionDate: `2024-04-23 09:22:20`,
+      transactionAmount: `NT$ 1,100`,
+      orderState: "已請款",
+      clearanceDate: "2024-04-25",
+      liquidationDate: "2024-04-26",
+    },
+    {
+      key: `10`,
+      orderNumber: `207664866757545`,
+      routeName: "501 大溪快線",
+      transactionName: "一般信用卡交易",
+      paymentNumber: `542898***0123(649788)`,
+      transactionDate: `2024-04-23 09:22:20`,
+      transactionAmount: `NT$ 1,100`,
+      orderState: "已請款",
+      clearanceDate: "2024-04-25",
+      liquidationDate: "2024-04-26",
+    },
+    {
+      key: `11`,
+      orderNumber: `207664866757545`,
+      routeName: "501 大溪快線",
+      transactionName: "一般信用卡交易",
+      paymentNumber: `542898***0123(649788)`,
+      transactionDate: `2024-04-23 09:22:20`,
+      transactionAmount: `NT$ 1,100`,
+      orderState: "已請款",
+      clearanceDate: "2024-04-25",
+      liquidationDate: "2024-04-26",
+    },
+    {
+      key: `12`,
+      orderNumber: `207664866757545`,
+      routeName: "501 大溪快線",
+      transactionName: "一般信用卡交易",
+      paymentNumber: `542898***0123(649788)`,
+      transactionDate: `2024-04-23 09:22:20`,
+      transactionAmount: `NT$ 1,100`,
+      orderState: "已請款",
+      clearanceDate: "2024-04-25",
+      liquidationDate: "2024-04-26",
+    },
+    {
+      key: `13`,
+      orderNumber: `207664866757545`,
+      routeName: "501 大溪快線",
+      transactionName: "一般信用卡交易",
+      paymentNumber: `542898***0123(649788)`,
+      transactionDate: `2024-04-23 09:22:20`,
+      transactionAmount: `NT$ 1,100`,
+      orderState: "已請款",
+      clearanceDate: "2024-04-25",
+      liquidationDate: "2024-04-26",
+    },
+    {
+      key: `14`,
+      orderNumber: `207664866757545`,
+      routeName: "501 大溪快線",
+      transactionName: "一般信用卡交易",
+      paymentNumber: `542898***0123(649788)`,
+      transactionDate: `2024-04-23 09:22:20`,
+      transactionAmount: `NT$ 1,100`,
+      orderState: "已請款",
+      clearanceDate: "2024-04-25",
+      liquidationDate: "2024-04-26",
+    },
+    {
+      key: `15`,
+      orderNumber: `207664866757545`,
+      routeName: "501 大溪快線",
+      transactionName: "一般信用卡交易",
+      paymentNumber: `542898***0123(649788)`,
+      transactionDate: `2024-04-23 09:22:20`,
+      transactionAmount: `NT$ 1,100`,
+      orderState: "已請款",
+      clearanceDate: "2024-04-25",
+      liquidationDate: "2024-04-26",
+    },
+    {
+      key: `16`,
+      orderNumber: `207664866757545`,
+      routeName: "501 大溪快線",
+      transactionName: "一般信用卡交易",
+      paymentNumber: `542898***0123(649788)`,
+      transactionDate: `2024-04-23 09:22:20`,
+      transactionAmount: `NT$ 1,100`,
+      orderState: "已請款",
+      clearanceDate: "2024-04-25",
+      liquidationDate: "2024-04-26",
     },
   ];
 
@@ -276,6 +433,7 @@ const CheckoutDetails: React.FC = () => {
       ...prevFilters,
       [key]: value,
     }));
+    setCurrent(1); // 重置頁碼
   };
 
   // 暫存篩選變更處理函數
@@ -284,11 +442,13 @@ const CheckoutDetails: React.FC = () => {
       ...prevFilters,
       [key]: value,
     }));
+    setCurrent(1); // 重置頁碼
   };
 
   // 根據篩選條件篩選數據
   const filteredData = rows.filter((item) => {
-    const { orderNumber, orderState, paymentNumber, dateRange, routeName } = filters;
+    const { orderNumber, orderState, paymentNumber, dateRange, routeName } =
+      filters;
     const startDate = dateRange[0];
     const endDate = dateRange[1];
 
@@ -335,6 +495,51 @@ const CheckoutDetails: React.FC = () => {
     searchCriteria.current = value;
   };
 
+  // 應用篩選條件時的處理函數
+  const applyFilters = () => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      ...tempFilters,
+    })); // 當點擊確定按鈕時，將暫存的篩選條件應用到正式的篩選條件
+    setCurrent(1); // 重置頁碼
+    setVisible(false);
+  };
+
+  // table轉excel
+  const exportToExcel = () => {
+    const worksheetData = paginatedData.map((row) => ({
+      訂單編號: row.orderNumber,
+      路線名稱: row.routeName,
+      交易名稱: row.transactionName,
+      "支付工具號碼(授權碼)": row.paymentNumber,
+      交易日期時間: row.transactionDate,
+      交易金額: row.transactionAmount,
+      交易狀態: row.orderState,
+      清分日期: row.clearanceDate,
+      清算日期: row.liquidationDate,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    XLSX.writeFile(workbook, "每日結帳明細查詢.xlsx");
+  };
+
+  // 分頁資料
+  const paginatedData = filteredData.slice(
+    (current - 1) * pageSize,
+    current * pageSize
+  );
+
+  // 篩選還原預設值
+  const clearFilters = () => {
+    setTempFilters(() => ({
+      dateRange: [null, null],
+      orderState: [],
+      routeName: "",
+    }));
+  };
+
   return (
     <>
       <div className={`checkoutDetails w-[80%] py-[16px] m-[0_auto] `}>
@@ -365,18 +570,51 @@ const CheckoutDetails: React.FC = () => {
               ></span>
               <p className={``}>篩選</p>
             </Button>
+
+            {/* 匯出 */}
+            <button
+              onClick={exportToExcel}
+              className={`bg-[#3A57E8] rounded-[2px] px-[16px] py-[5px] text-[#fff]`}
+            >
+              匯出
+            </button>
           </div>
         </div>
 
         {/* 表格內容 */}
         <Table
           columns={columns}
-          data={filteredData}
+          data={paginatedData}
           pagination={false}
           scroll={{
             y: 500,
             x: 1000,
           }}
+          noDataElement={
+            <div
+              className={`flex flex-col justify-center items-center gap-[20px] h-full`}
+            >
+              <img
+                src={emptyImg}
+                alt="查無資料"
+                className={`w-[200px] h-[200px]`}
+              />
+              <p className={`text-[16px]`}>搜尋不到結果</p>
+            </div>
+          }
+        />
+
+        <Pagination
+          current={current}
+          pageSize={pageSize}
+          total={filteredData.length}
+          onChange={(page) => setCurrent(page)}
+          onPageSizeChange={(size) => {
+            setPageSize(size);
+            setCurrent(1);
+          }}
+          showTotal={(total) => `共${total}筆`}
+          className="flex justify-end mt-4"
         />
       </div>
 
@@ -385,16 +623,18 @@ const CheckoutDetails: React.FC = () => {
         width={750}
         title={<span className={`text-[16px]`}>篩選</span>}
         visible={visible}
-        onOk={() => {
-          setFilters((prevFilters) => ({
-            ...prevFilters,
-            ...tempFilters,
-          })); // 當點擊確定按鈕時，將暫存的篩選條件應用到正式的篩選條件
-          setVisible(false);
-        }}
+        onOk={applyFilters}
         onCancel={() => {
           setVisible(false);
         }}
+        footer={
+          <Space>
+            <Button onClick={clearFilters}>還原預設值</Button>
+            <Button type="primary" onClick={applyFilters}>
+              確定
+            </Button>
+          </Space>
+        }
       >
         <div className={` flex flex-col gap-[20px] `}>
           {/* 日期篩選 */}
@@ -414,7 +654,7 @@ const CheckoutDetails: React.FC = () => {
               {/* 日期篩選 */}
               <DatePicker.RangePicker
                 placeholder={["開始日期", "結束日期"]}
-                className={`w-[70%]`}
+                value={tempFilters.dateRange as [dayjs.Dayjs, dayjs.Dayjs] | undefined}
                 disabledDate={(current) => current.isAfter(dayjs())}
                 shortcutsPlacementLeft
                 onChange={(dates) => handleTempFilterChange("dateRange", dates)}
@@ -436,6 +676,7 @@ const CheckoutDetails: React.FC = () => {
                     value: () => [dayjs(), dayjs().subtract(6, "month")],
                   },
                 ]}
+                className={`w-[70%]`}
               />
             </Input.Group>
           </div>
@@ -445,6 +686,7 @@ const CheckoutDetails: React.FC = () => {
             <p className={`text-[#4E5969] pb-[9px]`}>交易狀態</p>
             <Select
               onChange={(value) => handleTempFilterChange("orderState", value)}
+              value={tempFilters.orderState}
               mode="multiple"
               placeholder="所有狀態"
               allowClear
@@ -463,6 +705,7 @@ const CheckoutDetails: React.FC = () => {
             <p className={`text-[#4E5969] pb-[9px]`}>路線名稱</p>
             <Select
               onChange={(value) => handleTempFilterChange("routeName", value)}
+              value={tempFilters.routeName  || undefined}
               placeholder="所有路線"
               allowClear
             >

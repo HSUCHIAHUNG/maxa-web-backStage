@@ -354,7 +354,7 @@ const MemberList: React.FC = () => {
         onChange={(current) => handlePageChange(current)}
         total={memberList.length}
         pageSize={pageSize}
-        showTotal={(total) => `共${total}條`}
+        showTotal={(total) => `共${total}筆`}
         className={`self-end pt-[12px]`}
       />
 

@@ -68,7 +68,6 @@ function NavMenu() {
 
   // 路由導航
   const navigation = (key: string) => {
-    console.log(key);
     navigate(key)
   };
 

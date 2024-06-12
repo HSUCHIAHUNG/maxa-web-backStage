@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import Loading from "../components/Loading"; // 引入Loading組件
 
 const DefaultLayoutPage = lazy(() => import("../layout/DefaultLayout"));
 const ErrorPage = lazy(() => import("../pages/Error"));
@@ -11,7 +12,8 @@ const OrderHistoryPage = lazy(
 );
 const LoginPage = lazy(() => import("../pages/Login"));
 const MemberListPage = lazy(() => import("../pages/MemberList"));
-const RoutesChartssPage = lazy(() => import("../pages/Chart/RoutesCharts"));
+const RoutesChartssPage = lazy(() =>import("../pages/Chart/RoutesCharts"));
+
 const IndustryChartsPage = lazy(() => import("../pages/Chart/IndustryCharts"));
 const CheckoutDetailsPage = lazy(
   () => import("../pages/Report/CheckoutDetails")
@@ -23,12 +25,12 @@ const routes = [
   {
     path: "/login",
     errorElement: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading isLoading={true} />}>
         <ErrorPage />
       </Suspense>
     ),
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading isLoading={true} />}>
         <LoginPage />
       </Suspense>
     ),
@@ -36,12 +38,12 @@ const routes = [
   {
     path: "/",
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading isLoading={true} />}>
         <DefaultLayoutPage />
       </Suspense>
     ),
     errorElement: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading isLoading={true} />}>
         <ErrorPage />
       </Suspense>
     ),
@@ -50,7 +52,7 @@ const routes = [
       {
         path: "order/:id",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loading isLoading={true} />}>
             <ProductDetailPage />
           </Suspense>
         ),
@@ -59,16 +61,16 @@ const routes = [
       {
         path: "orderContent/:id",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loading isLoading={true} />}>
             <OrderContentPage />
           </Suspense>
         ),
       },
       // 訂單紀錄
       {
-        path: "orderHistory",
+        path: "/orderHistory",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loading isLoading={true} />}>
             <OrderHistoryPage />
           </Suspense>
         ),
@@ -77,7 +79,7 @@ const routes = [
       {
         path: "memberList",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loading isLoading={true} />}>
             <MemberListPage />
           </Suspense>
         ),
@@ -86,7 +88,7 @@ const routes = [
       {
         path: "/",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loading isLoading={true} />}>
             <OrderPage />
           </Suspense>
         ),
@@ -95,7 +97,7 @@ const routes = [
       {
         path: "/routesCharts",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loading isLoading={true} />}>
             <RoutesChartssPage />
           </Suspense>
         ),
@@ -104,7 +106,7 @@ const routes = [
       {
         path: "/industryCharts",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loading isLoading={true} />}>
             <IndustryChartsPage />
           </Suspense>
         ),
@@ -113,7 +115,7 @@ const routes = [
       {
         path: "/checkoutDetails",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loading isLoading={true} />}>
             <CheckoutDetailsPage />
           </Suspense>
         ),
@@ -122,7 +124,7 @@ const routes = [
       {
         path: "/checkoutReport",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loading isLoading={true} />}>
             <CheckoutReportPage />
           </Suspense>
         ),
@@ -132,6 +134,7 @@ const routes = [
 ];
 
 const router = createBrowserRouter(routes);
+
 
 const Routes = () => {
   return <RouterProvider router={router} />;

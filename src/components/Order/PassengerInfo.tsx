@@ -31,12 +31,12 @@ const PassengerInfo: React.FC<PassengerInfoProps> = ({passenger}) => {
             <div
               className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
             >
-              <p className={`w-[112px]`}>{passenger.name}</p>
+              <p className={`w-[112px]`}>姓名</p>
             </div>
             <div
               className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
             >
-              <p className={``}>線上訂購</p>
+              <p className={``}>{passenger.name}</p>
             </div>
           </div>
 
