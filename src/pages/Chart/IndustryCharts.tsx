@@ -404,6 +404,7 @@ const IndustryCharts: React.FC = () => {
                 handleDateChange(_dateString, date)
               }
               value={singleDate || undefined}
+              dayStartOfWeek= {0}
               disabledDate={(current) => current.isAfter(dayjs())}
               placeholder="請選擇日期"
               className="w-[240px]"

@@ -108,8 +108,12 @@ const ProductDetail: React.FC = () => {
             ></span>
             <p className={`text-[16px] md:text-[20px]`}>乘車路線圖</p>
           </div>
-          <Tabs defaultActiveTab={ticketState} type="card-gutter">
-            <TabPane key="oneWayTicket" title="去程">
+          <Tabs
+            defaultActiveTab={ticketState}
+            type="card-gutter"
+          >
+            {/* 去程 */}
+            <TabPane key="oneWayTicket" title="去程" >
               <Typography.Paragraph>
                 <Steps
                   type="dot"
@@ -127,7 +131,9 @@ const ProductDetail: React.FC = () => {
                 </Steps>
               </Typography.Paragraph>
             </TabPane>
-            <TabPane key="roundTripTicket" title="回程">
+
+            {/* 回程 */}
+            <TabPane key="roundTripTicket" title="回程" >
               <Typography.Paragraph>
                 <Steps
                   type="dot"
@@ -135,7 +141,7 @@ const ProductDetail: React.FC = () => {
                   current={product.stations.length}
                   style={{ maxWidth: 780 }}
                 >
-                  {product.stations.reverse().map((station) => (
+                  {[...product.stations].reverse().map((station) => (
                     <Step
                       key={station.id}
                       title={station.name}

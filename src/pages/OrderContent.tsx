@@ -16,6 +16,7 @@ import {
   Input,
   InputNumber,
   Message,
+  Radio,
 } from "@arco-design/web-react";
 import Step from "@arco-design/web-react/es/Steps/step";
 // 匯入組件
@@ -23,6 +24,9 @@ import OrderDetails from "../components/common/OrderDetails";
 import PassengerInfo from "../components/Order/PassengerInfo.tsx";
 // 匯入圖片
 import selectSeats from "../assets/images/memberCenter/selectSeats.png";
+import cash from "../assets/images/order/cash.png";
+import creditCard from "../assets/images/order/creditCard.png";
+import payment from "../assets/images/order/payment.png";
 
 // 乘客資料
 const passenger = [
@@ -64,12 +68,16 @@ const OrderContent: React.FC = () => {
   const FormItem = Form.Item;
   const [form] = Form.useForm();
   const TextArea = Input.TextArea;
+  const RadioGroup = Radio.Group;
 
   // 目前路由(動態參數)
   const { id } = useParams<{ id: string }>();
 
   // 退款modal狀態
-  const [refundVisible, setRefundVisible] = React.useState(false);
+  const [refundVisible, setRefundVisible] = useState(false);
+
+  // 預約-備註Modal
+  const [remarksVisible, setRemarksVisible] = useState(false);
 
   // 訂單資料
   const bookingData = useSelector(
@@ -97,6 +105,12 @@ const OrderContent: React.FC = () => {
 
   //
   const orderDetailsRef = useRef<HTMLDivElement>(null);
+
+  // 付款方式選擇
+  const paymentMethodRef = useRef("");
+
+  // 備註文字
+  const remarkRef = useRef("");
 
   const [isSticky, setIsSticky] = useState(false);
 
@@ -268,6 +282,19 @@ const OrderContent: React.FC = () => {
     }
   };
 
+  // 設定付款方式&備註
+  const setPaymentState = () => {
+    dispatch(
+      orderActions.orderContentStateChenge({
+        title: "reserve",
+        paymentState: "alreadyPaid",
+        paymentMethod: paymentMethodRef.current,
+        remarks: remarkRef.current,
+      })
+    );
+    setRemarksVisible(false);
+  };
+
   return (
     <div className={`flex flex-col w-full`}>
       <div
@@ -364,7 +391,7 @@ const OrderContent: React.FC = () => {
                 </div>
 
                 {/* 備註 */}
-                <div
+                {/* <div
                   className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
                 >
                   <div
@@ -373,9 +400,9 @@ const OrderContent: React.FC = () => {
                     <p className={`w-[112px] pb-[8px] `}>備註</p>
                   </div>
                   <div className={`md:py-[9px] md:px-[20px] md:w-full`}>
-                    -----
+                    {remarks ?? "-----"}
                   </div>
-                </div>
+                </div> */}
 
                 {/* 備註 */}
                 {remarks && (
@@ -405,6 +432,22 @@ const OrderContent: React.FC = () => {
               <li
                 className={`border border-solid border-[#E5E6EB] rounded-[4px] md:rounded-[8px] overflow-hidden`}
               >
+                {/* 購買方式 */}
+                <div
+                  className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
+                >
+                  <div
+                    className={`text-[#86909C] md:border-r md:border-solid md:border-[#E5E6EB] md:bg-[#F7F8FA] md:py-[9px] md:px-[20px] `}
+                  >
+                    <p className={`w-[112px]`}>購買方式</p>
+                  </div>
+                  <div
+                    className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
+                  >
+                    <p className={``}>現場訂購</p>
+                  </div>
+                </div>
+
                 {/* 付款方式 */}
                 <div
                   className={`py-[8px] px-[12px] border-b border-solid border-[#E5E6EB] md:p-0 md:flex `}
@@ -417,7 +460,23 @@ const OrderContent: React.FC = () => {
                   <div
                     className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
                   >
-                    <p className={``}>{paymentMethod === "" && "信用卡"}</p>
+                    {orderContent.title === "reserve" &&
+                      paymentMethod === "" && (
+                        <button
+                          onClick={() => setRemarksVisible(true)}
+                          className={`text-[#fff] bg-[#3A57E8] px-[16px] py-[5px]`}
+                        >
+                          付款方式註記
+                        </button>
+                      )}
+
+                    {orderContent.title === "reserve" && paymentMethod && (
+                      <p className={``}>{paymentMethod}</p>
+                    )}
+
+                    {orderContent.title !== "reserve" && (
+                      <p className={``}>{"信用卡"}</p>
+                    )}
                   </div>
                 </div>
 
@@ -558,7 +617,7 @@ const OrderContent: React.FC = () => {
                   <div
                     className={`md:py-[9px] md:px-[20px] md:w-full  md:border-b md:border-solid md:border-[#E5E6EB]`}
                   >
-                    <p className={``}>------</p>
+                    { remarks !== '' ? remarks : "-----"}
                   </div>
                 </div>
               </li>
@@ -734,6 +793,54 @@ const OrderContent: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* 預約-付款方式&備註 */}
+      {orderContent.title === "reserve" && (
+        <Modal
+          title="付款方式註記"
+          visible={remarksVisible}
+          onOk={setPaymentState}
+          onCancel={() => setRemarksVisible(false)}
+          autoFocus={false}
+          focusLock={true}
+          className={`w-fit`}
+        >
+          <RadioGroup
+            onChange={(value) => (paymentMethodRef.current = value)}
+            className={`flex gap-[10px]`}
+          >
+            <Radio
+              value="現金"
+              className={`border border-solid border-[#E4E6EF] p-[20px] rounded-[16px]`}
+            >
+              <img src={cash} alt="現金付款" />
+            </Radio>
+            <Radio
+              value="信用卡"
+              className={`border border-solid border-[#E4E6EF] p-[20px] rounded-[16px]`}
+            >
+              <img src={creditCard} alt="信用卡" />
+            </Radio>
+            <Radio
+              value="電子支付"
+              className={`border border-solid border-[#E4E6EF] p-[20px] rounded-[16px]`}
+            >
+              <img src={payment} alt="電子支付" />
+            </Radio>
+          </RadioGroup>
+
+          {/* 備註 */}
+          <div className={`flex flex-col gap-[12px] mt-[10px]`}>
+            <p className={`text-[#4E5969]`}>備註</p>
+            <TextArea
+              onChange={(value) => (remarkRef.current = value)}
+              maxLength={50}
+              showWordLimit
+              placeholder="Please enter ..."
+            />
+          </div>
+        </Modal>
+      )}
 
       {/* 退款modal */}
       <Modal

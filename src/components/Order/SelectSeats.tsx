@@ -112,7 +112,7 @@ const SelectSeats: React.FC = () => {
     dispatch(
       orderActions.orderContentStateChenge({
         title: "reserve",
-        paymentState: "alreadyPaid",
+        paymentState: "pendingPayment",
         remarks: remarks,
         totalAmount: totalAmount(),
       })

@@ -29,7 +29,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className=" fixed top-0 right-0 left-0 bottom-0 bg-[url('../assets/images/login/loginBg.png')] overflow-auto  bg-cover bg-no-repeat">
+    <div className=" fixed top-0 right-0 left-0 bottom-0 bg-[url('../../assets/images/login/loginBg.png')] overflow-auto  bg-cover bg-no-repeat">
       <div
         className={` absolute right-[80px] top-[144px] bg-[#fff] w-[420px] h-[466px] rounded-[16px] shadow-md `}
       >
