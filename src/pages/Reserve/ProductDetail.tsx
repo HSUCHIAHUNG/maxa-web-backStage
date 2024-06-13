@@ -55,7 +55,7 @@ const ProductDetail: React.FC = () => {
   };
 
   return (
-    <div className={`w-[80%] pb-[16px] max-w-[1240px] m-[0_auto]`}>
+    <div className={`w-[75%] pb-[16px] max-w-[1240px] m-[0_auto]`}>
       <div className={`py-[16px] text-[20px] text-center`}>{product.name}</div>
 
       <Carousel

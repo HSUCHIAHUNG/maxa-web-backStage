@@ -11,7 +11,7 @@ const OrderHistoryPage = lazy(
   () => import("../pages/OrderHistory/OrderHistory")
 );
 const LoginPage = lazy(() => import("../pages/Login"));
-const MemberListPage = lazy(() => import("../pages/MemberList"));
+const MemberListPage = lazy(() => import("../pages/MemberList/MemberList"));
 const RoutesChartssPage = lazy(() =>import("../pages/Chart/RoutesCharts"));
 
 const IndustryChartsPage = lazy(() => import("../pages/Chart/IndustryCharts"));

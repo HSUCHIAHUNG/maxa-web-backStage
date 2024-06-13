@@ -9,7 +9,7 @@ import {
   Pagination,
   Select,
 } from "@arco-design/web-react";
-import ContentList from "../components/common/ContentList";
+import ContentList from "../../components/common/ContentList";
 
 // ui kit
 const InputSearch = Input.Search;

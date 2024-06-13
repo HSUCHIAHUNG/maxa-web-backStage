@@ -7,20 +7,20 @@ import {
   Button,
   Form,
   InputNumber,
-  Radio,
+  // Radio,
   Message,
-  Input,
+  // Input,
 } from "@arco-design/web-react";
 import SetSeat from "./SetSeat";
 // 匯入型別
 import { PassengerTicketKey } from "../../stores/type/OrderType";
 
 // 付款方式選項
-const paymentOptions = [
-  { value: "現金付款", label: "現金付款" },
-  { value: "信用卡付款", label: "信用卡付款" },
-  { value: "電子支付", label: "電子支付" },
-];
+// const paymentOptions = [
+//   { value: "現金付款", label: "現金付款" },
+//   { value: "信用卡付款", label: "信用卡付款" },
+//   { value: "電子支付", label: "電子支付" },
+// ];
 
 interface FormValues {
   adult: number;
@@ -32,9 +32,9 @@ interface FormValues {
 
 const SelectSeats: React.FC = () => {
   const FormItem = Form.Item;
-  const TextArea = Input.TextArea;
+  // const TextArea = Input.TextArea;
   const [form] = Form.useForm<FormValues>();
-  const RadioGroup = Radio.Group;
+  // const RadioGroup = Radio.Group;
 
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -83,12 +83,6 @@ const SelectSeats: React.FC = () => {
 
   const submit = (value: FormValues) => {
     const remarks = value.remarks ? String(value.remarks) : "";
-    // console.log(passengerTicketTotal);
-    // console.log(tabState);
-    // console.log(seatsData.oneWayTicket.length + seatsData.roundTripTicket.length !==
-    //   passengerTicketTotal * 2);
-    // console.log(seatsData.oneWayTicket.length);
-    // console.log(seatsData.roundTripTicket.length)
     if (passengerTicketTotal < 1) {
       Message.error("乘客票數不可小於1");
       return;
@@ -302,19 +296,19 @@ const SelectSeats: React.FC = () => {
           </FormItem>
         )}
 
-        <FormItem label="乘客付款方式備註" field="payment" required>
+        {/* <FormItem label="乘客付款方式備註" field="payment" required>
           <RadioGroup
             options={paymentOptions}
             className={`flex gap-[10px]`}
           ></RadioGroup>
-        </FormItem>
+        </FormItem> */}
 
-        <div className={`flex flex-col gap-[12px]`}>
+        {/* <div className={`flex flex-col gap-[12px]`}>
           <p className={`text-[#4E5969]`}>備註</p>
           <FormItem field="remarks">
             <TextArea placeholder="Please enter ..." />
           </FormItem>
-        </div>
+        </div> */}
 
         <div className={`flex justify-between w-full pt-[16px]`}>
           <div className={`text-[12px] md:text-[13px] text-[#86909C]`}>
