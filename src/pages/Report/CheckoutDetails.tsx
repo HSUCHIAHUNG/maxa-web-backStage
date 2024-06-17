@@ -101,36 +101,43 @@ const CheckoutDetails: React.FC = () => {
       title: "訂單編號",
       dataIndex: "orderNumber",
       fixed: "left" as const,
+      ellipsis: true,
       width: "145px",
     },
     {
       title: "路線名稱",
       dataIndex: "routeName",
+      ellipsis: true,
       width: "185px",
     },
     {
       title: "交易名稱",
       dataIndex: "transactionName",
+      ellipsis: true,
       width: "120px",
     },
     {
       title: "支付工具號碼(授權碼)",
       dataIndex: "paymentNumber",
+      ellipsis: true,
       width: "180px",
     },
     {
       title: "交易日期時間",
       dataIndex: "transactionDate",
+      ellipsis: true,
       width: "155px",
     },
     {
       title: "交易金額",
       dataIndex: "transactionAmount",
+      ellipsis: true,
       width: "90px",
     },
     {
       title: "交易狀態",
       dataIndex: "orderState",
+      ellipsis: true,
       width: "90px",
       render: (_col: unknown, record: OrderRecord) => (
         <div className={`flex justify-start items-center gap-[8px]`}>
@@ -144,16 +151,19 @@ const CheckoutDetails: React.FC = () => {
     {
       title: "清分日期",
       dataIndex: "clearanceDate",
+      ellipsis: true,
       width: "100px",
     },
     {
       title: "清算日期",
       dataIndex: "liquidationDate",
+      ellipsis: true,
       width: "100px",
     },
     {
       title: "操作",
       dataIndex: "操作",
+      ellipsis: true,
       width: "65px",
       render: (_col: unknown, record: OrderRecord) => (
         <Button

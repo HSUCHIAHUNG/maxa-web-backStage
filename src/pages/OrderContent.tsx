@@ -229,12 +229,12 @@ const OrderContent: React.FC = () => {
     const newOtherFee = type === "otherFee" ? value : otherFee;
     const newRefundAmount =
       refundCalcState.orderAmount - newDeduction - newHandlingFee - newOtherFee;
-
-    if (newRefundAmount < 0 || newRefundAmount > 798) {
+  
+    if (newRefundAmount > 798) {
       Message.warning("退款金額錯誤");
     }
-
-    if (isNaN(newRefundAmount) || newRefundAmount < 0) {
+  
+    if (isNaN(newRefundAmount) || newRefundAmount > 798) {
       setRefundCalcState((prevState) => ({
         ...prevState,
         refundAmount: 0,
@@ -248,7 +248,7 @@ const OrderContent: React.FC = () => {
       }
       return;
     }
-
+  
     if (type === "deduction") {
       setDeduction(value);
     } else if (type === "handlingFee") {
@@ -256,12 +256,13 @@ const OrderContent: React.FC = () => {
     } else if (type === "otherFee") {
       setOtherFee(value);
     }
-
+  
     setRefundCalcState((prevState) => ({
       ...prevState,
       refundAmount: newRefundAmount,
     }));
   };
+  
 
   // 送出退款表單
   const submit = () => {
@@ -750,7 +751,7 @@ const OrderContent: React.FC = () => {
                         >
                           <Step
                             title={bookingData?.stationData?.endStation}
-                            description={`${bookingData?.stationData?.startDate} ${bookingData.timeData.startTime}`}
+                            description={`${bookingData?.stationData?.startDate} ${bookingData?.timeData?.startTime?.endStation}`}
                           />
                           <Step
                             title={bookingData?.stationData?.startStation}
@@ -944,7 +945,7 @@ const OrderContent: React.FC = () => {
               {/* 實際退款金額 */}
               <div className={`w-[120px] h-[56px]`}>
                 <p>實際退款金額</p>
-                <p className={`text-[24px] `}>{refundCalcState.refundAmount}</p>
+                <p className={`text-[24px] ${refundCalcState.refundAmount < 0 && 'text-[#F53F3F]'}`}>{refundCalcState.refundAmount}</p>
               </div>
             </div>
             <FormItem label="備註" field="remark">

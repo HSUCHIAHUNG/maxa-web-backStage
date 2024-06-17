@@ -433,6 +433,7 @@ const IndustryCharts: React.FC = () => {
               }
               mode="quarter"
               placeholder={["開始季度", "結束季度"]}
+              disabledDate={(current) => current.isAfter(dayjs())}
               className="w-[240px]"
             />
           )}

@@ -133,7 +133,6 @@ const SetSeat: React.FC<SetSeatProps> = ({ isSetSeats, setIsSetSeats, ticketStat
       );
     } else {
       Message.error("已選座位數與票數不符");
-      return;
     }
   };
 

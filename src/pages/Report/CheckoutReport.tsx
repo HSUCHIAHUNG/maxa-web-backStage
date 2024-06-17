@@ -9,6 +9,7 @@ const columns = [
   {
     title: "清分處理日期",
     dataIndex: "clearanceProcessingDate",
+    ellipsis: true,
     width: "0.5px",
     render: (col: string, _item: unknown, index: number) => {
       const obj = {
@@ -35,16 +36,19 @@ const columns = [
   {
     title: "交易代號",
     dataIndex: "transactionCode",
+    ellipsis: true,
     width: "0.5px",
   },
   {
     title: "交易名稱",
     dataIndex: "transactionName",
+    ellipsis: true,
     width: "0.5px",
   },
   {
     title: "應收筆數金額",
     dataIndex: "receivables",
+    ellipsis: true,
     children: [
       {
         title: "筆數",
@@ -63,6 +67,7 @@ const columns = [
   {
     title: "應付筆數金額",
     dataIndex: "payable",
+    ellipsis: true,
     children: [
       {
         title: "筆數",

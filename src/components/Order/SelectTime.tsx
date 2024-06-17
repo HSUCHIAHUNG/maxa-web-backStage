@@ -39,27 +39,32 @@ const SelectTime: React.FC = () => {
     {
       title: "班次編號",
       dataIndex: "id",
+      ellipsis: true,
       width: "25px",
       fixed: "left",
     },
     {
       title: bookingData?.stationData?.startStation,
       dataIndex: "endStation",
+      ellipsis: true,
       width: "30px",
     },
     {
       title: bookingData?.stationData?.endStation,
       dataIndex: "startStation",
+      ellipsis: true,
       width: "30px",
     },
     {
       title: "空位數",
       dataIndex: "seats",
+      ellipsis: true,
       width: "20px",
     },
     {
       title: "車種",
       dataIndex: "Vehicles",
+      ellipsis: true,
       width: "25px",
     },
   ];
@@ -69,26 +74,31 @@ const SelectTime: React.FC = () => {
       title: "班次編號",
       dataIndex: "id",
       width: "25px",
+      ellipsis: true,
       fixed: "left",
     },
     {
       title: bookingData.stationData.endStation,
       dataIndex: "startStation",
+      ellipsis: true,
       width: "30px",
     },
     {
       title: bookingData.stationData.startStation,
       dataIndex: "endStation",
+      ellipsis: true,
       width: "30px",
     },
     {
       title: "空位數",
       dataIndex: "seats",
+      ellipsis: true,
       width: "20px",
     },
     {
       title: "車種",
       dataIndex: "Vehicles",
+      ellipsis: true,
       width: "25px",
     },
   ];
@@ -132,12 +142,13 @@ const SelectTime: React.FC = () => {
   ];
 
   const submit = () => {
-    console.log(bookingData);
-    if (ticketState === "oneWayTicket" && !bookingData.timeData.startTime) {
+    console.log(ticketState);
+    console.log(bookingData.timeData.startTime.id.length < 1);
+    if (ticketState === "oneWayTicket" && bookingData.timeData.startTime.id.length < 1) {
       Message.error("請選擇搭車時間");
     } else if (
       ticketState === "roundTripTicket" &&
-      (!bookingData.timeData.startTime || !bookingData.timeData.endTime)
+      (!bookingData.timeData.startTime || bookingData.timeData.endTime.id.length < 1)
     ) {
       Message.error("請選擇搭車時間");
     } else {
@@ -245,7 +256,7 @@ const SelectTime: React.FC = () => {
           <div className={`pb-[16px]`}>
             <p className={`text-[#4E5969] pb-[8px]`}>去程班次</p>
             <Table
-              scroll={{ x: 630 }}
+              scroll={{ x: 300 }}
               columns={departureColumns}
               data={[bookingData.timeData.startTime]}
               rowKey="id"
@@ -257,7 +268,7 @@ const SelectTime: React.FC = () => {
             <div>
               <p className={`text-[#4E5969] pb-[8px]`}>回程班次</p>
               <Table
-                scroll={{ x: 630 }}
+                scroll={{ x: 300 }}
                 columns={returnTripColumns}
                 data={[bookingData.timeData.endTime]}
                 rowKey="id"

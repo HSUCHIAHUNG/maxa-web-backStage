@@ -90,6 +90,7 @@ const OrderHistory: React.FC = () => {
     {
       title: "訂單編號",
       dataIndex: "orderNumber",
+      ellipsis: true,
       width: "60px",
       fixed: "left" as const,
     },
@@ -111,26 +112,31 @@ const OrderHistory: React.FC = () => {
     {
       title: "路線(商品)",
       dataIndex: "routeProduct",
+      ellipsis: true,
       width: "70px",
     },
     {
       title: "業者",
       dataIndex: "provider",
+      ellipsis: true,
       width: "38px",
     },
     {
       title: "訂單金額",
       dataIndex: "orderAmount",
+      ellipsis: true,
       width: "35px",
     },
     {
       title: "訂購時間",
       dataIndex: "orderTime",
+      ellipsis: true,
       width: "60px",
     },
     {
       title: "訂單狀態",
       dataIndex: "orderStatus",
+      ellipsis: true,
       width: "60px",
       render: (_col: unknown, record: OrderRecord) => (
         <div className={`flex justify-start items-center gap-[8px]`}>
@@ -144,6 +150,7 @@ const OrderHistory: React.FC = () => {
     {
       title: "操作",
       dataIndex: "操作",
+      ellipsis: true,
       width: "18px",
       render: (_col: unknown, record: OrderRecord) => (
         <Button

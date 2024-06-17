@@ -3,8 +3,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { DatePicker, Radio, Select } from "@arco-design/web-react";
 // echarts
 import * as echarts from "echarts/core";
-import { GridComponent, GridComponentOption, TooltipComponent } from "echarts/components";
-import { BarChart, BarSeriesOption  } from "echarts/charts";
+import {
+  GridComponent,
+  GridComponentOption,
+  TooltipComponent,
+} from "echarts/components";
+import { BarChart, BarSeriesOption } from "echarts/charts";
 import { UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
 // 時間控制相關
@@ -29,14 +33,19 @@ const RoutesCharts: React.FC = () => {
   // 路線狀態(預設值)
   const [selectedRoute, setSelectedRoute] = useState("501大溪快線");
   // 日期狀態(預設值)
-  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(
-    dayjs().subtract(1, "days")
-  );
+  // 日期狀態(預設值)
+  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
 
   // 設定chart容器
   const chartRef = useRef<HTMLDivElement>(null);
   // echarts配置
-  echarts.use([GridComponent, BarChart, CanvasRenderer, UniversalTransition, TooltipComponent]);
+  echarts.use([
+    GridComponent,
+    BarChart,
+    CanvasRenderer,
+    UniversalTransition,
+    TooltipComponent,
+  ]);
 
   // 路線選項
   const routeOptions = ["501大溪快線", "502桃園快線"];
@@ -106,7 +115,7 @@ const RoutesCharts: React.FC = () => {
             type: "value",
           },
           tooltip: {
-            trigger: 'axis'
+            trigger: "axis",
           },
           series: [
             {
@@ -140,6 +149,23 @@ const RoutesCharts: React.FC = () => {
     }
     return () => {}; // 返回一個空的清理函數來避免錯誤
   }, [selectedRoute, position, selectedDate, reportType]);
+
+  useEffect(() => {
+    const getDefaultDate = () => {
+      switch (reportType) {
+        case "日報表":
+          return dayjs().subtract(1, "days");
+        case "月報表":
+          return dayjs().subtract(1, "months");
+        case "年報表":
+          return dayjs().subtract(1, "years");
+        default:
+          return dayjs();
+      }
+    };
+
+    setSelectedDate(getDefaultDate());
+  }, [reportType]);
 
   //
   const handleDateChange = (_dateString: string, date: Dayjs) => {
@@ -255,9 +281,7 @@ const RoutesCharts: React.FC = () => {
           {/* 日期篩選-月 */}
           {reportType === "月報表" && (
             <MonthPicker
-              value={
-                selectedDate || dayjs().subtract(1, "months")
-              }
+              value={selectedDate || dayjs().subtract(1, "months")}
               onChange={(_dateString, date) =>
                 handleDateChange(_dateString, date)
               }

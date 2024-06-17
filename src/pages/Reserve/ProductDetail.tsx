@@ -59,7 +59,7 @@ const ProductDetail: React.FC = () => {
       <div className={`py-[16px] text-[20px] text-center`}>{product.name}</div>
 
       <Carousel
-        className={`overflow-x-hidden max-w-[1200px] h-[500px] rounded-[16px] md:h-[320px] xl:h-[500px]`}
+        className={`overflow-x-hidden max-w-[1240px] h-[500px] rounded-[16px] md:h-[320px] xl:h-[500px]`}
         autoPlay={true}
       >
         {product.banner.map((item) => (
@@ -111,6 +111,7 @@ const ProductDetail: React.FC = () => {
           <Tabs
             defaultActiveTab={ticketState}
             type="card-gutter"
+            className={`w-full`}
           >
             {/* 去程 */}
             <TabPane key="oneWayTicket" title="去程" >
@@ -119,7 +120,6 @@ const ProductDetail: React.FC = () => {
                   type="dot"
                   direction="vertical"
                   current={product.stations.length}
-                  style={{ maxWidth: 780 }}
                 >
                   {product.stations.map((station) => (
                     <Step
@@ -139,7 +139,6 @@ const ProductDetail: React.FC = () => {
                   type="dot"
                   direction="vertical"
                   current={product.stations.length}
-                  style={{ maxWidth: 780 }}
                 >
                   {[...product.stations].reverse().map((station) => (
                     <Step
