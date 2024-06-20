@@ -20,11 +20,11 @@ const Loading: React.FC<LoadingType> = ({ isLoading }) => {
   return (
     <CSSTransition
       in={showLoading}
-      timeout={50}
+      timeout={300}
       classNames={"loading"}
       unmountOnExit
     >
-      <div className="fixed flex justify-center bg-[#000]/35 w-full h-full z-[200]">
+      <div className="fixed flex top-0 left-0 justify-center bg-[#000]/35 w-full h-full z-[200]">
         <div className="absolute top-[20px] flex flex-col justify-center items-center gap-[8px] w-[150px] h-[100px] rounded-[16px] bg-[#fff]">
           <img src={loadingImg} alt="loading" />
           <p className="text-[12px]">Loading...</p>

@@ -5,3 +5,8 @@
 .checkoutReport td{
     padding: 9px 10px;
 }
+
+/* table文字內容至上 */
+.checkoutReport .arco-table-td {
+    vertical-align: top;
+  }

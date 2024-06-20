@@ -45,12 +45,12 @@ const Reserve: React.FC = () => {
   };
 
   return (
-    <div className={` w-[80%] pb-[16px] max-w-[1240px] m-[0_auto]`}>
+    <div className={` pb-[16px] max-w-[1440px] m-[0_auto]`}>
       <div className={`py-[16px] text-[20px] text-center`}>
         預約/查詢班次座位
       </div>
       <div
-        className={`flex flex-wrap justify-start gap-[20px] max-w-[960px] m-[0_auto] `}
+        className={`flex flex-wrap justify-start gap-[20px] m-[0_auto] w-[95%]`}
       >
         {filterProductList.length < 1 ? (
           <div
@@ -67,11 +67,11 @@ const Reserve: React.FC = () => {
           filterProductList.map((product) => (
             <div
               key={product.id}
-              className={`relative cursor-pointer`}
+              className={`relative cursor-pointer w-[31.8%]`}
               onClick={() => handleLinkClick(product.name, product.id)}
             >
               {/* 圖片 */}
-              <div className="w-[306px] h-[200px] rounded-[16px] shadow-md overflow-hidden">
+              <div className=" h-[200px] rounded-[16px] shadow-md overflow-hidden">
                 <img
                   src={product.imageUrl}
                   alt={product.name}

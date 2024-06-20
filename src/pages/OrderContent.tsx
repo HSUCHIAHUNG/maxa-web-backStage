@@ -922,7 +922,7 @@ const OrderContent: React.FC = () => {
 
               {/* 其他 */}
               <FormItem
-                label="其他"
+                label="其他金額"
                 field="otherFee"
                 rules={[{ required: true, message: "必填" }]}
                 className={`m-0 md:w-[138px] `}

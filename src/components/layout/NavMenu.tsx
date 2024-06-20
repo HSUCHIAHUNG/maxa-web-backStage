@@ -72,7 +72,7 @@ function NavMenu() {
   };
 
   return (
-    <div className="w-fit flex flex-col max-w[220px] border-r border-solid border-[#E4E6EF] justify-between items-center  ">
+    <div className=" flex flex-col border-r border-solid border-[#E4E6EF] justify-between items-center  ">
       <Menu
         style={{ width: 200, borderRadius: 4 }}
         theme="light"

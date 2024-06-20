@@ -334,7 +334,7 @@ const IndustryCharts: React.FC = () => {
   }, [selectedRoute, position, singleDate, rangeDate, quarterDate, reportType]);
 
   return (
-    <div className="w-[80%] py-[16px] m-[0_auto] flex flex-col">
+    <div className="w-full mx-[24px] py-[16px] m-[0_auto] flex flex-col">
       {/* 標題、篩選 */}
       <div className="flex justify-between items-center w-full pb-[16px]">
         {/* 左-日、月、季報表 */}

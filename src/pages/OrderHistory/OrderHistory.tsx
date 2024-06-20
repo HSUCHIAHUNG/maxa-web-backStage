@@ -90,7 +90,7 @@ const OrderHistory: React.FC = () => {
     {
       title: "訂單編號",
       dataIndex: "orderNumber",
-      ellipsis: true,
+
       width: "60px",
       fixed: "left" as const,
     },
@@ -112,31 +112,31 @@ const OrderHistory: React.FC = () => {
     {
       title: "路線(商品)",
       dataIndex: "routeProduct",
-      ellipsis: true,
+
       width: "70px",
     },
     {
       title: "業者",
       dataIndex: "provider",
-      ellipsis: true,
+
       width: "38px",
     },
     {
       title: "訂單金額",
       dataIndex: "orderAmount",
-      ellipsis: true,
+
       width: "35px",
     },
     {
       title: "訂購時間",
       dataIndex: "orderTime",
-      ellipsis: true,
+
       width: "60px",
     },
     {
       title: "訂單狀態",
       dataIndex: "orderStatus",
-      ellipsis: true,
+
       width: "60px",
       render: (_col: unknown, record: OrderRecord) => (
         <div className={`flex justify-start items-center gap-[8px]`}>
@@ -150,7 +150,7 @@ const OrderHistory: React.FC = () => {
     {
       title: "操作",
       dataIndex: "操作",
-      ellipsis: true,
+
       width: "18px",
       render: (_col: unknown, record: OrderRecord) => (
         <Button
@@ -391,7 +391,7 @@ const OrderHistory: React.FC = () => {
 
   return (
     <>
-      <div className={`orderHistory w-[80%] py-[16px] m-[0_auto] `}>
+      <div className={`orderHistory w-full  py-[16px]  mx-[24px] `}>
         {/* 標題、篩選 */}
         <div className={`flex justify-between items-center w-full pb-[16px]`}>
           <div className={`flex gap-[8px]`}>
@@ -488,6 +488,7 @@ const OrderHistory: React.FC = () => {
           columns={columns}
           data={paginatedData}
           pagination={false}
+          // loading
           noDataElement={
             <div
               className={`flex flex-col justify-center items-center gap-[20px] h-full`}
@@ -501,23 +502,36 @@ const OrderHistory: React.FC = () => {
             </div>
           }
           scroll={{
-            y: 500,
-            x: 1000,
+            x: 800,
           }}
         />
 
-        <Pagination
-          current={current}
-          pageSize={pageSize}
-          total={filteredData.length}
-          onChange={(page) => setCurrent(page)}
-          onPageSizeChange={(size) => {
-            setPageSize(size);
-            setCurrent(1);
-          }}
-          showTotal={(total) => `共${total}筆`}
-          className="flex justify-end mt-4"
-        />
+        <div className={`flex justify-end gap-[20px]`}>
+          <Pagination
+            current={current}
+            pageSize={pageSize}
+            total={filteredData.length}
+            onChange={(page) => setCurrent(page)}
+            showTotal={(total) => `共${total}筆`}
+            className="flex justify-end mt-4"
+          />
+
+          <div className="flex justify-end items-center gap-[8px] mt-4">
+            <Select
+              value={pageSize}
+              onChange={(value) => {
+                setPageSize(value);
+                setCurrent(1);
+              }}
+              style={{ width: 100 }}
+            >
+              <Option value={10}>10條/頁</Option>
+              <Option value={20}>20條/頁</Option>
+              <Option value={30}>30條/頁</Option>
+              <Option value={50}>50條/頁</Option>
+            </Select>
+          </div>
+        </div>
       </div>
 
       {/* 隱藏選單-訂單狀態、業者、商品篩選 */}

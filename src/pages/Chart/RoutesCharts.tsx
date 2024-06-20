@@ -173,7 +173,7 @@ const RoutesCharts: React.FC = () => {
   };
 
   return (
-    <div className="w-[80%] py-[16px] m-[0_auto] flex flex-col">
+    <div className="w-full py-[16px] mx-[24px] flex flex-col">
       {/* 標題、篩選 */}
       <div className="flex justify-between items-center w-full pb-[16px]">
         {/* 左-日、月、年報表 */}

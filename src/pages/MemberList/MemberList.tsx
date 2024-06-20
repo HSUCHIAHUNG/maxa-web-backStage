@@ -97,6 +97,7 @@ const MemberList: React.FC = () => {
   // ui kit
   const FormItem = Form.Item;
   const [form] = Form.useForm();
+  const Option = Select.Option;
 
   // 分頁切換使用
   const [currentPage, setCurrentPage] = useState(1);
@@ -128,7 +129,7 @@ const MemberList: React.FC = () => {
   });
 
   // pagination單頁顯示上限
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState(10);
 
   // 切換頁面時更新當前頁面
   const handlePageChange = (page: number) => {
@@ -253,7 +254,7 @@ const MemberList: React.FC = () => {
   }
 
   return (
-    <div className={` w-[80%] py-[16px] m-[0_auto] flex flex-col `}>
+    <div className={` w-full py-[16px] m-[0_24px] flex flex-col `}>
       {/* 標題、篩選 */}
       <div className={`flex justify-between items-center w-full pb-[16px]`}>
         <p className={`text-[20px] text-[#1D2129]`}>會員列表</p>
@@ -349,14 +350,33 @@ const MemberList: React.FC = () => {
         ))}
       </div>
 
-      {/* 分頁控制 */}
-      <Pagination
-        onChange={(current) => handlePageChange(current)}
-        total={memberList.length}
-        pageSize={pageSize}
-        showTotal={(total) => `共${total}筆`}
-        className={`self-end pt-[12px]`}
-      />
+      <div className={`flex justify-end gap-[20px]`}>
+        {/* 分頁控制 */}
+        <Pagination
+          onChange={(current) => handlePageChange(current)}
+          total={memberList.length}
+          pageSize={pageSize}
+          showTotal={(total) => `共${total}筆`}
+          className={`self-end pt-[12px]`}
+        />
+
+        {/* 添加每頁显示数量选择 */}
+        <div className="flex justify-end items-center gap-[8px] mt-4">
+          <Select
+            value={pageSize}
+            onChange={(value) => {
+              setPageSize(value);
+              setCurrentPage(1); // 重置頁碼
+            }}
+            style={{ width: 100 }}
+          >
+            <Option value={10}>10條/頁</Option>
+            <Option value={20}>20條/頁</Option>
+            <Option value={30}>30條/頁</Option>
+            <Option value={50}>50條/頁</Option>
+          </Select>
+        </div>
+      </div>
 
       {/* 會員詳細內容 */}
       <Modal

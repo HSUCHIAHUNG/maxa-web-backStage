@@ -9,11 +9,10 @@ const columns = [
   {
     title: "清分處理日期",
     dataIndex: "clearanceProcessingDate",
-    ellipsis: true,
     width: "0.5px",
     render: (col: string, _item: unknown, index: number) => {
       const obj = {
-        children: col,
+        children: <p className={` 	`}>{col}</p>,
         props: {} as { rowSpan?: number },
       };
 
@@ -36,19 +35,19 @@ const columns = [
   {
     title: "交易代號",
     dataIndex: "transactionCode",
-    ellipsis: true,
+    
     width: "0.5px",
   },
   {
     title: "交易名稱",
     dataIndex: "transactionName",
-    ellipsis: true,
-    width: "0.5px",
+    
+    width: "1px",
   },
   {
     title: "應收筆數金額",
     dataIndex: "receivables",
-    ellipsis: true,
+    
     children: [
       {
         title: "筆數",
@@ -67,7 +66,7 @@ const columns = [
   {
     title: "應付筆數金額",
     dataIndex: "payable",
-    ellipsis: true,
+    
     children: [
       {
         title: "筆數",
@@ -203,7 +202,7 @@ const CheckoutReport: React.FC = () => {
 
   return (
     <div
-      className={` checkoutReport w-[80%] py-[16px] m-[0_auto] flex flex-col `}
+      className={` checkoutReport w-full py-[16px] m-[0_24px] flex flex-col `}
     >
       {/* 標題、篩選 */}
       <div className={`flex justify-between items-center w-full pb-[16px]`}>
@@ -240,6 +239,7 @@ const CheckoutReport: React.FC = () => {
           wrapper: true,
           cell: true,
         }}
+        pagination={false}
         columns={columns}
         data={data}
         summary={() => (

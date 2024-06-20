@@ -80,7 +80,7 @@ input[name="card-radio-group"]:focus-visible + .custom-radio-card {
 
 /* loading */
 .loading-enter {
-  opacity: 1;
+  opacity: 0;
   transition: all 300ms;
 }
 
@@ -90,7 +90,7 @@ input[name="card-radio-group"]:focus-visible + .custom-radio-card {
 }
 
 .loading-exit {
-  opacity: 0.5;
+  opacity: 1;
   transition: all 300ms;
 }
 
@@ -119,3 +119,4 @@ input[name="card-radio-group"]:focus-visible + .custom-radio-card {
   opacity: 1;
   transition: all 300ms;
 }
+

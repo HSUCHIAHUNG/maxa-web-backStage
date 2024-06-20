@@ -7,7 +7,7 @@ import { authActions } from "../../stores/auth.ts";
 import { orderActions } from "../../stores/order.ts";
 import { useAppDispatch } from "../../stores/index.ts";
 // ui kit
-import { AutoComplete } from "@arco-design/web-react";
+import { AutoComplete, Message } from "@arco-design/web-react";
 // Icon
 import headerText from "@/assets/images/header/header_text.svg";
 import memberIcon from "@/assets/images/header/memberAvatar.svg";
@@ -62,6 +62,11 @@ const Header: React.FC = () => {
   //   console.log(inputValue);
 
   // }
+
+  const isLogout = () => {
+    dispatch(authActions.isLogin())
+    Message.success('登出成功');
+  }
 
   return (
     <>
@@ -119,7 +124,7 @@ const Header: React.FC = () => {
           <p>更改密碼</p>
         </button> */}
         <button
-          onClick={() => dispatch(authActions.isLogin())}
+          onClick={isLogout}
           className={`flex py-[7px] gap-[8px] group hover:text-[#3A57E8] `}
         >
           <span className="icon-[solar--logout-3-bold-duotone] w-[16px] h-[16px] text-[#485781] group-hover:text-[#3A57E8] "></span>

@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 // ui kit
-import { Form, Input, Button, Checkbox } from "@arco-design/web-react";
+import { Form, Input, Button, Checkbox, Message } from "@arco-design/web-react";
 // redux
 import { authActions } from "../stores/auth.ts";
 import { useAppDispatch } from "../stores/index.ts";
@@ -25,6 +25,7 @@ const Login: React.FC = () => {
   const submit = (value: object) => {
     console.log(value);
     dispatch(authActions.isLogin());
+    Message.success('登入成功');
     navigate("/");
   };
 
